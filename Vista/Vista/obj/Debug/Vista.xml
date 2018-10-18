@@ -1,0 +1,364 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Vista
+</name>
+</assembly>
+<members>
+<member name="P:Vista.My.Resources.Resources.ResourceManager">
+	<summary>
+  Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
+</summary>
+</member><member name="P:Vista.My.Resources.Resources.Culture">
+	<summary>
+  Reemplaza la propiedad CurrentUICulture del subproceso actual para todas las
+  búsquedas de recursos mediante esta clase de recurso con establecimiento inflexible de tipos.
+</summary>
+</member><member name="T:Vista.My.Resources.Resources">
+	<summary>
+  Clase de recurso con establecimiento inflexible de tipos, para buscar cadenas traducidas, etc.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.CajaDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ClienteDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ComprobantesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Condicion_Frente_Al_IVADataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ConfiguracionDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.CuentaCorrienteDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Cuerpo_FacturaDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.EmpresaDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.EmpresaArticuloDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Encabezado_FacturaDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Lista_PrecioDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Numeracion_ComprobanteDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ProductoDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Producto_Lista_PrecioDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ProveedorDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ProvinciaDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.RubroDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Tasa_IVADataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Tipos_ComprobantesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.CajaRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ClienteRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ComprobantesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Condicion_Frente_Al_IVARow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ConfiguracionRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.CuentaCorrienteRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Cuerpo_FacturaRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.EmpresaRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.EmpresaArticuloRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Encabezado_FacturaRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Lista_PrecioRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Numeracion_ComprobanteRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ProductoRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Producto_Lista_PrecioRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ProveedorRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ProvinciaRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.RubroRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Tasa_IVARow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Tipos_ComprobantesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Vista.KioscoDataSet.CajaRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ClienteRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ComprobantesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Condicion_Frente_Al_IVARowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ConfiguracionRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.CuentaCorrienteRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Cuerpo_FacturaRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.EmpresaRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.EmpresaArticuloRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Encabezado_FacturaRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Lista_PrecioRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Numeracion_ComprobanteRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ProductoRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Producto_Lista_PrecioRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ProveedorRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.ProvinciaRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.RubroRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Tasa_IVARowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet.Tipos_ComprobantesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Vista.KioscoDataSet">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.CajaTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.ClienteTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.ComprobantesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.Condicion_Frente_Al_IVATableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.ConfiguracionTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.CuentaCorrienteTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.Cuerpo_FacturaTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.EmpresaTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.EmpresaArticuloTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.Encabezado_FacturaTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.Lista_PrecioTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.Numeracion_ComprobanteTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.ProductoTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.Producto_Lista_PrecioTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.ProveedorTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.ProvinciaTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.RubroTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.Tasa_IVATableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.Tipos_ComprobantesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="M:Vista.KioscoDataSetTableAdapters.TableAdapterManager.UpdateUpdatedRows(Vista.KioscoDataSet,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Update rows in top-down order.
+</summary>
+</member><member name="M:Vista.KioscoDataSetTableAdapters.TableAdapterManager.UpdateInsertedRows(Vista.KioscoDataSet,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Insert rows in top-down order.
+</summary>
+</member><member name="M:Vista.KioscoDataSetTableAdapters.TableAdapterManager.UpdateDeletedRows(Vista.KioscoDataSet,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Delete rows in bottom-up order.
+</summary>
+</member><member name="M:Vista.KioscoDataSetTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member><member name="M:Vista.KioscoDataSetTableAdapters.TableAdapterManager.UpdateAll(Vista.KioscoDataSet)">
+	<summary>
+Update all changes to the dataset.
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.TableAdapterManager.UpdateOrderOption">
+	<summary>
+Update Order Option
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.TableAdapterManager.SelfReferenceComparer">
+	<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member><member name="T:Vista.KioscoDataSetTableAdapters.TableAdapterManager">
+	<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member>
+</members>
+</doc>

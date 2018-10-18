@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Vista", "Vista\Vista.vbproj", "{10097AEE-DD8E-4700-BA25-70D23EE6AB58}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Modelo", "..\Modelo\Modelo.vbproj", "{C9701FC0-6D25-4123-9AF8-C1B3BAA67368}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Controlador", "..\Controlador\Controlador.vbproj", "{B3321E12-8330-4262-8325-40EF39C1A755}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10097AEE-DD8E-4700-BA25-70D23EE6AB58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10097AEE-DD8E-4700-BA25-70D23EE6AB58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10097AEE-DD8E-4700-BA25-70D23EE6AB58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10097AEE-DD8E-4700-BA25-70D23EE6AB58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9701FC0-6D25-4123-9AF8-C1B3BAA67368}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9701FC0-6D25-4123-9AF8-C1B3BAA67368}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9701FC0-6D25-4123-9AF8-C1B3BAA67368}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9701FC0-6D25-4123-9AF8-C1B3BAA67368}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3321E12-8330-4262-8325-40EF39C1A755}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3321E12-8330-4262-8325-40EF39C1A755}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3321E12-8330-4262-8325-40EF39C1A755}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3321E12-8330-4262-8325-40EF39C1A755}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		VSCustomBkgrdPaint = True
+		VSUseSystemFonts = False
+		VSSkinToggleButtons = True
+		VSSkinFlatStyles = True
+		VSTextShadow = True
+		VSToolStripStyle = Professional
+		VSTargetControls = FormsAndControls
+		VSStyle = Office2007 (Blue).vssf
+	EndGlobalSection
+EndGlobal
