@@ -1,15 +1,16 @@
 ﻿Imports System.Data.OleDb
 Imports Excel = Microsoft.Office.Interop.Excel
 Public Class frmImportarExcel
-    Dim dfielddefCliente As Controlador.DfieldDef.eCliente
-    Dim dfielddfConstantes As Controlador.DfieldDef.eConstantes
-    Dim entCliente() As Controlador.Cliente.eCliente
-    Dim entArticulos() As Controlador.Articulos.eArticulo
-    Dim entArticulosListaPrecio() As Controlador.Articulos.eArticuloCuerpoDocumento
-    Dim _Generales As New Controlador.Generales
-    Dim Cliente As New Controlador.Cliente
-    Dim Articulo As New Controlador.Articulos
-    Dim ArticuloListaPrecio As New Controlador.Lista_Precios
+    Dim dfielddefCliente As Controlador.clsDfieldDef.eCliente
+    Dim dfielddfConstantes As Controlador.clsDfieldDef.eConstantes
+    Dim entCliente() As Controlador.clsCliente.eCliente
+    Dim entArticulos() As Controlador.clsArticulos.eArticulo
+    Dim entArticulosListaPrecio() As Controlador.clsArticulos.eArticuloCuerpoDocumento
+    Dim clsGenerales As New Controlador.clsGenerales
+    Dim clsCliente As New Controlador.clsCliente
+    Dim clsArticulo As New Controlador.clsArticulos
+    Dim clsArticuloListaPrecio As New Controlador.clsLista_Precios
+    Dim clsQueryBuilder As New Controlador.clsQueryBuilder
     Private Sub ToolStripButtonSalir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButtonSalir.Click
         For x As Integer = ToolStripProgressBar.Minimum To ToolStripProgressBar.Maximum
             ToolStripProgressBar.Value = x
@@ -43,9 +44,9 @@ Public Class frmImportarExcel
             oBook = oExcel.Workbooks.Add
             'Agregar datos a las celdas de la primera hoja en el libro nuevo
             oSheet = oBook.Worksheets(1)
-            oSheet.Name = StrConv(_Generales.Compvariable, VbStrConv.ProperCase)
+            oSheet.Name = StrConv(clsGenerales.Compvariable, VbStrConv.ProperCase)
             ' Agregamos Los datos que queremos agregar
-            If _Generales.Compvariable = dfielddfConstantes.cliente.ToString() Then
+            If clsGenerales.Compvariable = dfielddfConstantes.cliente.ToString() Then
                 oSheet.Range("A1").Value = "ID CLIENTE"
                 oSheet.Range("B1").Value = "NOMBRE"
                 oSheet.Range("C1").Value = "APELLIDO"
@@ -63,7 +64,7 @@ Public Class frmImportarExcel
                 oSheet.Range("O1").Value = "LOCALIDAD"
 
                 rng2 = oSheet.Range("A1:O1")
-            ElseIf _Generales.Compvariable = dfielddfConstantes.Producto.ToString() Then
+            ElseIf clsGenerales.Compvariable = dfielddfConstantes.Producto.ToString() Then
                 oSheet.Range("A1").Value = "ID PRODUCTO"
                 oSheet.Range("B1").Value = "ID RUBRO"
                 oSheet.Range("C1").Value = "CODIGO BARRAS"
@@ -80,7 +81,7 @@ Public Class frmImportarExcel
                 oSheet.Range("N1").Value = "CODIGO PROVEEDOR"
                 rng2 = oSheet.Range("A1:N1")
 
-            ElseIf _Generales.Compvariable = dfielddfConstantes.Producto_Lista_Precio.ToString() Then
+            ElseIf clsGenerales.Compvariable = dfielddfConstantes.Producto_Lista_Precio.ToString() Then
                 oSheet.Range("A1").Value = "ID LISTA PRECIO"
                 oSheet.Range("B1").Value = "ID PRODUCTO"
                 oSheet.Range("C1").Value = "DESCRIPCION LISTA PRECIO"
@@ -125,7 +126,7 @@ Public Class frmImportarExcel
             'Consultamos la hoja llamada Clientes de nuestro archivo *.xls
             Dim nombreHoja As String = ObtenerNombrePrimeraHoja(txtRutaXLS.Text)
             nombreHoja = StrConv(nombreHoja, VbStrConv.ProperCase)
-            If nombreHoja = StrConv(_Generales.Compvariable, VbStrConv.ProperCase) Then '"Cliente"
+            If nombreHoja = StrConv(clsGenerales.Compvariable, VbStrConv.ProperCase) Then '"Cliente"
                 cmd.CommandText = String.Format("SELECT * FROM [{0}$]", nombreHoja)
                 cmd.CommandType = CommandType.Text
                 da.SelectCommand = cmd
@@ -138,7 +139,7 @@ Public Class frmImportarExcel
                     dgvImportacion.AutoSizeColumnsMode = 6
                 End If
             Else
-                MessageBox.Show("El Nombre de la Hoja del Archivo Excel, debe Ser. '" + StrConv(_Generales.Compvariable, VbStrConv.ProperCase) + "' ,Verifiquelo. Gracias!!!", "Informacion", MessageBoxButtons.OK, _
+                MessageBox.Show("El Nombre de la Hoja del Archivo Excel, debe Ser. '" + StrConv(clsGenerales.Compvariable, VbStrConv.ProperCase) + "' ,Verifiquelo. Gracias!!!", "Informacion", MessageBoxButtons.OK, _
                                  MessageBoxIcon.Error)
             End If
         End If
@@ -167,14 +168,14 @@ Public Class frmImportarExcel
         Dim consulta As String
         Dim datos As New Collection
         Dim ClavePrincipal As New Collection
-        Dim querybuilder As New Controlador.QueryBuilder
+        'Dim clsQueryBuilder As New Controlador.clsQueryBuilder
         Dim esquema As New Collection
         Dim ultimo As Integer
         Dim idx As Integer
         Dim existe As Boolean
         Dim valido As Boolean
-        Dim Cliente As New Controlador.Cliente
-        Dim Articulo As New Controlador.Articulos
+        'Dim clsCliente As New Controlador.clsCliente
+        'Dim Articulo As New Controlador.clsArticulos
         Try
             For x As Integer = ToolStripProgressBar.Minimum To ToolStripProgressBar.Maximum
                 ToolStripProgressBar.Value = x
@@ -189,7 +190,7 @@ Public Class frmImportarExcel
                     esquema.Clear()
                     datos.Clear()
                     ClavePrincipal.Clear()
-                    If _Generales.Compvariable = dfielddfConstantes.cliente.ToString Then
+                    If clsGenerales.Compvariable = dfielddfConstantes.cliente.ToString Then
 
                         ReDim Preserve entCliente(idx)
                         If (Me.dgvImportacion.Item(0, index).Value().ToString() <> String.Empty) Then
@@ -237,7 +238,7 @@ Public Class frmImportarExcel
 
                         If (Me.dgvImportacion.Item(6, index).Value().ToString() <> String.Empty) Then
 
-                            If Cliente.validateDoublesAndCurrency_Cliente(Me.dgvImportacion.Item(6, index).Value().ToString()) Then
+                            If clsCliente.validateDoublesAndCurrency_Cliente(Me.dgvImportacion.Item(6, index).Value().ToString()) Then
                                 entCliente(idx).Saldo_CC = Me.dgvImportacion.Item(6, index).Value().ToString()
                             Else
                                 pintarFilas(dgvImportacion, index)
@@ -286,19 +287,19 @@ Public Class frmImportarExcel
                         End If
                         entCliente(idx).Localidad = Me.dgvImportacion.Item(14, index).Value().ToString()
                         entCliente(idx).INHABILITAR = "False"
-                        querybuilder.obtener_estructura(dfielddfConstantes.cliente.ToString(), esquema)
-                        Cliente.Obtener_Clave_Principal(ClavePrincipal)
-                        Cliente.Pasar_A_Coleccion(entCliente, datos, idx)
+                        clsQueryBuilder.obtener_estructura(dfielddfConstantes.cliente.ToString(), esquema)
+                        clsCliente.Obtener_Clave_Principal(ClavePrincipal)
+                        clsCliente.Pasar_A_Coleccion(entCliente, datos, idx)
                         'consulta = "Select * from " + dfielddfConstantes.cliente.ToString() + " where Id_Cliente=" & Convert.ToInt32(entCliente(idx).Id_Cliente) & ""
-                        Cliente.Validar_Cliente(Convert.ToInt32(entCliente(idx).Id_Cliente), existe)
+                        clsCliente.Validar_Cliente(Convert.ToInt32(entCliente(idx).Id_Cliente), existe)
                         If existe Then
-                            querybuilder.ArmaUpdate(dfielddfConstantes.cliente.ToString(), esquema, datos, ClavePrincipal, consulta)
+                            clsQueryBuilder.ArmaUpdate(dfielddfConstantes.cliente.ToString(), esquema, datos, ClavePrincipal, consulta)
                         Else
-                            querybuilder.ArmaInsert(dfielddfConstantes.cliente.ToString(), esquema, datos, ClavePrincipal, consulta)
+                            clsQueryBuilder.ArmaInsert(dfielddfConstantes.cliente.ToString(), esquema, datos, ClavePrincipal, consulta)
                         End If
-                        Cliente.Operaciones_Tabla(consulta)
+                        clsCliente.Operaciones_Tabla(consulta)
                         idx = idx + 1
-                    ElseIf _Generales.Compvariable = dfielddfConstantes.Producto.ToString Then
+                    ElseIf clsGenerales.Compvariable = dfielddfConstantes.Producto.ToString Then
                         ReDim Preserve entArticulos(idx)
                         If (Me.dgvImportacion.Item(0, index).Value().ToString() <> String.Empty) Then
                             If IsNumeric(Me.dgvImportacion.Item(0, index).Value()) Then
@@ -355,7 +356,7 @@ Public Class frmImportarExcel
                         End If
 
                         If (Me.dgvImportacion.Item(6, index).Value().ToString() <> String.Empty) Then
-                            If Articulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(6, index).Value().ToString()) Then
+                            If clsArticulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(6, index).Value().ToString()) Then
                                 entArticulos(idx).Tasa_IVA = Me.dgvImportacion.Item(6, index).Value().ToString()
                             Else
                                 pintarFilas(dgvImportacion, index)
@@ -366,7 +367,7 @@ Public Class frmImportarExcel
                             Throw New System.Exception("en TASA IVA.")
                         End If
                         If (Me.dgvImportacion.Item(7, index).Value().ToString() <> String.Empty) Then
-                            If Articulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(7, index).Value().ToString()) Then
+                            If clsArticulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(7, index).Value().ToString()) Then
                                 entArticulos(idx).Stock_Minimo = Me.dgvImportacion.Item(7, index).Value().ToString()
                             Else
                                 pintarFilas(dgvImportacion, index)
@@ -377,7 +378,7 @@ Public Class frmImportarExcel
                             Throw New System.Exception("en STOCK MINIMO.")
                         End If
                         If (Me.dgvImportacion.Item(8, index).Value().ToString() <> String.Empty) Then
-                            If Articulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(8, index).Value().ToString()) Then
+                            If clsArticulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(8, index).Value().ToString()) Then
                                 entArticulos(idx).Stock = Me.dgvImportacion.Item(8, index).Value().ToString()
                             Else
                                 pintarFilas(dgvImportacion, index)
@@ -422,7 +423,7 @@ Public Class frmImportarExcel
                         End If
 
                         If (Me.dgvImportacion.Item(12, index).Value().ToString() <> String.Empty) Then
-                            If Articulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(12, index).Value().ToString()) Then
+                            If clsArticulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(12, index).Value().ToString()) Then
                                 entArticulos(idx).Peso_Unidad = Me.dgvImportacion.Item(12, index).Value().ToString()
                             Else
                                 pintarFilas(dgvImportacion, index)
@@ -444,19 +445,19 @@ Public Class frmImportarExcel
                             pintarFilas(dgvImportacion, index)
                             Throw New System.Exception("en CODIGO PROVEEDOR.")
                         End If
-                        querybuilder.obtener_estructura(dfielddfConstantes.Producto.ToString(), esquema)
-                        Articulo.Obtener_Clave_Principal(ClavePrincipal)
-                        Articulo.Pasar_A_Coleccion(entArticulos, datos, idx)
+                        clsQueryBuilder.obtener_estructura(dfielddfConstantes.Producto.ToString(), esquema)
+                        clsArticulo.Obtener_Clave_Principal(ClavePrincipal)
+                        clsArticulo.Pasar_A_Coleccion(entArticulos, datos, idx)
                         'consulta = "Select * from " + dfielddfConstantes.Producto.ToString() + " where Id_Producto='" & (entArticulos(idx).Id_Producto) & "'"
-                        Articulo.se_Cargo(entArticulos(idx).Id_Producto, existe)
+                        clsArticulo.se_Cargo(entArticulos(idx).Id_Producto, existe)
                         If existe Then
-                            querybuilder.ArmaUpdate(dfielddfConstantes.Producto.ToString(), esquema, datos, ClavePrincipal, consulta)
+                            clsQueryBuilder.ArmaUpdate(dfielddfConstantes.Producto.ToString(), esquema, datos, ClavePrincipal, consulta)
                         Else
-                            querybuilder.ArmaInsert(dfielddfConstantes.Producto.ToString(), esquema, datos, ClavePrincipal, consulta)
+                            clsQueryBuilder.ArmaInsert(dfielddfConstantes.Producto.ToString(), esquema, datos, ClavePrincipal, consulta)
                         End If
-                        Articulo.Operaciones_QueryBuilder(consulta)
+                        clsArticulo.Operaciones_QueryBuilder(consulta)
                         idx = idx + 1
-                    ElseIf _Generales.Compvariable = dfielddfConstantes.Producto_Lista_Precio.ToString Then
+                    ElseIf clsGenerales.Compvariable = dfielddfConstantes.Producto_Lista_Precio.ToString Then
                         ReDim Preserve entArticulosListaPrecio(idx)
                         If (Me.dgvImportacion.Item(0, index).Value().ToString() <> String.Empty) Then
                             If IsNumeric(Me.dgvImportacion.Item(0, index).Value()) Then
@@ -488,7 +489,7 @@ Public Class frmImportarExcel
                         End If
 
                         If (Me.dgvImportacion.Item(3, index).Value().ToString() <> String.Empty) Then
-                            If Articulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(3, index).Value().ToString()) Then
+                            If clsArticulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(3, index).Value().ToString()) Then
                                 entArticulosListaPrecio(idx).PrecioCosto = Me.dgvImportacion.Item(3, index).Value().ToString()
                             Else
                                 pintarFilas(dgvImportacion, index)
@@ -499,7 +500,7 @@ Public Class frmImportarExcel
                             Throw New System.Exception("en PRECIO COSTO.")
                         End If
                         If (Me.dgvImportacion.Item(4, index).Value().ToString() <> String.Empty) Then
-                            If Articulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(4, index).Value().ToString()) Then
+                            If clsArticulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(4, index).Value().ToString()) Then
                                 entArticulosListaPrecio(idx).Rentabilidad = Me.dgvImportacion.Item(4, index).Value().ToString()
                             Else
                                 pintarFilas(dgvImportacion, index)
@@ -511,7 +512,7 @@ Public Class frmImportarExcel
                         End If
 
                         If (Me.dgvImportacion.Item(5, index).Value().ToString() <> String.Empty) Then
-                            If Articulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(5, index).Value().ToString()) Then
+                            If clsArticulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(5, index).Value().ToString()) Then
                                 entArticulosListaPrecio(idx).PrecioVenta = Me.dgvImportacion.Item(5, index).Value().ToString()
                             Else
                                 pintarFilas(dgvImportacion, index)
@@ -523,7 +524,7 @@ Public Class frmImportarExcel
                         End If
 
                         If (Me.dgvImportacion.Item(6, index).Value().ToString() <> String.Empty) Then
-                            If Articulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(6, index).Value().ToString()) Then
+                            If clsArticulo.validateDoublesAndCurrency_Articulo(Me.dgvImportacion.Item(6, index).Value().ToString()) Then
                                 entArticulosListaPrecio(idx).PrecioKilo = Me.dgvImportacion.Item(6, index).Value().ToString()
                             Else
                                 pintarFilas(dgvImportacion, index)
@@ -533,17 +534,17 @@ Public Class frmImportarExcel
                             pintarFilas(dgvImportacion, index)
                             Throw New System.Exception("en PRECIO KILO.")
                         End If
-                        querybuilder.obtener_estructura(dfielddfConstantes.Producto_Lista_Precio.ToString(), esquema)
-                        Articulo.Obtener_Clave_PrincipalListaPrecio(ClavePrincipal)
-                        Articulo.Pasar_A_ColeccionArticuloListaPrecio(entArticulosListaPrecio, datos, idx)
+                        clsQueryBuilder.obtener_estructura(dfielddfConstantes.Producto_Lista_Precio.ToString(), esquema)
+                        clsArticulo.Obtener_Clave_PrincipalListaPrecio(ClavePrincipal)
+                        clsArticulo.Pasar_A_ColeccionArticuloListaPrecio(entArticulosListaPrecio, datos, idx)
                         'consulta = "Select * from " + dfielddfConstantes.Producto_Lista_Precio.ToString() + " where Id_Lista_Precio='" & (entArticulosListaPrecio(idx).Id_Lista_Precio) & "' and Id_Producto='" & (entArticulosListaPrecio(idx).Id_Producto) & "'"
-                        Articulo.se_CargoProducto_Lista_Precio(entArticulosListaPrecio(idx).IdListaPrecio, entArticulosListaPrecio(idx).IdProducto, existe)
+                        clsArticulo.se_CargoProducto_Lista_Precio(entArticulosListaPrecio(idx).IdListaPrecio, entArticulosListaPrecio(idx).IdProducto, existe)
                         If existe Then
-                            querybuilder.ArmaUpdate(dfielddfConstantes.Producto_Lista_Precio.ToString(), esquema, datos, ClavePrincipal, consulta)
+                            clsQueryBuilder.ArmaUpdate(dfielddfConstantes.Producto_Lista_Precio.ToString(), esquema, datos, ClavePrincipal, consulta)
                         Else
-                            querybuilder.ArmaInsert(dfielddfConstantes.Producto_Lista_Precio.ToString(), esquema, datos, ClavePrincipal, consulta)
+                            clsQueryBuilder.ArmaInsert(dfielddfConstantes.Producto_Lista_Precio.ToString(), esquema, datos, ClavePrincipal, consulta)
                         End If
-                        Articulo.Operaciones_Tabla(consulta)
+                        clsArticulo.Operaciones_Tabla(consulta)
                         idx = idx + 1
                     End If
                 Next

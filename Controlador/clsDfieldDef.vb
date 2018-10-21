@@ -1,4 +1,4 @@
-﻿Public Class DfieldDef
+﻿Public Class clsDfieldDef
     Public Enum eTipoComprobante
         IdTipoComprobante = 0
         Descripcion = 1

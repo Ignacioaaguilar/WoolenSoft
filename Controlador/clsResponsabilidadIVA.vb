@@ -1,7 +1,7 @@
 ﻿Imports Modelo
 Imports System.Windows.Forms
-Public Class ResponsabilidadIVA
-    Public session As New Controlador.Session()
+Public Class clsResponsabilidadIVA
+    Public session As New Controlador.clsSession()
     Private descripcion As String
     Public Property Compdescripcion() As String
         Get

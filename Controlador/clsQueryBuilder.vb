@@ -1,6 +1,6 @@
 ﻿Imports Modelo
-Public Class QueryBuilder
-    Public session As New Controlador.Session()
+Public Class clsQueryBuilder
+    Public session As New Controlador.clsSession()
     Public Sub obtener_estructura(ByVal Tabla As String, ByRef estructura As Collection)
         Dim consulta As String
         Dim conectar As New coneccion()
@@ -39,7 +39,7 @@ Public Class QueryBuilder
         For i = 1 To esquema.Count
             If j < ClavePrincipal.Count Then
                 'If datos(i).GetType().Name <> "Int32" Or esquema(i) <> ClavePrincipal(j + 1) Then
-                
+
 
                 If datos(i).GetType().Name = "String" Then
                     dato = "'" + datos(i) + "'"

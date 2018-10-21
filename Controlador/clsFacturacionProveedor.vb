@@ -1,7 +1,7 @@
 ﻿Imports Modelo
 Imports System.Windows.Forms
-Public Class FacturacionProveedor
-    Public session As New Controlador.Session()
+Public Class clsFacturacionProveedor
+    Public session As New Controlador.clsSession()
     Private Shared variable As String
     Public Structure eEncabezadoFacturaProveedor
         Public Id_Proveedor As Integer
@@ -220,7 +220,7 @@ Public Class FacturacionProveedor
         Dim conectar As New coneccion()
         Dim consulta As String
         Dim datos As DataTable
-        Dim dfielddefConstantes As Controlador.DfieldDef.eConstantes
+        Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
         conectar.srt_conexion = session.Session.CadenaConeccion
         If tipocomprobante = dfielddefConstantes.FACTURA.ToString() Then
             consulta = "  Select TC.IdTipoComprobante,TC.Descripcion" & vbCrLf
@@ -259,7 +259,7 @@ Public Class FacturacionProveedor
         Dim conectar As New coneccion()
         Dim consulta As String
         Dim datos As DataTable
-        Dim dfielddefConstantes As Controlador.DfieldDef.eConstantes
+        Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
         conectar.srt_conexion = session.Session.CadenaConeccion
         'If TipoComprobante = dfielddefConstantes.FACTURA.ToString() Then
         consulta = " Select TC.Descripcion" & vbCrLf

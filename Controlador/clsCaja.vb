@@ -1,7 +1,7 @@
 ﻿Imports System.Windows.Forms
 Imports Modelo
-Public Class Caja
-    Public session As New Controlador.Session()
+Public Class clsCaja
+    Public session As New Controlador.clsSession()
     Private Shared variable As String
     Public Structure eCaja
         Public IdCaja As Integer
@@ -48,7 +48,7 @@ Public Class Caja
         datos.Add(IngresosEgresos_estructura(i).NroPuesto)
         datos.Add(IngresosEgresos_estructura(i).Punto_Venta)
     End Sub
-Public Sub Obtener_Clave_Principal(ByRef Clave_Princ As Collection)
+    Public Sub Obtener_Clave_Principal(ByRef Clave_Princ As Collection)
         Clave_Princ.Add("IdCaja")
     End Sub
     Public Sub Obtener_Clave_Principal_IngresoEgreso(ByRef Clave_Princ As Collection)

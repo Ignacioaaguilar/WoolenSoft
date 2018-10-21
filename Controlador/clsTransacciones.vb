@@ -1,7 +1,7 @@
 ﻿Imports System.Windows.Forms
 Imports Modelo
-Public Class Transacciones
-    Public session As New Controlador.Session()
+Public Class clsTransacciones
+    Public session As New Controlador.clsSession()
     Private Shared variable As String
     Private Shared CantidadUnidades As Integer
     Private Shared Datos As DataTable

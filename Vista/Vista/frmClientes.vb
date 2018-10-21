@@ -5,26 +5,30 @@ Public Class frmClientes
     Public Apellido As String
     Public Posicion_Columna As Integer
     Public Nombre_Columna_a_Buscar As String
-    Dim Cliente_estructura(0) As Controlador.Cliente.eCliente
-    Dim dfielddefCliente As Controlador.DfieldDef.eCliente
-    Dim dfielddefconstante As Controlador.DfieldDef.eConstantes
+    Dim Cliente_estructura(0) As Controlador.clsCliente.eCliente
+    Dim dfielddefCliente As Controlador.clsDfieldDef.eCliente
+    Dim dfielddefconstante As Controlador.clsDfieldDef.eConstantes
+    Dim clsCliente As New Controlador.clsCliente()
+    Dim clsQueryBuilder As New Controlador.clsQueryBuilder
+    Dim clsFacturacion As New Controlador.clsFacturacion()
+    Dim clsGenerales As New Controlador.clsGenerales
     Private Sub Clientes_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim consulta As String
-        Dim cliente As New Controlador.Cliente()
+        'Dim clsCliente As New Controlador.clsCliente()
         Try
             ToolStripNuevoCliente.Enabled = True
             ToolStripModificarCliente.Enabled = False
             ToolStripEliminarCliente.Enabled = False
             Me.DoubleBuffered = True
-            If cliente.Compvariable = dfielddefconstante.FACTURA.ToString() Or cliente.Compvariable = dfielddefconstante.NotaCredito.ToString() Or cliente.Compvariable = dfielddefconstante.NotaDebito.ToString() Then
+            If clsCliente.Compvariable = dfielddefconstante.FACTURA.ToString() Or clsCliente.Compvariable = dfielddefconstante.NotaCredito.ToString() Or clsCliente.Compvariable = dfielddefconstante.NotaDebito.ToString() Then
 
                 ToolStripEnviarCliente.Visible = True
                 'consulta = "select Id_Cliente as [Cod Cliente],Nombre,Apellido,Calle,Piso,Nro,Saldo_CC as [Saldo CC],CUIT,Provincia,Telefono,Celular,E_Mail as [E Mail],Codigo_Postal as [Codigo Postal],Responsabilidad_IVA as [Responsabilidad IVA],Localidad,INHABILITAR from " + dfielddefconstante.cliente.ToString() + " where INHABILITAR=false "
-                cliente.llenar_tabla_cliente(dgvClientes, False)
+                clsCliente.llenar_tabla_cliente(dgvClientes, False)
             Else
                 ToolStripEnviarCliente.Visible = False
                 'consulta = "select Id_Cliente as [Cod Cliente],Nombre,Apellido,Calle,Piso,Nro,Saldo_CC as [Saldo CC],CUIT,Provincia,Telefono,Celular,E_Mail as [E-Mail],Codigo_Postal as [Codigo Postal],Responsabilidad_IVA as [Responsabilidad IVA],Localidad,INHABILITAR from " + dfielddefconstante.cliente.ToString() + " "
-                cliente.llenar_tabla_cliente(dgvClientes)
+                clsCliente.llenar_tabla_cliente(dgvClientes)
             End If
 
         Catch ex As Exception
@@ -32,19 +36,19 @@ Public Class frmClientes
         End Try
     End Sub
     Private Sub ToolStripSalirCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripSalirCliente.Click
-        Dim cliente As New Controlador.Cliente()
+        'Dim clsCliente As New Controlador.clsCliente()
         For x As Integer = pogressbarClientes.Minimum To pogressbarClientes.Maximum
             pogressbarClientes.Value = x
         Next
         For x As Integer = pogressbarClientes.Maximum To pogressbarClientes.Minimum Step -1
             pogressbarClientes.Value = x
         Next
-        cliente.Compvariable = String.Empty
-        cliente.CompCodigo = String.Empty
+        clsCliente.Compvariable = String.Empty
+        clsCliente.CompCodigo = String.Empty
         Me.Close()
     End Sub
     Private Sub ToolStripNuevoCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripNuevoCliente.Click
-        Dim Cliente As New Controlador.Cliente()
+        'Dim clsCliente As New Controlador.clsCliente()
         For x As Integer = pogressbarClientes.Minimum To pogressbarClientes.Maximum
             pogressbarClientes.Value = x
         Next
@@ -53,10 +57,10 @@ Public Class frmClientes
         Next
         Me.Close()
         frmClientesAltas.Show()
-        Cliente.Compvariable = dfielddefconstante.Agregar_Cliente.ToString()
+        clsCliente.Compvariable = dfielddefconstante.Agregar_Cliente.ToString()
     End Sub
     Private Sub dgvClientes_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles dgvClientes.Click
-        Dim Cliente As New Controlador.Cliente()
+        'Dim clsCliente As New Controlador.clsCliente()
         Dim cuit1, cuit2, cuit3 As String
         Try
             Me.DoubleBuffered = True
@@ -67,8 +71,8 @@ Public Class frmClientes
             id_Clientes = CInt(dgvClientes.CurrentRow.Cells(dfielddefCliente.Id_Cliente).Value.ToString())
             Nombre = dgvClientes.CurrentRow.Cells(dfielddefCliente.Nombre).Value.ToString()
             Apellido = dgvClientes.CurrentRow.Cells(dfielddefCliente.Apellido).Value.ToString()
-            Cliente.CompApellido = dgvClientes.CurrentRow.Cells(dfielddefCliente.Apellido).Value.ToString()
-            Cliente.CompCodigo = id_Clientes
+            clsCliente.CompApellido = dgvClientes.CurrentRow.Cells(dfielddefCliente.Apellido).Value.ToString()
+            clsCliente.CompCodigo = id_Clientes
 
             frmClientesAltas.codigo_Cliente = id_Clientes
             frmClientesAltas.NombreCliente.Text = dgvClientes.CurrentRow.Cells(dfielddefCliente.Nombre).Value.ToString()
@@ -77,7 +81,7 @@ Public Class frmClientes
             frmClientesAltas.pisoCliente.Text = dgvClientes.CurrentRow.Cells(dfielddefCliente.Piso).Value.ToString()
             frmClientesAltas.numeroCliente.Text = dgvClientes.CurrentRow.Cells(dfielddefCliente.Id_Cliente).Value.ToString()
             frmClientesAltas.saldoCliente.Text = dgvClientes.CurrentRow.Cells(dfielddefCliente.Saldo_CC).Value.ToString()
-            Cliente.Descomponer_CUIT_Cliente(dgvClientes.CurrentRow.Cells(dfielddefCliente.CUIT).Value.ToString(), cuit1, cuit2, cuit3)
+            clsCliente.Descomponer_CUIT_Cliente(dgvClientes.CurrentRow.Cells(dfielddefCliente.CUIT).Value.ToString(), cuit1, cuit2, cuit3)
             frmClientesAltas.cuitCliente1.Text = cuit1
             frmClientesAltas.cuitCliente2.Text = cuit2
             frmClientesAltas.cuitCliente3.Text = cuit3
@@ -144,18 +148,18 @@ Public Class frmClientes
         End Try
     End Sub
     Public Sub ToolStripEliminarCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripEliminarCliente.Click
-        Dim cliente As New Controlador.Cliente()
+        'Dim clsCliente As New Controlador.clsCliente()
         Dim consulta As String
         Dim datos As New Collection
         Dim ClavePrincipal As New Collection
-        Dim querybuilder As New Controlador.QueryBuilder
+        'Dim clsQueryBuilder As New Controlador.clsQueryBuilder
         Dim existe As Boolean
-        Dim facturacion As New Controlador.Facturacion()
+        'Dim clsFacturacion As New Controlador.clsFacturacion()
         Dim result As Integer = MessageBox.Show("Desea Eliminar al Cliente: " + Nombre + " " + Apellido, "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
         If result = DialogResult.Yes Then
             Try
                 'consulta = "Select * from " + dfielddefconstante.Encabezado_Factura.ToString() + "  where Numero_Cliente='" + Convert.ToString(id_Clientes) + "' "
-                facturacion.Validar_Cliente(Convert.ToString(id_Clientes), existe)
+                clsFacturacion.Validar_Cliente(Convert.ToString(id_Clientes), existe)
                 If Not existe Then
                     ReDim Cliente_estructura(1)
                     Cliente_estructura(1).Id_Cliente = id_Clientes
@@ -174,14 +178,14 @@ Public Class frmClientes
                     Cliente_estructura(1).Responsabilidad_IVA = Nothing
                     Cliente_estructura(1).Localidad = Nothing
                     Cliente_estructura(1).INHABILITAR = False
-                    cliente.Obtener_Clave_Principal(ClavePrincipal)
-                    cliente.Pasar_A_Coleccion(Cliente_estructura, datos, 1)
-                    querybuilder.ArmaDelete("cliente", datos, ClavePrincipal, consulta)
-                    cliente.Operaciones_Tabla(consulta)
+                    clsCliente.Obtener_Clave_Principal(ClavePrincipal)
+                    clsCliente.Pasar_A_Coleccion(Cliente_estructura, datos, 1)
+                    clsQueryBuilder.ArmaDelete("cliente", datos, ClavePrincipal, consulta)
+                    clsCliente.Operaciones_Tabla(consulta)
 
                     MessageBox.Show("El Cliente " + Nombre + " " + Apellido + " se Elimino Correctamente!!!", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     'consulta = "select Id_Cliente as [Cod Cliente],Nombre,Apellido,Calle,Piso,Nro,Saldo_CC as [Saldo CC],CUIT,Provincia,Telefono,Celular,E_Mail as [E-Mail],Codigo_Postal as [Codigo Postal],Responsabilidad_IVA as [Responsabilidad IVA],Localidad,INHABILITAR from " + dfielddefconstante.cliente.ToString() + ""
-                    cliente.llenar_tabla_cliente(dgvClientes)
+                    clsCliente.llenar_tabla_cliente(dgvClientes)
                     LimpiarEstructuras()
                 Else
                     MessageBox.Show("El Cliente " + Nombre + " " + Apellido + " No se puede Eliminar, Posee Movimientos!!!", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -192,7 +196,7 @@ Public Class frmClientes
         End If
     End Sub
     Private Sub ToolStripModificarCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripModificarCliente.Click
-        Dim Cliente As New Controlador.Cliente()
+        'Dim clsCliente As New Controlador.clsCliente()
         For x As Integer = pogressbarClientes.Minimum To pogressbarClientes.Maximum
             pogressbarClientes.Value = x
         Next
@@ -201,15 +205,15 @@ Public Class frmClientes
         Next
         Me.Close()
         frmClientesAltas.Show()
-        Cliente.Compvariable = dfielddefconstante.Modificar_Cliente.ToString()
+        clsCliente.Compvariable = dfielddefconstante.Modificar_Cliente.ToString()
     End Sub
     Private Sub tbBusqueda_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbBusqueda.TextChanged
         Dim consulta As String
-        Dim Cliente As New Controlador.Cliente()
+        'Dim clsCliente As New Controlador.clsCliente()
         Try
             If Nombre_Columna_a_Buscar <> "" Then
                 'consulta = "select Id_Cliente as [Cod Cliente],Nombre,Apellido,Calle,Piso,Nro,Saldo_CC as [Saldo CC],CUIT,Provincia,Telefono,Celular,E_Mail as [E-Mail],Codigo_Postal as [Codigo Postal],Responsabilidad_IVA as [Responsabilidad IVA],Localidad,INHABILITAR from " + dfielddefconstante.cliente.ToString() + "  where " + Nombre_Columna_a_Buscar + " like '" & Me.tbBusqueda.Text & "%'"
-                Cliente.Busqueda(dgvClientes, Nombre_Columna_a_Buscar, Me.tbBusqueda.Text)
+                clsCliente.Busqueda(dgvClientes, Nombre_Columna_a_Buscar, Me.tbBusqueda.Text)
             Else
                 MessageBox.Show("Error: No selecciono ningun criterio de busqueda!!!", "Informacion", MessageBoxButtons.OK, _
                                                      MessageBoxIcon.Error)
@@ -222,7 +226,7 @@ Public Class frmClientes
         ReDim Cliente_estructura(0)
     End Sub
     Private Sub ToolStripEnviarCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripEnviarCliente.Click
-        Dim clientes As New Controlador.Cliente()
+        'Dim clientes As New Controlador.clsCliente()
         Dim frmFacturacion As New Vista.frmFacturacion()
         For x As Integer = pogressbarClientes.Minimum To pogressbarClientes.Maximum
             pogressbarClientes.Value = x
@@ -230,12 +234,12 @@ Public Class frmClientes
         For x As Integer = pogressbarClientes.Maximum To pogressbarClientes.Minimum Step -1
             pogressbarClientes.Value = x
         Next
-        If clientes.Compvariable = dfielddefconstante.FACTURA.ToString() Then
-            If (clientes.CompCodigo <> Nothing) Then
+        If clsCliente.Compvariable = dfielddefconstante.FACTURA.ToString() Then
+            If (clsCliente.CompCodigo <> Nothing) Then
 
-                clientes.CompCodigo = clientes.CompCodigo.ToString()
+                clsCliente.CompCodigo = clsCliente.CompCodigo.ToString()
                 'Facturacion.txtCodigoCliente.Text = clientes.CompCodigo.ToString()
-                clientes.Compvariable = ""
+                clsCliente.Compvariable = ""
 
             Else
                 'If (clientes.CompCodigo = Nothing) Then
@@ -243,22 +247,22 @@ Public Class frmClientes
                 'End If
             End If
         End If
-        If clientes.Compvariable = dfielddefconstante.NotaCredito.ToString() Then
-            If (clientes.CompCodigo <> Nothing) Then
-                frmNotaCredito.txtCodigoCliente.Text = clientes.CompCodigo.ToString()
-                clientes.Compvariable = ""
+        If clsCliente.Compvariable = dfielddefconstante.NotaCredito.ToString() Then
+            If (clsCliente.CompCodigo <> Nothing) Then
+                frmNotaCredito.txtCodigoCliente.Text = clsCliente.CompCodigo.ToString()
+                clsCliente.Compvariable = ""
             Else
-                If (clientes.CompCodigo = Nothing) Then
+                If (clsCliente.CompCodigo = Nothing) Then
                     frmNotaCredito.txtCodigoCliente.Text = Nothing
                 End If
             End If
         End If
-        If clientes.Compvariable = dfielddefconstante.NotaDebito.ToString() Then
-            If (clientes.CompCodigo <> Nothing) Then
-                frmNotaDebito.txtCodigoCliente.Text = clientes.CompCodigo.ToString()
-                clientes.Compvariable = ""
+        If clsCliente.Compvariable = dfielddefconstante.NotaDebito.ToString() Then
+            If (clsCliente.CompCodigo <> Nothing) Then
+                frmNotaDebito.txtCodigoCliente.Text = clsCliente.CompCodigo.ToString()
+                clsCliente.Compvariable = ""
             Else
-                If (clientes.CompCodigo = Nothing) Then
+                If (clsCliente.CompCodigo = Nothing) Then
                     frmNotaCredito.txtCodigoCliente.Text = Nothing
                 End If
             End If
@@ -266,9 +270,9 @@ Public Class frmClientes
         Me.Close()
     End Sub
     Private Sub ToolStripButtonCargarExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButtonCargarExcel.Click
-        Dim Generales As New Controlador.Generales
+        'Dim clsGenerales As New Controlador.clsGenerales
         frmImportarExcel.Show()
-        Generales.Compvariable = dfielddefconstante.cliente.ToString()
+        clsGenerales.Compvariable = dfielddefconstante.cliente.ToString()
     End Sub
 
 

@@ -260,7 +260,7 @@ Partial Class frmTasaIVA
         '
         Me.SuperTooltip1.DefaultTooltipSettings = New DevComponents.DotNetBar.SuperTooltipInfo("", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Blue)
         '
-        'TasaIVA
+        'frmTasaIVA
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -273,7 +273,7 @@ Partial Class frmTasaIVA
         Me.Location = New System.Drawing.Point(450, 200)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "TasaIVA"
+        Me.Name = "frmTasaIVA"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "TasaIVA"

@@ -1,10 +1,10 @@
 ﻿Imports Controlador
 Public Class frmSeleccionEmpresa
-    Dim dfielfdefSeleccionEmpresa As Controlador.DfieldDef.eEmpresa
-    Dim dfielddefConstantes As Controlador.DfieldDef.eConstantes
+    Dim dfielfdefSeleccionEmpresa As Controlador.clsDfieldDef.eEmpresa
+    Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
     Dim _id_Empresa As Integer
     Private Sub SeleccionEmpresa_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim Empresa As New Controlador.Empresas
+        Dim Empresa As New Controlador.clsEmpresas
         Dim Consulta As String
         Try
             'Consulta = "select Id_Empresa as [Cod Empresa],Razon_Social as [Razon Social],Calle,Piso,Nro,Localidad,Codigo_Postal as [Cod Postal],CUIT,Ingresos_Brutos as [Ing Brutos],Responsabilidad_IVA as [Resp IVA],Nro_Sucursal as [Nro Sucursal],Provincia from " + dfielddefConstantes.Empresa.ToString() + ""
@@ -20,7 +20,7 @@ Public Class frmSeleccionEmpresa
     End Sub
     Private Sub ToolStripSeleccionarEmpresa_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripSeleccionarEmpresa.Click
         Dim f As New frmMenu()
-        Dim Empresa As New Controlador.Empresas
+        Dim Empresa As New Controlador.clsEmpresas
 
         Try
 

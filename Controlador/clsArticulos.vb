@@ -1,8 +1,8 @@
 ﻿Imports System.Windows.Forms
 Imports System.IO
 Imports Modelo
-Public Class Articulos
-    Public session As New Controlador.Session()
+Public Class clsArticulos
+    Public session As New Controlador.clsSession()
     Private Shared DataGrid As DataGridView
     Private Shared variable As String
     Private Shared variable_Articulos As String
@@ -282,7 +282,7 @@ Public Class Articulos
             Me.Precio_Kilo = Value
         End Set
     End Property
-    
+
     Public Sub llenar_tabla_Producto_EmpresaArticulo_Producto_Lista_Precio(ByVal idEmpresa As String, ByVal idListaPrecio As String, ByRef grilla As DataGridView)
         Dim conectar As New coneccion()
         Dim consulta As String
@@ -484,7 +484,7 @@ Public Class Articulos
 
         conectar.srt_conexion = session.Session.CadenaConeccion
         DatosEmpresaArticulo = conectar.consulta_reader(consulta)
-        
+
     End Sub
     Public Sub recuperar_Datos_Producto_EmpresaArticulo_Descripcion(ByVal DescripcionProd As String, ByVal DatoEmpresa As String, ByRef DatosEmpresaArticulo As DataTable)
         Dim conectar As New coneccion()
@@ -582,7 +582,7 @@ Public Class Articulos
 
     End Sub
     Private Sub PasarDatosArticulosCuerpoFacturaAEstructura(ByVal datos As DataTable, ByRef DatosArticuloCuerpoFactura As eArticuloCuerpoDocumento)
-        Dim dfielddefArticuloListaPrecio As Controlador.DfieldDef.eArticuloCuerpoDocumento
+        Dim dfielddefArticuloListaPrecio As Controlador.clsDfieldDef.eArticuloCuerpoDocumento
         DatosArticuloCuerpoFactura.CantidadUnidadCaja = datos.Rows(0).Item(dfielddefArticuloListaPrecio.Cantidad_Unid_Caja)
         DatosArticuloCuerpoFactura.CodProdProveedor = datos.Rows(0).Item(dfielddefArticuloListaPrecio.Cod_Prod_Proveedor)
         DatosArticuloCuerpoFactura.Codigo_Barras = datos.Rows(0).Item(dfielddefArticuloListaPrecio.Codigo_Barras)
@@ -736,10 +736,10 @@ Public Class Articulos
         Dim datos As New DataTable
         Dim consulta As String
         conectar.srt_conexion = session.Session.CadenaConeccion
-        If (opcion = DfieldDef.eConstantes.Encabezado_Entrada_Salida_Mercaderia.ToString()) Then
+        If (opcion = clsDfieldDef.eConstantes.Encabezado_Entrada_Salida_Mercaderia.ToString()) Then
             consulta = "select max(Id_Entrada_Salida) from Encabezado_Entrada_Salida_Mercaderia"
         End If
-        If (opcion = DfieldDef.eConstantes.Cuerpo_Entrada_Salida_Mercaderia.ToString()) Then
+        If (opcion = clsDfieldDef.eConstantes.Cuerpo_Entrada_Salida_Mercaderia.ToString()) Then
             consulta = "select max(Id_Cuerpo_Entrada_Salida) from Cuerpo_Entrada_Salida_Mercaderia"
         End If
         datos = conectar.consulta_reader(consulta)

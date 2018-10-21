@@ -1,7 +1,7 @@
 ﻿Imports System.Windows.Forms
 Imports Modelo
-Public Class NumeroComprobante
-    Public session As New Controlador.Session()
+Public Class clsNumeroComprobante
+    Public session As New Controlador.clsSession()
     Private Shared variable As String
     Private Descripcion As String
     Private Numeracion As String
@@ -71,7 +71,7 @@ Public Class NumeroComprobante
         Dim conectar As New coneccion()
         Dim consulta As String
         conectar.srt_conexion = session.Session.CadenaConeccion
-        If (Operacion = DfieldDef.eConstantes.Eliminar_Empresa.ToString()) Then
+        If (Operacion = clsDfieldDef.eConstantes.Eliminar_Empresa.ToString()) Then
             consulta = "delete from Numeracion_Comprobante where Id_Empresa='" & (Id_Empresa) & "'"
         End If
         conectar.consulta_non_query(consulta)

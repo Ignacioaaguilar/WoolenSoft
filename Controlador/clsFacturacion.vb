@@ -1,7 +1,7 @@
 ﻿Imports Modelo
 Imports System.Windows.Forms
-Public Class Facturacion
-    Public session As New Controlador.Session()
+Public Class clsFacturacion
+    Public session As New Controlador.clsSession()
     Private Shared FacturacionCodigoArticulo As String
     Private Shared variable As String
     Private Shared codigo As String
@@ -76,7 +76,7 @@ Public Class Facturacion
         Public Signo As String
         Public NroPuesto As String
     End Structure
-   
+
 
     Public Structure eDatosFactura
         Public Neto_Grabado As String
@@ -434,7 +434,7 @@ Public Class Facturacion
     Public Sub Obtener_Datos_Comprobante_Cuerpo_Factura(ByVal Punto_Venta As String, ByVal TipoComprobante As String, ByVal Numero_Comprobante As String, ByRef datos As DataTable)
         Dim conectar As New coneccion()
         Dim consulta As String
-        Dim dfielddefConstantes As Controlador.DfieldDef.eConstantes
+        Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
         conectar.srt_conexion = session.Session.CadenaConeccion
         consulta = "select * from  Cuerpo_Factura where Punto_Venta='" + Punto_Venta + "' and Tipo_Comprobante='" + TipoComprobante + "' and Numero_Comprobante='" + Numero_Comprobante + "' "
         datos = conectar.consulta_reader(consulta)
@@ -442,7 +442,7 @@ Public Class Facturacion
     Public Sub Obtener_Datos_Comprobante_Encabezado_Factura(ByVal Punto_Venta As String, ByVal TipoComprobante As String, ByVal Numero_Comprobante As String, ByRef datos As DataTable)
         Dim conectar As New coneccion()
         Dim consulta As String
-        Dim dfielddefConstantes As Controlador.DfieldDef.eConstantes
+        Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
         conectar.srt_conexion = session.Session.CadenaConeccion
         consulta = "select * from Encabezado_Factura where Punto_Venta='" + Punto_Venta + "' and Tipo_Comprobante='" + TipoComprobante + "' and Numero_Comprobante='" + Numero_Comprobante + "' "
         datos = conectar.consulta_reader(consulta)
@@ -452,7 +452,7 @@ Public Class Facturacion
         Dim conectar As New coneccion()
         Dim consulta As String
         Dim datos As DataTable
-        Dim dfielddefConstantes As Controlador.DfieldDef.eConstantes
+        Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
         conectar.srt_conexion = session.Session.CadenaConeccion
         If TipoComprobante = dfielddefConstantes.FACTURA.ToString() Then
             consulta = " Select TC.IdTipoComprobante,TC.Descripcion" & vbCrLf

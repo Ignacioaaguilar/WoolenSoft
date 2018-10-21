@@ -444,7 +444,7 @@ Partial Class frmEmpresaAlta
         '
         Me.SuperTooltip1.DefaultTooltipSettings = New DevComponents.DotNetBar.SuperTooltipInfo("", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Blue)
         '
-        'EmpresaAlta
+        'frmEmpresaAlta
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -457,7 +457,7 @@ Partial Class frmEmpresaAlta
         Me.Location = New System.Drawing.Point(310, 200)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "EmpresaAlta"
+        Me.Name = "frmEmpresaAlta"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "Empresa Alta"

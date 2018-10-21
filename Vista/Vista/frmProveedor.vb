@@ -1,13 +1,15 @@
 ﻿Imports Controlador
 Public Class frmProveedor
-    Public id_Proveedor As Integer
-    Public Razon_Social As String
-    Public Posicion_Columna As Integer
-    Public Nombre_Columna_a_Buscar As String
-    Dim Proveedor_estructura(0) As Controlador.ContProveedor.eProveedor
-    Dim dfielddefProveedor As Controlador.DfieldDef.eProveedor
-    Dim dfielddefConstantes As Controlador.DfieldDef.eConstantes
-    Dim proveedor As New Controlador.ContProveedor()
+    Dim id_Proveedor As Integer
+    Dim Razon_Social As String
+    Dim Posicion_Columna As Integer
+    Dim Nombre_Columna_a_Buscar As String
+    Dim eProveedor_estructura(0) As Controlador.clsContProveedor.eProveedor
+    Dim dfielddefProveedor As Controlador.clsDfieldDef.eProveedor
+    Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
+    Dim clsproveedor As New Controlador.clsContProveedor()
+    Dim clsQueryBuilder As New Controlador.clsQueryBuilder
+    Dim clsContProveedor As New Controlador.clsContProveedor
     Private Sub ToolStripSalirProveedor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripSalirProveedor.Click
         Dim FactProv As New frmFacturacionProveedores()
         Dim NCProv As New frmNotaCreditoProveedores()
@@ -18,15 +20,15 @@ Public Class frmProveedor
         For x As Integer = ProgressBarProveedor.Maximum To ProgressBarProveedor.Minimum Step -1
             ProgressBarProveedor.Value = x
         Next
-        proveedor.CompCodigo = String.Empty
-        proveedor.Compvariable = String.Empty
-        If proveedor.CompvariableProveedores = dfielddefConstantes.FACTURAPROVEEDOR.ToString() Then
+        clsproveedor.CompCodigo = String.Empty
+        clsproveedor.Compvariable = String.Empty
+        If clsproveedor.CompvariableProveedores = dfielddefConstantes.FACTURAPROVEEDOR.ToString() Then
             FactProv.Show()
         End If
-        If proveedor.CompvariableProveedores = dfielddefConstantes.NotaCreditoProveedor.ToString() Then
+        If clsproveedor.CompvariableProveedores = dfielddefConstantes.NotaCreditoProveedor.ToString() Then
             NCProv.Show()
         End If
-        If proveedor.CompvariableProveedores = dfielddefConstantes.NotaDebitoProveedor.ToString() Then
+        If clsproveedor.CompvariableProveedores = dfielddefConstantes.NotaDebitoProveedor.ToString() Then
             NDProv.Show()
         End If
         Me.Close()
@@ -37,14 +39,14 @@ Public Class frmProveedor
             ToolStripNuevoProveedor.Enabled = True
             ToolStripModificarProveedor.Enabled = False
             ToolStripEliminarProveedor.Enabled = False
-            If proveedor.CompvariableProveedores = dfielddefConstantes.FACTURAPROVEEDOR.ToString() Or proveedor.CompvariableProveedores = dfielddefConstantes.NotaCreditoProveedor.ToString() Or proveedor.CompvariableProveedores = dfielddefConstantes.NotaDebitoProveedor.ToString() Then
+            If clsproveedor.CompvariableProveedores = dfielddefConstantes.FACTURAPROVEEDOR.ToString() Or clsproveedor.CompvariableProveedores = dfielddefConstantes.NotaCreditoProveedor.ToString() Or clsproveedor.CompvariableProveedores = dfielddefConstantes.NotaDebitoProveedor.ToString() Then
                 ToolStripEnviarProveedor.Visible = True
                 'consulta = "select Id_Proveedor as [Cod Proveedor],Razon_Social as [Razon Social],Calle,Piso,Nro,Localidad,Codigo_Postal as [Cod Postal],Provincia,Telefono,Celular,CUIT,E_Mail as [E Mail],Responsabilidad_IVA as [Resp IVA], Saldo_CC as [Saldo CC] from " + dfielddefConstantes.Proveedor.ToString() + ""
-                proveedor.llenar_tabla_Proveedor(DGVProveedor)
+                clsproveedor.llenar_tabla_Proveedor(DGVProveedor)
             Else
                 ToolStripEnviarProveedor.Visible = False
                 'consulta = "select Id_Proveedor as [Cod Proveedor],Razon_Social as [Razon Social],Calle,Piso,Nro,Localidad,Codigo_Postal as [Cod Postal],Provincia,Telefono,Celular,CUIT,E_Mail as [E Mail],Responsabilidad_IVA as [Resp IVA], Saldo_CC as [Saldo CC] from " + dfielddefConstantes.Proveedor.ToString() + ""
-                proveedor.llenar_tabla_Proveedor(DGVProveedor)
+                clsproveedor.llenar_tabla_Proveedor(DGVProveedor)
             End If
         Catch ex As Exception
             MsgBox("Error:" & vbCrLf & ex.Message)
@@ -54,32 +56,32 @@ Public Class frmProveedor
         Dim consulta As String
         Dim datos As New Collection
         Dim ClavePrincipal As New Collection
-        Dim querybuilder As New Controlador.QueryBuilder
+        'Dim clsQueryBuilder As New Controlador.clsQueryBuilder
         Dim result As Integer = MessageBox.Show("Desea Eliminar al Proveedor: " + CStr(id_Proveedor) + " " + Razon_Social, "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
         If result = DialogResult.Yes Then
             Try
-                ReDim Proveedor_estructura(1)
-                Proveedor_estructura(1).Id_Proveedor = id_Proveedor
-                Proveedor_estructura(1).Razon_Social = Nothing
-                Proveedor_estructura(1).Calle = Nothing
-                Proveedor_estructura(1).Piso = Nothing
-                Proveedor_estructura(1).Nro = Nothing
-                Proveedor_estructura(1).Localidad = Nothing
-                Proveedor_estructura(1).Codigo_Postal = Nothing
-                Proveedor_estructura(1).Provincia = Nothing
-                Proveedor_estructura(1).Telefono = Nothing
-                Proveedor_estructura(1).Celular = Nothing
-                Proveedor_estructura(1).CUIT = Nothing
-                Proveedor_estructura(1).E_Mail = Nothing
-                Proveedor_estructura(1).Responsabilidad_IVA = Nothing
-                Proveedor_estructura(1).Saldo_CC = Nothing
-                proveedor.Obtener_Clave_Principal(ClavePrincipal)
-                proveedor.Pasar_A_Coleccion(Proveedor_estructura, datos, 1)
-                querybuilder.ArmaDelete(dfielddefConstantes.Proveedor.ToString(), datos, ClavePrincipal, consulta)
-                proveedor.Operaciones_Tabla(consulta)
+                ReDim eProveedor_estructura(1)
+                eProveedor_estructura(1).Id_Proveedor = id_Proveedor
+                eProveedor_estructura(1).Razon_Social = Nothing
+                eProveedor_estructura(1).Calle = Nothing
+                eProveedor_estructura(1).Piso = Nothing
+                eProveedor_estructura(1).Nro = Nothing
+                eProveedor_estructura(1).Localidad = Nothing
+                eProveedor_estructura(1).Codigo_Postal = Nothing
+                eProveedor_estructura(1).Provincia = Nothing
+                eProveedor_estructura(1).Telefono = Nothing
+                eProveedor_estructura(1).Celular = Nothing
+                eProveedor_estructura(1).CUIT = Nothing
+                eProveedor_estructura(1).E_Mail = Nothing
+                eProveedor_estructura(1).Responsabilidad_IVA = Nothing
+                eProveedor_estructura(1).Saldo_CC = Nothing
+                clsproveedor.Obtener_Clave_Principal(ClavePrincipal)
+                clsproveedor.Pasar_A_Coleccion(eProveedor_estructura, datos, 1)
+                clsQueryBuilder.ArmaDelete(dfielddefConstantes.Proveedor.ToString(), datos, ClavePrincipal, consulta)
+                clsproveedor.Operaciones_Tabla(consulta)
                 MessageBox.Show("El Proveedor " + CStr(id_Proveedor) + " " + Razon_Social + " se. Elimino Correctamente!!!", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 'consulta = "select Id_Proveedor as [Cod Proveedor],Razon_Social as [Razon Social],Calle,Piso,Nro,Localidad,Codigo_Postal as [Cod Postal],Provincia,Telefono,Celular,CUIT,E_Mail as [E Mail],Responsabilidad_IVA as [Resp IVA], Saldo_CC as [Saldo CC] from " + dfielddefConstantes.Proveedor.ToString() + ""
-                proveedor.llenar_tabla_Proveedor(DGVProveedor)
+                clsproveedor.llenar_tabla_Proveedor(DGVProveedor)
                 LimpiarEstructuras()
             Catch ex As Exception
                 MsgBox("Error:" & vbCrLf & ex.Message)
@@ -94,7 +96,7 @@ Public Class frmProveedor
             ToolStripEliminarProveedor.Enabled = True
             id_Proveedor = CInt(DGVProveedor.CurrentRow.Cells(dfielddefProveedor.Id_Proveedor).Value.ToString())
             Razon_Social = DGVProveedor.CurrentRow.Cells(1).Value.ToString()
-            proveedor.CompCodigo = Convert.ToString(id_Proveedor)
+            clsproveedor.CompCodigo = Convert.ToString(id_Proveedor)
             frmProveedorAlta.codigo_Proveedor = Convert.ToString(id_Proveedor)
             frmProveedorAlta.TBRazonSocial.Text = DGVProveedor.CurrentRow.Cells(dfielddefProveedor.Razon_Social).Value.ToString()
             frmProveedorAlta.TBCalle.Text = DGVProveedor.CurrentRow.Cells(dfielddefProveedor.Calle).Value.ToString()
@@ -102,7 +104,7 @@ Public Class frmProveedor
             frmProveedorAlta.TBNumero.Text = DGVProveedor.CurrentRow.Cells(dfielddefProveedor.Nro).Value.ToString()
             frmProveedorAlta.TBLocalidad.Text = DGVProveedor.CurrentRow.Cells(dfielddefProveedor.Localidad).Value.ToString()
             frmProveedorAlta.TBCodigoPostal.Text = DGVProveedor.CurrentRow.Cells(dfielddefProveedor.Codigo_Postal).Value.ToString()
-            proveedor.Descomponer_CUIT_Proveedor(DGVProveedor.CurrentRow.Cells(dfielddefProveedor.CUIT).Value.ToString(), cuit1, cuit2, cuit3)
+            clsproveedor.Descomponer_CUIT_Proveedor(DGVProveedor.CurrentRow.Cells(dfielddefProveedor.CUIT).Value.ToString(), cuit1, cuit2, cuit3)
             frmProveedorAlta.TBCuitProveedor1.Text = cuit1
             frmProveedorAlta.TBCuitProveedor2.Text = cuit2
             frmProveedorAlta.TBCuitProveedor3.Text = cuit3
@@ -152,7 +154,7 @@ Public Class frmProveedor
     End Sub
     Private Sub TBBusqueda_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TBBusqueda.TextChanged
         Dim consulta As String
-        Dim ContProveedor As New Controlador.ContProveedor
+        'Dim clsContProveedor As New Controlador.clsContProveedor
         Try
             If (Nombre_Columna_a_Buscar = Replace(dfielddefConstantes.Razon_Social.ToString(), "_", " ")) Then
                 Nombre_Columna_a_Buscar = "Razon_Social"
@@ -166,7 +168,7 @@ Public Class frmProveedor
                 End If
             End If
             'consulta = "select Id_Proveedor as [Cod Proveedor],Razon_Social as [Razon Social],Calle,Piso,Nro,Localidad,Codigo_Postal as [Cod Postal],Provincia,Telefono,Celular,CUIT,E_Mail as [E Mail],Responsabilidad_IVA as [Resp IVA], Saldo_CC as [Saldo CC] from " + dfielddefConstantes.Proveedor.ToString() + " where " + Nombre_Columna_a_Buscar + " like '" & Me.TBBusqueda.Text & "%'"
-            proveedor.Busqueda(DGVProveedor, Nombre_Columna_a_Buscar, Me.TBBusqueda.Text)
+            clsproveedor.Busqueda(DGVProveedor, Nombre_Columna_a_Buscar, Me.TBBusqueda.Text)
         Catch ex As Exception
             MsgBox("Error:" & vbCrLf & ex.Message)
         End Try
@@ -180,7 +182,7 @@ Public Class frmProveedor
         Next
         Me.Close()
         frmProveedorAlta.Show()
-        proveedor.Compvariable = dfielddefConstantes.Agregar_Proveedor.ToString()
+        clsproveedor.Compvariable = dfielddefConstantes.Agregar_Proveedor.ToString()
     End Sub
     Private Sub ToolStripModificarProveedor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripModificarProveedor.Click
         For x As Integer = ProgressBarProveedor.Minimum To ProgressBarProveedor.Maximum
@@ -191,16 +193,16 @@ Public Class frmProveedor
         Next
         Me.Close()
         frmProveedorAlta.Show()
-        proveedor.Compvariable = dfielddefConstantes.Modificar_Proveedor.ToString()
+        clsproveedor.Compvariable = dfielddefConstantes.Modificar_Proveedor.ToString()
     End Sub
     Public Sub LimpiarEstructuras()
-        ReDim Proveedor_estructura(0)
+        ReDim eProveedor_estructura(0)
     End Sub
     Private Sub ToolStripEnviarProveedor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripEnviarProveedor.Click
         Dim FactProv As New frmFacturacionProveedores()
         Dim NCProv As New frmNotaCreditoProveedores()
         Dim NDProv As New frmNotaDebitoProveedores()
-        Dim proveedor As New Controlador.ContProveedor()
+        Dim proveedor As New Controlador.clsContProveedor()
         For x As Integer = ProgressBarProveedor.Minimum To ProgressBarProveedor.Maximum
             ProgressBarProveedor.Value = x
         Next

@@ -3,17 +3,19 @@
     Public Posicion_Columna As Integer
     Public Nombre_Columna_a_Buscar As String
     Public Descripcion As String
-    Dim NumeracionComprobante_estructura(0) As Controlador.NumeroComprobante.eNumeracionComprobante
-    Dim DfieldDefNumeroComprovante As Controlador.DfieldDef.eNumeroComprobante
-    Dim dfielddefConstante As Controlador.DfieldDef.eConstantes
+    Dim NumeracionComprobante_estructura(0) As Controlador.clsNumeroComprobante.eNumeracionComprobante
+    Dim DfieldDefNumeroComprovante As Controlador.clsDfieldDef.eNumeroComprobante
+    Dim dfielddefConstante As Controlador.clsDfieldDef.eConstantes
+    Dim clsNumeroComprobante As New Controlador.clsNumeroComprobante()
+    Dim clsQueryBuilder As New Controlador.clsQueryBuilder
     Private Sub NumeroComprobante_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim consulta As String
-        Dim numerocomprobante As New Controlador.NumeroComprobante()
+        'Dim clsNumeroComprobante As New Controlador.clsNumeroComprobante()
         Try
             'consulta = " select Id_Comprobante as [Cod Comprobante],Descripcion,Numeracion,NC.Id_Empresa as [Cod Empresa],E.Razon_Social as [Nom Empresa] from Numeracion_Comprobante as NC" & vbCrLf
             'consulta += "inner join Empresa as E on E.Id_Empresa =NC.Id_Empresa" & vbCrLf
             'consulta += "order by NC.Id_Empresa, Id_Comprobante"
-            numerocomprobante.llenar_tabla_NumeroComprobante_Empresa(DGVNumeroComprobante)
+            clsNumeroComprobante.llenar_tabla_NumeroComprobante_Empresa(DGVNumeroComprobante)
             ToolStripNuevoNumeroComprobante.Enabled = True
             ToolStripModificarNumeroComprobante.Enabled = False
             ToolStripEliminarNumeroComprobante.Enabled = False
@@ -31,7 +33,7 @@
         Me.Close()
     End Sub
     Private Sub ToolStripNuevoNumeroComprobante_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripNuevoNumeroComprobante.Click
-        Dim numerocomprobante As New Controlador.NumeroComprobante
+        'Dim clsNumeroComprobante As New Controlador.clsNumeroComprobante
         For x As Integer = ProgressBarNumeroComprobante.Minimum To ProgressBarNumeroComprobante.Maximum
             ProgressBarNumeroComprobante.Value = x
         Next
@@ -40,10 +42,10 @@
         Next
         Me.Close()
         frmNumeroComprobanteAlta.Show()
-        numerocomprobante.Compvariable = dfielddefConstante.Agregar_NumeroComprobante.ToString()
+        clsNumeroComprobante.Compvariable = dfielddefConstante.Agregar_NumeroComprobante.ToString()
     End Sub
     Private Sub DGVNumeroComprobante_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DGVNumeroComprobante.Click
-        Dim numerocomprobante As New Controlador.NumeroComprobante
+        'Dim clsNumeroComprobante As New Controlador.clsNumeroComprobante
         Try
             ToolStripNuevoNumeroComprobante.Enabled = False
             ToolStripModificarNumeroComprobante.Enabled = True
@@ -71,7 +73,7 @@
         End Try
     End Sub
     Private Sub ToolStripModificarNumeroComprobante_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripModificarNumeroComprobante.Click
-        Dim numerocomprobante As New Controlador.NumeroComprobante
+        'Dim clsNumeroComprobante As New Controlador.clsNumeroComprobante
         For x As Integer = ProgressBarNumeroComprobante.Minimum To ProgressBarNumeroComprobante.Maximum
             ProgressBarNumeroComprobante.Value = x
         Next
@@ -80,14 +82,14 @@
         Next
         Me.Close()
         frmNumeroComprobanteAlta.Show()
-        numerocomprobante.Compvariable = dfielddefConstante.Modificar_NumeroComprobante.ToString()
+        clsNumeroComprobante.Compvariable = dfielddefConstante.Modificar_NumeroComprobante.ToString()
     End Sub
     Private Sub ToolStripEliminarNumeroComprobante_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripEliminarNumeroComprobante.Click
-        Dim numeroComprobante As New Controlador.NumeroComprobante
+        'Dim clsNumeroComprobante As New Controlador.clsNumeroComprobante
         Dim consulta As String
         Dim datos As New Collection
         Dim ClavePrincipal As New Collection
-        Dim querybuilder As New Controlador.QueryBuilder
+        'Dim clsQueryBuilder As New Controlador.clsQueryBuilder
         Dim esquema As New Collection
         Dim result As Integer = MessageBox.Show("Desea Eliminar El Comprobante: " + CStr(id_Comprobante) + " " + Descripcion, "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
         If result = DialogResult.Yes Then
@@ -98,14 +100,14 @@
                 NumeracionComprobante_estructura(1).Numeracion = Nothing
                 NumeracionComprobante_estructura(1).Id_Empresa = Nothing
 
-                numeroComprobante.Obtener_Clave_Principal(ClavePrincipal)
-                numeroComprobante.Pasar_A_Coleccion(NumeracionComprobante_estructura, datos, 1)
-                querybuilder.ArmaDelete(dfielddefConstante.Numeracion_Comprobante.ToString(), datos, ClavePrincipal, consulta)
-                numeroComprobante.Operaciones_Tabla(consulta)
+                clsNumeroComprobante.Obtener_Clave_Principal(ClavePrincipal)
+                clsNumeroComprobante.Pasar_A_Coleccion(NumeracionComprobante_estructura, datos, 1)
+                clsquerybuilder.ArmaDelete(dfielddefConstante.Numeracion_Comprobante.ToString(), datos, ClavePrincipal, consulta)
+                clsNumeroComprobante.Operaciones_Tabla(consulta)
 
                 MessageBox.Show("El Numero Comprobante " + CStr(id_Comprobante) + " " + Descripcion + " se. Elimino Correctamente!!!", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 'consulta = "select Id_Comprobante as [Cod Comprobante],Descripcion,Numeracion,Id_Empresa as [Cod Empresa] from " + dfielddefConstante.Numeracion_Comprobante.ToString() + ""
-                numeroComprobante.llenar_tabla_NumeroComprobante(DGVNumeroComprobante)
+                clsNumeroComprobante.llenar_tabla_NumeroComprobante(DGVNumeroComprobante)
                 LimpiarEstructuras()
             Catch ex As Exception
                 MsgBox("Error:" & vbCrLf & ex.Message)
@@ -114,10 +116,10 @@
     End Sub
     Private Sub TBBusqueda_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TBBusqueda.TextChanged
         Dim consulta As String
-        Dim numeracioncomprobante As New Controlador.NumeroComprobante
+        'Dim numeracioncomprobante As New Controlador.clsNumeroComprobante
         Try
             'consulta = "select Id_Comprobante as [Cod Comprobante],Descripcion,Numeracion,Id_Empresa as [Cod Empresa] from " + dfielddefConstante.Numeracion_Comprobante.ToString() + " where " + Nombre_Columna_a_Buscar + " like '" & Me.TBBusqueda.Text & "%'"
-            numeracioncomprobante.Busqueda_by_NombreColumna(DGVNumeroComprobante, dfielddefConstante.Numeracion_Comprobante.ToString(), Me.TBBusqueda.Text)
+            clsNumeroComprobante.Busqueda_by_NombreColumna(DGVNumeroComprobante, dfielddefConstante.Numeracion_Comprobante.ToString(), Me.TBBusqueda.Text)
         Catch ex As Exception
             MsgBox("Error:" & vbCrLf & ex.Message)
         End Try

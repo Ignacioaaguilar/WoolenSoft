@@ -1,4 +1,4 @@
-﻿Public Class FormasDePago
+﻿Public Class clsFormasDePago
     Private Shared variable As String
 
     Public Property Compvariable() As String

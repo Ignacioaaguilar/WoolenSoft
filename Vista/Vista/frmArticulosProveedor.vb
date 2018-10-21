@@ -4,11 +4,15 @@ Public Class frmArticulosProveedor
     Public Descripcion_Articulo As String
     Public Posicion_Columna As Integer
     Public Nombre_Columna_a_Buscar As String
-    Dim dfielddefArticulos As Controlador.DfieldDef.eArticulos
-    Dim dfielddefConstantes As Controlador.DfieldDef.eConstantes
-    Dim dfieldefConfiguracion As Controlador.DfieldDef.eConfiguracion
+    Dim dfielddefArticulos As Controlador.clsDfieldDef.eArticulos
+    Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
+    Dim dfieldefConfiguracion As Controlador.clsDfieldDef.eConfiguracion
+    Dim clsarticulo As New Controlador.clsArticulos()
+    Dim clsEmpresa As New Controlador.clsEmpresas()
+    Dim clsConfiguracion As New Controlador.clsConfiguracion()
+    Dim eDatos_Configuracion As Controlador.clsConfiguracion.eConfiguracion
     Private Sub SalirArticulo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SalirArticulo.Click
-        Dim articulo As New Controlador.Articulos
+        Dim articulo As New Controlador.clsArticulos
         For x As Integer = ProgressBarArticulo.Minimum To ProgressBarArticulo.Maximum
             ProgressBarArticulo.Value = x
         Next
@@ -22,19 +26,19 @@ Public Class frmArticulosProveedor
         Me.Close()
     End Sub
     Private Sub Articulos_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim articulo As New Controlador.Articulos()
+        'Dim articulo As New Controlador.clsArticulos()
         Dim consulta As String
-        Dim Empresa As New Controlador.Empresas()
-        Dim Configuracion As New Controlador.Configuracion()
-        Dim datos As New DataTable
+        'Dim Empresa As New Controlador.clsEmpresas()
+        'Dim clsConfiguracion As New Controlador.clsConfiguracion()
+        Dim dtdatos As New DataTable
 
-        Dim Datos_Configuracion As Controlador.Configuracion.eConfiguracion
+        'Dim Datos_Configuracion As Controlador.clsConfiguracion.eConfiguracion
         Try
             ' consulta = "Select * from Configuracion"
-            Configuracion.Obtener_Datos_Configuracion(Datos_Configuracion)
+            clsConfiguracion.Obtener_Datos_Configuracion(eDatos_Configuracion)
 
             'consulta = "select * from Empresa where Id_Empresa= '" + (Empresa.Compvariable) + "'"
-            Empresa.Obtener_Empresa(Empresa.Compvariable, datos)
+            clsEmpresa.Obtener_Empresa(clsEmpresa.Compvariable, dtdatos)
 
             'consulta = " select P.Id_Producto as [Cod Producto],Id_Rubro as  [Cod Rubro],Codigo_Barras as [Cod Barras],Descripcion,Id_Proveedor as [Cod Proveedor],Id_Tasa_IVA as [Tasa IVA],Stock_Minimo as [Stock Minimo],Stock,Pesable,Tipo_Unidad as [Tipo Unidad],Cantidad_Unid_Caja as [Cantidad Por Caja],Peso_Unidad as [Peso Por Unidad],INHABILITAR,Cod_Prod_Proveedor as [Cod Prod Proveedor] " & vbCrLf
             'consulta += "  from ((Producto as P" & vbCrLf
@@ -43,7 +47,7 @@ Public Class frmArticulosProveedor
             'consulta += " where(INHABILITAR = False)" & vbCrLf
             'consulta += " and  EA.Id_Empresa='" + datos(0).Item("Id_Empresa") + "' and PLP.ID_Lista_Precio='" + Datos_Configuracion.Rows(0).Item(dfieldefConfiguracion.Id_Lista_Precio).ToString() + "'"
             'articulo.llenar_tabla_Producto_EmpresaArticulo_Producto_Lista_Precio(datos(0).Item("Id_Empresa"), Datos_Configuracion.Rows(0).Item(dfieldefConfiguracion.Id_Lista_Precio).ToString(), DGVArticuloProveedor)
-            articulo.llenar_tabla_Producto_EmpresaArticulo_Producto_Lista_Precio(datos(0).Item("Id_Empresa"), Datos_Configuracion.Id_Lista_Precio, DGVArticuloProveedor)
+            clsarticulo.llenar_tabla_Producto_EmpresaArticulo_Producto_Lista_Precio(dtdatos(0).Item("Id_Empresa"), eDatos_Configuracion.Id_Lista_Precio, DGVArticuloProveedor)
 
             ToolStripEnviarArticulo.Enabled = False
         Catch ex As Exception
@@ -51,12 +55,12 @@ Public Class frmArticulosProveedor
         End Try
     End Sub
     Private Sub TBBusquedaArticulo_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TBBusquedaArticulo.TextChanged
-        Dim articulo As New Controlador.Articulos()
+        'Dim articulo As New Controlador.clsArticulos()
         Dim consulta As String
-        Dim Empresa As New Controlador.Empresas()
-        Dim Configuracion As New Controlador.Configuracion()
-        Dim datos As New DataTable
-        Dim Datos_Configuracion As Controlador.Configuracion.eConfiguracion
+        'Dim Empresa As New Controlador.clsEmpresas()
+        'Dim clsConfiguracion As New Controlador.clsConfiguracion()
+        Dim dtdatos As New DataTable
+        'Dim Datos_Configuracion As Controlador.clsConfiguracion.eConfiguracion
         Try
             If Nombre_Columna_a_Buscar <> "" Then
                 If Nombre_Columna_a_Buscar = "Cod Producto" Then
@@ -73,10 +77,10 @@ Public Class frmArticulosProveedor
                 End If
 
                 'consulta = "Select * from Configuracion"
-                Configuracion.Obtener_Datos_Configuracion(Datos_Configuracion)
+                clsConfiguracion.Obtener_Datos_Configuracion(eDatos_Configuracion)
 
                 'consulta = "select * from Empresa where Id_Empresa= '" + (Empresa.Compvariable) + "'"
-                Empresa.Obtener_Empresa(Empresa.Compvariable, datos)
+                clsEmpresa.Obtener_Empresa(clsEmpresa.Compvariable, dtdatos)
 
                 'consulta = " select P.Id_Producto as [Cod Producto],Id_Rubro as [Cod Rubro],Codigo_Barras as [Cod Barras],Descripcion,Id_Proveedor as [Cod Proveedor],Id_Tasa_IVA as [Tasa IVA],Stock_Minimo as [Stock Minimo],Stock,Pesable,Tipo_Unidad as [Tipo Unidad],Cantidad_Unid_Caja as [Cantidad Por Caja],Peso_Unidad as [Peso Por Unidad],INHABILITAR,Cod_Prod_Proveedor as [Cod Prod Proveedor]" & vbCrLf
                 'consulta += " from ((Producto as P" & vbCrLf
@@ -89,7 +93,7 @@ Public Class frmArticulosProveedor
                 'consulta += " and  " + Nombre_Columna_a_Buscar + "  like '" & Me.TBBusquedaArticulo.Text & "%' " ' "
                 'articulo.llenar_tabla_Producto_EmpresaArticulo_Producto_Lista_Precio(Convert.ToString(articulo.CompId_Proveedor), datos(0).Item("Id_Empresa"), Datos_Configuracion.Rows(0).Item(dfieldefConfiguracion.Id_Lista_Precio).ToString(), DGVArticuloProveedor, Nombre_Columna_a_Buscar, Me.TBBusquedaArticulo.Text)
 
-                articulo.llenar_tabla_Producto_EmpresaArticulo_Producto_Lista_Precio(Convert.ToString(articulo.CompId_Proveedor), datos(0).Item("Id_Empresa"), Datos_Configuracion.Id_Lista_Precio, DGVArticuloProveedor, Nombre_Columna_a_Buscar, Me.TBBusquedaArticulo.Text)
+                clsarticulo.llenar_tabla_Producto_EmpresaArticulo_Producto_Lista_Precio(Convert.ToString(clsarticulo.CompId_Proveedor), dtdatos(0).Item("Id_Empresa"), eDatos_Configuracion.Id_Lista_Precio, DGVArticuloProveedor, Nombre_Columna_a_Buscar, Me.TBBusquedaArticulo.Text)
             Else
                 MessageBox.Show("Error: No selecciono ningun criterio de busqueda!!!", "Informacion", MessageBoxButtons.OK, _
                                                      MessageBoxIcon.Error)
@@ -99,7 +103,7 @@ Public Class frmArticulosProveedor
         End Try
     End Sub
     Private Sub DGVArticuloProveedor_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DGVArticuloProveedor.Click
-        Dim articulo As New Controlador.Articulos()
+        'Dim articulo As New Controlador.clsArticulos()
         Try
             id_Articulo = CInt(DGVArticuloProveedor.CurrentRow.Cells(dfielddefArticulos.Id_Producto).Value.ToString())
             Descripcion_Articulo = DGVArticuloProveedor.CurrentRow.Cells(dfielddefArticulos.Descripcion).Value.ToString()
@@ -134,7 +138,7 @@ Public Class frmArticulosProveedor
         End Try
     End Sub
     Private Sub ToolStripEnviarArticulo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripEnviarArticulo.Click
-        Dim articulo As New Controlador.Articulos
+        'Dim articulo As New Controlador.clsArticulos
         Dim facturacionProv As New Vista.frmFacturacionProveedores()
         For x As Integer = ProgressBarArticulo.Minimum To ProgressBarArticulo.Maximum
             ProgressBarArticulo.Value = x
@@ -142,8 +146,8 @@ Public Class frmArticulosProveedor
         For x As Integer = ProgressBarArticulo.Maximum To ProgressBarArticulo.Minimum Step -1
             ProgressBarArticulo.Value = x
         Next
-        articulo.CompId_Articulo = Convert.ToString(id_Articulo)
-        articulo.CompDescripcion = Convert.ToString(Descripcion_Articulo)
+        clsarticulo.CompId_Articulo = Convert.ToString(id_Articulo)
+        clsarticulo.CompDescripcion = Convert.ToString(Descripcion_Articulo)
         Me.Close()
     End Sub
 End Class

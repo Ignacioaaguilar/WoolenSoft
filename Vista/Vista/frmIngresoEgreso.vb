@@ -1,20 +1,23 @@
 ﻿Public Class frmIngresoEgreso
-    Dim dfielddefConstantes As Controlador.DfieldDef.eConstantes
-    Dim estIngresoEgreso() As Controlador.Caja.eIngresoEgreso
-    Dim session As New Controlador.Session()
+    Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
+    Dim estIngresoEgreso() As Controlador.clsCaja.eIngresoEgreso
+    Dim clssession As New Controlador.clsSession()
     Dim tran As New Collection
-    Dim Empresa As New Controlador.Empresas
-    Dim dfielddefEmpresa As Controlador.DfieldDef.eEmpresa
+    Dim clsEmpresa As New Controlador.clsEmpresas
+    Dim dfielddefEmpresa As Controlador.clsDfieldDef.eEmpresa
+    Dim clsIngresosEgresos As New Controlador.clsCaja
+    Dim clsQueryBuilder As New Controlador.clsQueryBuilder
+    Dim clsTransaccion As New Controlador.clsTransacciones
 
     Private Sub IngresoEgreso_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim IngresosEgresos As New Controlador.Caja
-        If IngresosEgresos.Compvariable = dfielddefConstantes.Ingresos.ToString() Then
+        'Dim IngresosEgresos As New Controlador.clsCaja
+        If clsIngresosEgresos.Compvariable = dfielddefConstantes.Ingresos.ToString() Then
             Me.Text = "Ingreso"
             _lblMensajeTitulo.Text = "Carga de Ingreso"
             lblMensaje.Text = "Utilice este formulario para procesar ingresos a la caja, tales como: efectivo para cambio, aportes para gastos, etc"
 
 
-        ElseIf IngresosEgresos.Compvariable = dfielddefConstantes.Egresos.ToString() Then
+        ElseIf clsIngresosEgresos.Compvariable = dfielddefConstantes.Egresos.ToString() Then
             Me.Text = "Engreso"
             _lblMensajeTitulo.Text = "Carga de Egresos"
             lblMensaje.Text = "Utilice este formulario para procesar Egresos a la caja."
@@ -30,65 +33,65 @@
     End Sub
 
     Private Sub ToolStripGuardarIngresoEgreso_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripGuardarIngresoEgreso.Click
-        Dim IngresosEgresos As New Controlador.Caja
-        Dim querybuilder As New Controlador.QueryBuilder
+        'Dim IngresosEgresos As New Controlador.clsCaja
+        'Dim clsQueryBuilder As New Controlador.clsQueryBuilder
         Dim esquema As New Collection
         Dim consulta As String
         Dim datos As New Collection
         Dim ClavePrincipal As New Collection
-        Dim Transaccion As New Controlador.Transacciones
+        'Dim Transaccion As New Controlador.clsTransacciones
         Dim ultimo As Integer
-        Dim datosEmp As New DataTable
+        Dim dtdatosEmp As New DataTable
         Try
             animacion()
             If txtImporte.Text <> String.Empty Then
-                Empresa.Obtener_Empresa(Empresa.Compvariable, datosEmp)
+                clsEmpresa.Obtener_Empresa(clsEmpresa.Compvariable, dtdatosEmp)
                 ReDim Preserve estIngresoEgreso(1)
-                IngresosEgresos.ObtenerUltimoNumeroIngresoEgresos(ultimo)
+                clsIngresosEgresos.ObtenerUltimoNumeroIngresoEgresos(ultimo)
                 estIngresoEgreso(1).Id_IngresosEgresos = ultimo
                 estIngresoEgreso(1).Importe = Replace(txtImporte.Text, ".", ",")
                 estIngresoEgreso(1).Fecha = txtFecha.Text
                 estIngresoEgreso(1).Detalle = txtDetalle.Text
-                estIngresoEgreso(1).NroPuesto = session.Session.NroPuesto
-                estIngresoEgreso(1).Punto_Venta = datosEmp.Rows(0).Item(dfielddefEmpresa.Nro_Sucursal)
-                If IngresosEgresos.Compvariable = dfielddefConstantes.Ingresos.ToString() Then
+                estIngresoEgreso(1).NroPuesto = clssession.Session.NroPuesto
+                estIngresoEgreso(1).Punto_Venta = dtdatosEmp.Rows(0).Item(dfielddefEmpresa.Nro_Sucursal)
+                If clsIngresosEgresos.Compvariable = dfielddefConstantes.Ingresos.ToString() Then
 
                     estIngresoEgreso(1).Signo = "1"
-                    querybuilder.obtener_estructura(dfielddefConstantes.IngresosEgresos.ToString(), esquema)
-                    IngresosEgresos.Obtener_Clave_Principal_IngresoEgreso(ClavePrincipal)
-                    IngresosEgresos.Pasar_A_ColeccionIngresosEgresos(estIngresoEgreso, datos, 1)
-                    querybuilder.ArmaInsert(dfielddefConstantes.IngresosEgresos.ToString(), esquema, datos, ClavePrincipal, consulta)
+                    clsQueryBuilder.obtener_estructura(dfielddefConstantes.IngresosEgresos.ToString(), esquema)
+                    clsIngresosEgresos.Obtener_Clave_Principal_IngresoEgreso(ClavePrincipal)
+                    clsIngresosEgresos.Pasar_A_ColeccionIngresosEgresos(estIngresoEgreso, datos, 1)
+                    clsQueryBuilder.ArmaInsert(dfielddefConstantes.IngresosEgresos.ToString(), esquema, datos, ClavePrincipal, consulta)
                     tran.Add(consulta)
-                    Transaccion.Operaciones_Tabla_Transaccion(tran)
+                    clsTransaccion.Operaciones_Tabla_Transaccion(tran)
                     esquema.Clear()
                     datos.Clear()
                     ClavePrincipal.Clear()
-                    IngresosEgresos.LimpiarDatosEgresosIngresos(txtFecha, txtImporte, txtDetalle)
+                    clsIngresosEgresos.LimpiarDatosEgresosIngresos(txtFecha, txtImporte, txtDetalle)
                     MessageBox.Show("El Ingreso se Registro Correctamente.", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Me.Close()
                 End If
-                If IngresosEgresos.Compvariable = dfielddefConstantes.Egresos.ToString() Then
+                If clsIngresosEgresos.Compvariable = dfielddefConstantes.Egresos.ToString() Then
 
                     estIngresoEgreso(1).Signo = "-1"
-                    querybuilder.obtener_estructura(dfielddefConstantes.IngresosEgresos.ToString(), esquema)
-                    IngresosEgresos.Obtener_Clave_Principal_IngresoEgreso(ClavePrincipal)
-                    IngresosEgresos.Pasar_A_ColeccionIngresosEgresos(estIngresoEgreso, datos, 1)
-                    querybuilder.ArmaInsert(dfielddefConstantes.IngresosEgresos.ToString(), esquema, datos, ClavePrincipal, consulta)
+                    clsQueryBuilder.obtener_estructura(dfielddefConstantes.IngresosEgresos.ToString(), esquema)
+                    clsIngresosEgresos.Obtener_Clave_Principal_IngresoEgreso(ClavePrincipal)
+                    clsIngresosEgresos.Pasar_A_ColeccionIngresosEgresos(estIngresoEgreso, datos, 1)
+                    clsQueryBuilder.ArmaInsert(dfielddefConstantes.IngresosEgresos.ToString(), esquema, datos, ClavePrincipal, consulta)
                     tran.Add(consulta)
-                    Transaccion.Operaciones_Tabla_Transaccion(tran)
+                    clsTransaccion.Operaciones_Tabla_Transaccion(tran)
                     esquema.Clear()
                     datos.Clear()
                     ClavePrincipal.Clear()
-                    IngresosEgresos.LimpiarDatosEgresosIngresos(txtFecha, txtImporte, txtDetalle)
+                    clsIngresosEgresos.LimpiarDatosEgresosIngresos(txtFecha, txtImporte, txtDetalle)
                     MessageBox.Show("El Egreso se Registro Correctamente.", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Me.Close()
                 End If
             Else
-                If IngresosEgresos.Compvariable = dfielddefConstantes.Ingresos.ToString() Then
+                If clsIngresosEgresos.Compvariable = dfielddefConstantes.Ingresos.ToString() Then
 
                     MessageBox.Show("No se ha podido registar el Ingreso, ingrese el importe.", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
-                If IngresosEgresos.Compvariable = dfielddefConstantes.Egresos.ToString() Then
+                If clsIngresosEgresos.Compvariable = dfielddefConstantes.Egresos.ToString() Then
                     MessageBox.Show("No se ha podido registar el Egreso, ingrese el importe.", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
             End If
@@ -101,8 +104,8 @@
     End Sub
 
     Private Sub txtImporte_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtImporte.TextChanged
-        Dim ingresoegresos As New Controlador.Caja
-        If Not ingresoegresos.validateDoublesAndCurrency_Comprobante(txtImporte.Text) Then
+        'Dim ingresoegresos As New Controlador.clsCaja
+        If Not clsIngresosEgresos.validateDoublesAndCurrency_Comprobante(txtImporte.Text) Then
             txtImporte.Text = String.Empty
         End If
 

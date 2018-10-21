@@ -1,7 +1,11 @@
 ﻿Imports Controlador
 <System.Serializable()> <Microsoft.VisualBasic.ComClass()> Public Class frmMenu
-    Dim dfielddefConstantes As Controlador.DfieldDef.eConstantes
-    Dim generales As New Controlador.Generales
+    Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
+    Dim clsGenerales As New Controlador.clsGenerales
+    Dim clsEmpresa As New Controlador.clsEmpresas
+    Dim dfielddefEmpresa As Controlador.clsDfieldDef.eEmpresa
+    Dim clsCaja As New Controlador.clsCaja
+    Dim clsArticulo As New Controlador.clsArticulos
     Private Sub btnClientes_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClientes.Click
         frmClientes.Show()
     End Sub
@@ -40,18 +44,18 @@
         frmConfiguracion.Show()
     End Sub
     Private Sub Menu_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim Empresa As New Controlador.Empresas
+        'Dim Empresa As New Controlador.clsEmpresas
         Dim consulta As String
-        Dim datos As New DataTable
-        Dim dfielddefEmpresa As Controlador.DfieldDef.eEmpresa
-        Dim caja As New Controlador.Caja
-        Dim DatosCaja As New DataTable
+        Dim dtdatos As New DataTable
+        'Dim dfielddefEmpresa As Controlador.clsDfieldDef.eEmpresa
+        'Dim clsCaja As New Controlador.clsCaja
+        Dim dtDatosCaja As New DataTable
         'consulta = "select * from " + dfielddefConstantes.Empresa.ToString() + " where Id_Empresa= '" + (Empresa.Compvariable) + "'"
 
-        Empresa.Obtener_Empresa(Empresa.Compvariable, datos)
-        toolStripStatusEmpresa.Text = datos.Rows(0).Item(dfielddefEmpresa.Razon_Social)
-        caja.CajaCerrada(DatosCaja, datos.Rows(0).Item(dfielddefEmpresa.Nro_Sucursal))
-        If (DatosCaja.Rows.Count = 0) Then
+        clsEmpresa.Obtener_Empresa(clsEmpresa.Compvariable, dtdatos)
+        toolStripStatusEmpresa.Text = dtdatos.Rows(0).Item(dfielddefEmpresa.Razon_Social)
+        clsCaja.CajaCerrada(dtDatosCaja, dtdatos.Rows(0).Item(dfielddefEmpresa.Nro_Sucursal))
+        If (dtDatosCaja.Rows.Count = 0) Then
             Vista.frmCaja.ShowDialog()
         End If
 
@@ -63,17 +67,17 @@
     End Sub
     Private Sub ListadoClientesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoClientesToolStripMenuItem.Click
         Dim formulario As New frmListado()
-        generales.Compvariable = dfielddefConstantes.cliente.ToString
+        clsGenerales.Compvariable = dfielddefConstantes.cliente.ToString
         formulario.Show()
     End Sub
     Private Sub ListadoArticulosToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim formulario As New frmListado()
-        generales.Compvariable = dfielddefConstantes.Producto.ToString
+        clsGenerales.Compvariable = dfielddefConstantes.Producto.ToString
         formulario.Show()
     End Sub
     Private Sub ListadoArticulosToolStripMenuItem_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim formulario As New frmListado()
-        generales.Compvariable = dfielddefConstantes.Producto.ToString
+        clsGenerales.Compvariable = dfielddefConstantes.Producto.ToString
         formulario.Show()
     End Sub
     Private Sub TabControl1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabControl1.Click
@@ -88,22 +92,22 @@
     End Sub
     Private Sub ListadoProveedoresToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim formulario As New frmListado()
-        generales.Compvariable = dfielddefConstantes.Proveedor.ToString
+        clsGenerales.Compvariable = dfielddefConstantes.Proveedor.ToString
         formulario.Show()
     End Sub
     Private Sub ListadoProveedoresToolStripMenuItem_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoProveedoresToolStripMenuItem.Click
         Dim formulario As New frmListado()
-        generales.Compvariable = dfielddefConstantes.Proveedor.ToString
+        clsGenerales.Compvariable = dfielddefConstantes.Proveedor.ToString
         formulario.Show()
     End Sub
     Private Sub ListadoArticulosToolStripMenuItem_Click_2(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoArticulosToolStripMenuItem.Click
         Dim formulario As New frmListado()
-        generales.Compvariable = dfielddefConstantes.Producto.ToString
+        clsGenerales.Compvariable = dfielddefConstantes.Producto.ToString
         formulario.Show()
     End Sub
     Private Sub ListadoRubrosToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoRubrosToolStripMenuItem.Click
         Dim formulario As New frmListado()
-        generales.Compvariable = dfielddefConstantes.rubro.ToString
+        clsGenerales.Compvariable = dfielddefConstantes.rubro.ToString
         formulario.Show()
     End Sub
     Private Sub Button17_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button17.Click
@@ -144,37 +148,37 @@
     End Sub
 
     Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
-        Dim Articulo As New Controlador.Articulos
+        'Dim Articulo As New Controlador.clsArticulos
         Dim FormEntradaMercaderia As New Vista.frmEntradaMercaderia
         FormEntradaMercaderia.lblTitulo.Text = "Entrada Mercaderia"
         FormEntradaMercaderia.Show()
-        Articulo.Compvariable = dfielddefConstantes.EntradaMercaderia.ToString()
+        clsArticulo.Compvariable = dfielddefConstantes.EntradaMercaderia.ToString()
     End Sub
 
     Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click
-        Dim Articulo As New Controlador.Articulos
+        'Dim Articulo As New Controlador.clsArticulos
         Dim FormEntradaMercaderia As New Vista.frmEntradaMercaderia
         FormEntradaMercaderia.lblTitulo.Text = "Salida Mercaderia"
         FormEntradaMercaderia.Show()
-        Articulo.Compvariable = dfielddefConstantes.SalidaMercaderia.ToString()
+        clsArticulo.Compvariable = dfielddefConstantes.SalidaMercaderia.ToString()
     End Sub
 
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
-        Dim Generales As New Controlador.Generales
+        'Dim clsGenerales As New Controlador.clsGenerales
         Dim FormImportarExcel As New Vista.frmImportarExcel
         FormImportarExcel.Show()
-        Generales.Compvariable = dfielddefConstantes.Producto.ToString()
+        clsGenerales.Compvariable = dfielddefConstantes.Producto.ToString()
     End Sub
 
     Private Sub Button15_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button15.Click
-        Dim ingresoEgresos As New Controlador.Caja
-        ingresoEgresos.Compvariable = dfielddefConstantes.Ingresos.ToString()
+        'Dim ingresoEgresos As New Controlador.clsCaja
+        clsCaja.Compvariable = dfielddefConstantes.Ingresos.ToString()
         frmIngresoEgreso.Show()
     End Sub
 
     Private Sub Button16_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button16.Click
-        Dim ingresoEgresos As New Controlador.Caja
-        ingresoEgresos.Compvariable = dfielddefConstantes.Egresos.ToString()
+        'Dim ingresoEgresos As New Controlador.clsCaja
+        clsCaja.Compvariable = dfielddefConstantes.Egresos.ToString()
         frmIngresoEgreso.Show()
     End Sub
 End Class

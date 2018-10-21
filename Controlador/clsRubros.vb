@@ -1,7 +1,7 @@
 ﻿Imports Modelo
 Imports System.Windows.Forms
-Public Class Rubros
-    Public session As New Controlador.Session()
+Public Class clsRubros
+    Public session As New Controlador.clsSession()
     Private codigo As String
     Private descripcion As String
     Public Structure eRubro

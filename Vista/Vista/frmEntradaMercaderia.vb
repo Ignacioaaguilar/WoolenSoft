@@ -1,15 +1,21 @@
 ﻿Imports Controlador
 Public Class frmEntradaMercaderia
-    Dim dfielddefEmpresa As New Controlador.DfieldDef.eEmpresa
+    Dim dfielddefEmpresa As New Controlador.clsDfieldDef.eEmpresa
     Dim caracteres As String = ""
     Dim DatosEmpresa As New DataTable
-    Dim Datos_Configuracion As Controlador.Configuracion.eConfiguracion
-    Dim dfielddefProveedor As Controlador.DfieldDef.eProveedor
-    Dim dfielddefConstantes As Controlador.DfieldDef.eConstantes
-    Dim dfieldefConfiguracion As Controlador.DfieldDef.eConfiguracion
-    Dim EntradaSalidaMercEncESt(0) As Controlador.Articulos.eEncabezadoEntradaSalidaMercaderia
-    Dim EntradaSalidaMercaderiaCuerpoESt(0) As Controlador.Articulos.eCuerpoEntradaSalidaMercaderia
-    Dim ArticulosESt(0) As Controlador.Articulos.eArticulo
+    Dim Datos_Configuracion As Controlador.clsConfiguracion.eConfiguracion
+    Dim dfielddefProveedor As Controlador.clsDfieldDef.eProveedor
+    Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
+    Dim dfieldefConfiguracion As Controlador.clsDfieldDef.eConfiguracion
+    Dim EntradaSalidaMercEncESt(0) As Controlador.clsArticulos.eEncabezadoEntradaSalidaMercaderia
+    Dim EntradaSalidaMercaderiaCuerpoESt(0) As Controlador.clsArticulos.eCuerpoEntradaSalidaMercaderia
+    Dim ArticulosESt(0) As Controlador.clsArticulos.eArticulo
+    Dim clsArticulos As New Controlador.clsArticulos()
+    Dim clsEmpresa As New Controlador.clsEmpresas()
+    Dim clsQueryBuilder As New Controlador.clsQueryBuilder
+    Dim clsTransaccion As New Controlador.clsTransacciones
+    Dim clsarticulo As New Controlador.clsArticulos
+    Dim clsConfiguracion As New Controlador.clsConfiguracion
     Enum enumerado
         columnaTipoUnidad = 1
         ColumnaCodBarras = 2
@@ -40,16 +46,16 @@ Public Class frmEntradaMercaderia
 
     Private Sub ToolStripButtonRegistrar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButtonRegistrar.Click
         Dim consulta As String
-        Dim Articulos As New Controlador.Articulos()
-        Dim Empresa As New Controlador.Empresas()
-        Dim Datos As New DataTable
-        Dim querybuilder As New Controlador.QueryBuilder
+        'Dim clsArticulos As New Controlador.clsArticulos()
+        'Dim Empresa As New Controlador.clsEmpresas()
+        Dim dtDatos As New DataTable
+        'Dim clsQueryBuilder As New Controlador.clsQueryBuilder
         Dim esquema As New Collection
         Dim ClavePrincipal As New Collection
         Dim ultimo As Integer
         Dim DatosEst As New Collection
         Dim tran As New Collection
-        Dim Transaccion As New Controlador.Transacciones
+        'Dim Transaccion As New Controlador.clsTransacciones
         Dim idx As Integer
         Dim jdx As Integer
         For x As Integer = ToolStripProgressBar.Minimum To ToolStripProgressBar.Maximum
@@ -60,7 +66,7 @@ Public Class frmEntradaMercaderia
         Next
         dgvEntradaMercaderia.EndEdit()
         'consulta = "select * from Empresa where Id_Empresa= '" + (Empresa.Compvariable) + "'"
-        Empresa.Obtener_Empresa(Empresa.Compvariable, Datos)
+        clsEmpresa.Obtener_Empresa(clsEmpresa.Compvariable, dtDatos)
         If chbInicializarStock.Checked = True Then
 
             'consulta = "Update" & vbCrLf
@@ -69,31 +75,31 @@ Public Class frmEntradaMercaderia
             'consulta += " set Stock = 0" & vbCrLf
             'consulta += "where EA.Id_Empresa='" + Datos.Rows(0).Item(dfielddefEmpresa.Id_Empresa) + "'"
 
-            Articulos.Operaciones_Tabla(Datos.Rows(0).Item(dfielddefEmpresa.Id_Empresa))
+            clsArticulos.Operaciones_Tabla(dtDatos.Rows(0).Item(dfielddefEmpresa.Id_Empresa))
             MessageBox.Show("El Stock Se ha Inicializado a Cero, Correctamente!!!", "Informacion", MessageBoxButtons.OK, _
                                                              MessageBoxIcon.Information)
         Else
-            If Articulos.Compvariable = dfielddefConstantes.EntradaMercaderia.ToString() Then
+            If clsArticulos.Compvariable = dfielddefConstantes.EntradaMercaderia.ToString() Then
 
                 ReDim EntradaSalidaMercEncESt(1)
                 'consulta = "select max(Id_Entrada_Salida) from Encabezado_Entrada_Salida_Mercaderia"
-                Articulos.ObtenerUltimoNumero(ultimo, dfielddefConstantes.Encabezado_Entrada_Salida_Mercaderia.ToString())
+                clsArticulos.ObtenerUltimoNumero(ultimo, dfielddefConstantes.Encabezado_Entrada_Salida_Mercaderia.ToString())
                 EntradaSalidaMercEncESt(1).Id_Entrada_Salida = ultimo
                 EntradaSalidaMercEncESt(1).Descripcion_Entrada_Salida = tbDescripcion.Text
                 EntradaSalidaMercEncESt(1).Fecha_Entrada_Salida = mtFecha.Text
                 EntradaSalidaMercEncESt(1).Tipo_Movimiento = "Ingreso Mercaderias"
 
-                querybuilder.obtener_estructura(dfielddefConstantes.Encabezado_Entrada_Salida_Mercaderia.ToString(), esquema)
-                Articulos.Obtener_Clave_PrincipalEncabezadoEntradaSalidaMercaderia(ClavePrincipal)
-                Articulos.Pasar_A_ColeccionEncabezadoEntradaSalidaMercaderia(EntradaSalidaMercEncESt, DatosEst, 1)
-                querybuilder.ArmaInsert(dfielddefConstantes.Encabezado_Entrada_Salida_Mercaderia.ToString(), esquema, DatosEst, ClavePrincipal, consulta)
+                clsQueryBuilder.obtener_estructura(dfielddefConstantes.Encabezado_Entrada_Salida_Mercaderia.ToString(), esquema)
+                clsArticulos.Obtener_Clave_PrincipalEncabezadoEntradaSalidaMercaderia(ClavePrincipal)
+                clsArticulos.Pasar_A_ColeccionEncabezadoEntradaSalidaMercaderia(EntradaSalidaMercEncESt, DatosEst, 1)
+                clsQueryBuilder.ArmaInsert(dfielddefConstantes.Encabezado_Entrada_Salida_Mercaderia.ToString(), esquema, DatosEst, ClavePrincipal, consulta)
                 tran.Add(consulta)
                 consulta = ""
                 esquema.Clear()
                 ClavePrincipal.Clear()
                 DatosEst.Clear()
                 'consulta = "select max(Id_Cuerpo_Entrada_Salida) from Cuerpo_Entrada_Salida_Mercaderia"
-                Articulos.ObtenerUltimoNumero(ultimo, dfielddefConstantes.Cuerpo_Entrada_Salida_Mercaderia.ToString())
+                clsArticulos.ObtenerUltimoNumero(ultimo, dfielddefConstantes.Cuerpo_Entrada_Salida_Mercaderia.ToString())
                 idx = 1
                 jdx = ultimo
                 For i As Integer = 0 To dgvEntradaMercaderia.Rows.Count - 1
@@ -108,10 +114,10 @@ Public Class frmEntradaMercaderia
                         EntradaSalidaMercaderiaCuerpoESt(idx).Descripcion = dgvEntradaMercaderia.Rows(i).Cells("Descripcion").Value()
                         EntradaSalidaMercaderiaCuerpoESt(idx).CantidadUnidades = dgvEntradaMercaderia.Rows(i).Cells("UnidadesKilos").Value()
 
-                        querybuilder.obtener_estructura(dfielddefConstantes.Cuerpo_Entrada_Salida_Mercaderia.ToString(), esquema)
-                        Articulos.Obtener_Clave_PrincipalCuerpoEntradaSalidaMercaderia(ClavePrincipal)
-                        Articulos.Pasar_A_ColeccionCuerpoEntradaSalidaMercaderia(EntradaSalidaMercaderiaCuerpoESt, DatosEst, idx)
-                        querybuilder.ArmaInsert(dfielddefConstantes.Cuerpo_Entrada_Salida_Mercaderia.ToString(), esquema, DatosEst, ClavePrincipal, consulta)
+                        clsQueryBuilder.obtener_estructura(dfielddefConstantes.Cuerpo_Entrada_Salida_Mercaderia.ToString(), esquema)
+                        clsArticulos.Obtener_Clave_PrincipalCuerpoEntradaSalidaMercaderia(ClavePrincipal)
+                        clsArticulos.Pasar_A_ColeccionCuerpoEntradaSalidaMercaderia(EntradaSalidaMercaderiaCuerpoESt, DatosEst, idx)
+                        clsQueryBuilder.ArmaInsert(dfielddefConstantes.Cuerpo_Entrada_Salida_Mercaderia.ToString(), esquema, DatosEst, ClavePrincipal, consulta)
                         tran.Add(consulta)
 
                         consulta = ""
@@ -120,33 +126,33 @@ Public Class frmEntradaMercaderia
                         DatosEst.Clear()
 
                         'consulta = "select * from Producto    where Id_Producto= '" & (EntradaSalidaMercaderiaCuerpoESt(idx).Codigo_Producto) & "'"
-                        Articulos.recuperar_Datos_Producto_EntradaSalidaMercaderia(EntradaSalidaMercaderiaCuerpoESt(idx).Codigo_Producto, Datos)
+                        clsArticulos.recuperar_Datos_Producto_EntradaSalidaMercaderia(EntradaSalidaMercaderiaCuerpoESt(idx).Codigo_Producto, dtDatos)
 
                         ReDim ArticulosESt(idx)
-                        ArticulosESt(idx).Id_Producto = Datos.Rows(0).Item("Id_Producto").ToString()
-                        ArticulosESt(idx).Id_Rubro = Datos.Rows(0).Item("Id_Rubro").ToString()
-                        ArticulosESt(idx).Codigo_Barras = Datos.Rows(0).Item("Codigo_Barras").ToString()
-                        ArticulosESt(idx).Descripcion = Datos.Rows(0).Item("Descripcion").ToString()
-                        ArticulosESt(idx).Id_Proveedor = Datos.Rows(0).Item("Id_Proveedor").ToString()
-                        ArticulosESt(idx).Id_Tasa_IVA = Datos.Rows(0).Item("Id_Tasa_IVA").ToString()
-                        ArticulosESt(idx).Stock_Minimo = Datos.Rows(0).Item("Stock_Minimo").ToString()
+                        ArticulosESt(idx).Id_Producto = dtDatos.Rows(0).Item("Id_Producto").ToString()
+                        ArticulosESt(idx).Id_Rubro = dtDatos.Rows(0).Item("Id_Rubro").ToString()
+                        ArticulosESt(idx).Codigo_Barras = dtDatos.Rows(0).Item("Codigo_Barras").ToString()
+                        ArticulosESt(idx).Descripcion = dtDatos.Rows(0).Item("Descripcion").ToString()
+                        ArticulosESt(idx).Id_Proveedor = dtDatos.Rows(0).Item("Id_Proveedor").ToString()
+                        ArticulosESt(idx).Id_Tasa_IVA = dtDatos.Rows(0).Item("Id_Tasa_IVA").ToString()
+                        ArticulosESt(idx).Stock_Minimo = dtDatos.Rows(0).Item("Stock_Minimo").ToString()
 
                         If chbActualizarStockArticulos.Checked = True Then
-                            ArticulosESt(idx).Stock = Convert.ToString(Convert.ToDouble(EntradaSalidaMercaderiaCuerpoESt(idx).CantidadUnidades) + Convert.ToDouble(Datos.Rows(0).Item("Stock")))
+                            ArticulosESt(idx).Stock = Convert.ToString(Convert.ToDouble(EntradaSalidaMercaderiaCuerpoESt(idx).CantidadUnidades) + Convert.ToDouble(dtDatos.Rows(0).Item("Stock")))
                         Else
                             ArticulosESt(idx).Stock = Convert.ToString(EntradaSalidaMercaderiaCuerpoESt(idx).CantidadUnidades)
                         End If
-                        ArticulosESt(idx).Pesable = Datos.Rows(0).Item("Pesable").ToString()
-                        ArticulosESt(idx).Tipo_Unidad = Datos.Rows(0).Item("Tipo_Unidad").ToString()
-                        ArticulosESt(idx).Cantidad_Unid_Caja = Datos.Rows(0).Item("Cantidad_Unid_Caja").ToString()
-                        ArticulosESt(idx).Peso_Unidad = Datos.Rows(0).Item("Peso_Unidad").ToString()
-                        ArticulosESt(idx).INHABILITAR = Datos.Rows(0).Item("INHABILITAR")
-                        ArticulosESt(idx).CodProdProveedor = Datos.Rows(0).Item("Cod_Prod_Proveedor").ToString()
+                        ArticulosESt(idx).Pesable = dtDatos.Rows(0).Item("Pesable").ToString()
+                        ArticulosESt(idx).Tipo_Unidad = dtDatos.Rows(0).Item("Tipo_Unidad").ToString()
+                        ArticulosESt(idx).Cantidad_Unid_Caja = dtDatos.Rows(0).Item("Cantidad_Unid_Caja").ToString()
+                        ArticulosESt(idx).Peso_Unidad = dtDatos.Rows(0).Item("Peso_Unidad").ToString()
+                        ArticulosESt(idx).INHABILITAR = dtDatos.Rows(0).Item("INHABILITAR")
+                        ArticulosESt(idx).CodProdProveedor = dtDatos.Rows(0).Item("Cod_Prod_Proveedor").ToString()
 
-                        querybuilder.obtener_estructura(dfielddefConstantes.Producto.ToString(), esquema)
-                        Articulos.Obtener_Clave_Principal(ClavePrincipal)
-                        Articulos.Pasar_A_Coleccion(ArticulosESt, DatosEst, idx)
-                        querybuilder.ArmaUpdate(dfielddefConstantes.Producto.ToString(), esquema, DatosEst, ClavePrincipal, consulta)
+                        clsQueryBuilder.obtener_estructura(dfielddefConstantes.Producto.ToString(), esquema)
+                        clsArticulos.Obtener_Clave_Principal(ClavePrincipal)
+                        clsArticulos.Pasar_A_Coleccion(ArticulosESt, DatosEst, idx)
+                        clsQueryBuilder.ArmaUpdate(dfielddefConstantes.Producto.ToString(), esquema, DatosEst, ClavePrincipal, consulta)
                         tran.Add(consulta)
 
                         idx = idx + 1
@@ -162,23 +168,23 @@ Public Class frmEntradaMercaderia
             Else
                 ReDim EntradaSalidaMercEncESt(1)
                 'consulta = "select max(Id_Entrada_Salida) from Encabezado_Entrada_Salida_Mercaderia"
-                Articulos.ObtenerUltimoNumero(ultimo, dfielddefConstantes.Encabezado_Entrada_Salida_Mercaderia.ToString())
+                clsArticulos.ObtenerUltimoNumero(ultimo, dfielddefConstantes.Encabezado_Entrada_Salida_Mercaderia.ToString())
                 EntradaSalidaMercEncESt(1).Id_Entrada_Salida = ultimo
                 EntradaSalidaMercEncESt(1).Descripcion_Entrada_Salida = tbDescripcion.Text
                 EntradaSalidaMercEncESt(1).Fecha_Entrada_Salida = mtFecha.Text
                 EntradaSalidaMercEncESt(1).Tipo_Movimiento = "Egreso Mercaderias"
 
-                querybuilder.obtener_estructura(dfielddefConstantes.Encabezado_Entrada_Salida_Mercaderia.ToString(), esquema)
-                Articulos.Obtener_Clave_PrincipalEncabezadoEntradaSalidaMercaderia(ClavePrincipal)
-                Articulos.Pasar_A_ColeccionEncabezadoEntradaSalidaMercaderia(EntradaSalidaMercEncESt, DatosEst, 1)
-                querybuilder.ArmaInsert(dfielddefConstantes.Encabezado_Entrada_Salida_Mercaderia.ToString(), esquema, DatosEst, ClavePrincipal, consulta)
+                clsQueryBuilder.obtener_estructura(dfielddefConstantes.Encabezado_Entrada_Salida_Mercaderia.ToString(), esquema)
+                clsArticulos.Obtener_Clave_PrincipalEncabezadoEntradaSalidaMercaderia(ClavePrincipal)
+                clsArticulos.Pasar_A_ColeccionEncabezadoEntradaSalidaMercaderia(EntradaSalidaMercEncESt, DatosEst, 1)
+                clsQueryBuilder.ArmaInsert(dfielddefConstantes.Encabezado_Entrada_Salida_Mercaderia.ToString(), esquema, DatosEst, ClavePrincipal, consulta)
                 tran.Add(consulta)
                 consulta = ""
                 esquema.Clear()
                 ClavePrincipal.Clear()
                 DatosEst.Clear()
                 'consulta = "select max(Id_Cuerpo_Entrada_Salida) from Cuerpo_Entrada_Salida_Mercaderia"
-                Articulos.ObtenerUltimoNumero(ultimo, dfielddefConstantes.Cuerpo_Entrada_Salida_Mercaderia.ToString())
+                clsArticulos.ObtenerUltimoNumero(ultimo, dfielddefConstantes.Cuerpo_Entrada_Salida_Mercaderia.ToString())
                 idx = 1
                 jdx = ultimo
                 For i As Integer = 0 To dgvEntradaMercaderia.Rows.Count - 1
@@ -193,10 +199,10 @@ Public Class frmEntradaMercaderia
                         EntradaSalidaMercaderiaCuerpoESt(idx).Descripcion = dgvEntradaMercaderia.Rows(i).Cells("Descripcion").Value()
                         EntradaSalidaMercaderiaCuerpoESt(idx).CantidadUnidades = dgvEntradaMercaderia.Rows(i).Cells("UnidadesKilos").Value()
 
-                        querybuilder.obtener_estructura(dfielddefConstantes.Cuerpo_Entrada_Salida_Mercaderia.ToString(), esquema)
-                        Articulos.Obtener_Clave_PrincipalCuerpoEntradaSalidaMercaderia(ClavePrincipal)
-                        Articulos.Pasar_A_ColeccionCuerpoEntradaSalidaMercaderia(EntradaSalidaMercaderiaCuerpoESt, DatosEst, idx)
-                        querybuilder.ArmaInsert(dfielddefConstantes.Cuerpo_Entrada_Salida_Mercaderia.ToString(), esquema, DatosEst, ClavePrincipal, consulta)
+                        clsQueryBuilder.obtener_estructura(dfielddefConstantes.Cuerpo_Entrada_Salida_Mercaderia.ToString(), esquema)
+                        clsArticulos.Obtener_Clave_PrincipalCuerpoEntradaSalidaMercaderia(ClavePrincipal)
+                        clsArticulos.Pasar_A_ColeccionCuerpoEntradaSalidaMercaderia(EntradaSalidaMercaderiaCuerpoESt, DatosEst, idx)
+                        clsQueryBuilder.ArmaInsert(dfielddefConstantes.Cuerpo_Entrada_Salida_Mercaderia.ToString(), esquema, DatosEst, ClavePrincipal, consulta)
                         tran.Add(consulta)
 
                         consulta = ""
@@ -205,33 +211,33 @@ Public Class frmEntradaMercaderia
                         DatosEst.Clear()
 
                         'consulta = "select * from Producto    where Id_Producto= '" & (EntradaSalidaMercaderiaCuerpoESt(idx).Codigo_Producto) & "'"
-                        Articulos.recuperar_Datos_Producto_EntradaSalidaMercaderia(EntradaSalidaMercaderiaCuerpoESt(idx).Codigo_Producto, Datos)
+                        clsArticulos.recuperar_Datos_Producto_EntradaSalidaMercaderia(EntradaSalidaMercaderiaCuerpoESt(idx).Codigo_Producto, dtDatos)
 
                         ReDim ArticulosESt(idx)
-                        ArticulosESt(idx).Id_Producto = Datos.Rows(0).Item("Id_Producto").ToString()
-                        ArticulosESt(idx).Id_Rubro = Datos.Rows(0).Item("Id_Rubro").ToString()
-                        ArticulosESt(idx).Codigo_Barras = Datos.Rows(0).Item("Codigo_Barras").ToString()
-                        ArticulosESt(idx).Descripcion = Datos.Rows(0).Item("Descripcion").ToString()
-                        ArticulosESt(idx).Id_Proveedor = Datos.Rows(0).Item("Id_Proveedor").ToString()
-                        ArticulosESt(idx).Id_Tasa_IVA = Datos.Rows(0).Item("Id_Tasa_IVA").ToString()
-                        ArticulosESt(idx).Stock_Minimo = Datos.Rows(0).Item("Stock_Minimo").ToString()
+                        ArticulosESt(idx).Id_Producto = dtDatos.Rows(0).Item("Id_Producto").ToString()
+                        ArticulosESt(idx).Id_Rubro = dtDatos.Rows(0).Item("Id_Rubro").ToString()
+                        ArticulosESt(idx).Codigo_Barras = dtDatos.Rows(0).Item("Codigo_Barras").ToString()
+                        ArticulosESt(idx).Descripcion = dtDatos.Rows(0).Item("Descripcion").ToString()
+                        ArticulosESt(idx).Id_Proveedor = dtDatos.Rows(0).Item("Id_Proveedor").ToString()
+                        ArticulosESt(idx).Id_Tasa_IVA = dtDatos.Rows(0).Item("Id_Tasa_IVA").ToString()
+                        ArticulosESt(idx).Stock_Minimo = dtDatos.Rows(0).Item("Stock_Minimo").ToString()
 
                         If chbActualizarStockArticulos.Checked = True Then
-                            ArticulosESt(idx).Stock = Convert.ToString(Convert.ToDouble(Datos.Rows(0).Item("Stock") - Convert.ToDouble(EntradaSalidaMercaderiaCuerpoESt(idx).CantidadUnidades)))
+                            ArticulosESt(idx).Stock = Convert.ToString(Convert.ToDouble(dtDatos.Rows(0).Item("Stock") - Convert.ToDouble(EntradaSalidaMercaderiaCuerpoESt(idx).CantidadUnidades)))
                         Else
                             ArticulosESt(idx).Stock = Convert.ToString(Convert.ToDouble(EntradaSalidaMercaderiaCuerpoESt(idx).CantidadUnidades) * -1)
                         End If
-                        ArticulosESt(idx).Pesable = Datos.Rows(0).Item("Pesable").ToString()
-                        ArticulosESt(idx).Tipo_Unidad = Datos.Rows(0).Item("Tipo_Unidad").ToString()
-                        ArticulosESt(idx).Cantidad_Unid_Caja = Datos.Rows(0).Item("Cantidad_Unid_Caja").ToString()
-                        ArticulosESt(idx).Peso_Unidad = Datos.Rows(0).Item("Peso_Unidad").ToString()
-                        ArticulosESt(idx).INHABILITAR = Datos.Rows(0).Item("INHABILITAR")
-                        ArticulosESt(idx).CodProdProveedor = Datos.Rows(0).Item("Cod_Prod_Proveedor").ToString()
+                        ArticulosESt(idx).Pesable = dtDatos.Rows(0).Item("Pesable").ToString()
+                        ArticulosESt(idx).Tipo_Unidad = dtDatos.Rows(0).Item("Tipo_Unidad").ToString()
+                        ArticulosESt(idx).Cantidad_Unid_Caja = dtDatos.Rows(0).Item("Cantidad_Unid_Caja").ToString()
+                        ArticulosESt(idx).Peso_Unidad = dtDatos.Rows(0).Item("Peso_Unidad").ToString()
+                        ArticulosESt(idx).INHABILITAR = dtDatos.Rows(0).Item("INHABILITAR")
+                        ArticulosESt(idx).CodProdProveedor = dtDatos.Rows(0).Item("Cod_Prod_Proveedor").ToString()
 
-                        querybuilder.obtener_estructura(dfielddefConstantes.Producto.ToString(), esquema)
-                        Articulos.Obtener_Clave_Principal(ClavePrincipal)
-                        Articulos.Pasar_A_Coleccion(ArticulosESt, DatosEst, idx)
-                        querybuilder.ArmaUpdate(dfielddefConstantes.Producto.ToString(), esquema, DatosEst, ClavePrincipal, consulta)
+                        clsQueryBuilder.obtener_estructura(dfielddefConstantes.Producto.ToString(), esquema)
+                        clsArticulos.Obtener_Clave_Principal(ClavePrincipal)
+                        clsArticulos.Pasar_A_Coleccion(ArticulosESt, DatosEst, idx)
+                        clsQueryBuilder.ArmaUpdate(dfielddefConstantes.Producto.ToString(), esquema, DatosEst, ClavePrincipal, consulta)
                         tran.Add(consulta)
 
                         idx = idx + 1
@@ -245,7 +251,7 @@ Public Class frmEntradaMercaderia
                 MessageBox.Show("La Salida de Mercaderia se ha realizado, Correctamente!!!", "Informacion", MessageBoxButtons.OK, _
                                                             MessageBoxIcon.Information)
             End If
-            Transaccion.Operaciones_Tabla_Transaccion(tran)
+            clsTransaccion.Operaciones_Tabla_Transaccion(tran)
             tran.Clear()
             Limpiar_Estructuras()
             tbDescripcion.Text = String.Empty
@@ -361,13 +367,13 @@ Public Class frmEntradaMercaderia
     End Sub
     Public Sub completar(ByVal CodigoP As Integer, ByVal fila As Integer, ByVal columna As Integer)
         Dim consulta As String
-        Dim articulo As New Controlador.Articulos
-        Dim datos As New DataTable
-        Dim Proveedor As New Controlador.ContProveedor
+        'Dim articulo As New Controlador.clsArticulos
+        Dim dtdatos As New DataTable
+        'Dim Proveedor As New Controlador.clsContProveedor
         Dim Numero_Condicion_IVA_Proveedor As Integer
-        Dim Empresa As New Controlador.Empresas
+        'Dim Empresa As New Controlador.clsEmpresas
         Dim Numero_Condicion_IVA_Empresa As Integer
-        Dim FacturacionProveedor As New Controlador.FacturacionProveedor
+        'Dim clsFacturacionProveedor As New Controlador.clsFacturacionProveedor
         Dim tipoComprobante As String
         Dim ObtenerTasa As Double
         Try
@@ -379,24 +385,24 @@ Public Class frmEntradaMercaderia
             'consulta += " and ((P.Id_Producto ='" + Convert.ToString(CodigoP) + "'))  " & vbCrLf
             'consulta += " and EA.Id_Empresa='" + DatosEmpresa(0).Item("Id_Empresa") + "'  "
 
-            articulo.recuperar_Datos_Producto_EmpresaArticulo(Convert.ToString(CodigoP), DatosEmpresa(0).Item("Id_Empresa"), datos)
-            If datos.Rows.Count > 0 Then
-                dgvEntradaMercaderia.Item(enumerado.columnaTipoUnidad, fila).Value = datos.Rows(0).Item("Tipo_Unidad")
-                dgvEntradaMercaderia.Item(enumerado.ColumnaCodArticulo, fila).Value = datos.Rows(0).Item("Id_Producto")
-                dgvEntradaMercaderia.Item(enumerado.ColumnaDescripcionArt, fila).Value = datos.Rows(0).Item("Descripcion")
+            clsarticulo.recuperar_Datos_Producto_EmpresaArticulo(Convert.ToString(CodigoP), DatosEmpresa(0).Item("Id_Empresa"), dtdatos)
+            If dtdatos.Rows.Count > 0 Then
+                dgvEntradaMercaderia.Item(enumerado.columnaTipoUnidad, fila).Value = dtdatos.Rows(0).Item("Tipo_Unidad")
+                dgvEntradaMercaderia.Item(enumerado.ColumnaCodArticulo, fila).Value = dtdatos.Rows(0).Item("Id_Producto")
+                dgvEntradaMercaderia.Item(enumerado.ColumnaDescripcionArt, fila).Value = dtdatos.Rows(0).Item("Descripcion")
                 dgvEntradaMercaderia.Item(enumerado.ColumnaUnidKilos, fila).Value = "0"
-                dgvEntradaMercaderia.Item(enumerado.ColumnaCodBarras, fila).Value = datos.Rows(0).Item("Codigo_Barras")
+                dgvEntradaMercaderia.Item(enumerado.ColumnaCodBarras, fila).Value = dtdatos.Rows(0).Item("Codigo_Barras")
 
             Else
                 'articulo.CompId_Proveedor = Convert.ToInt32(txtCodigoProveedor.Text.Trim())
-                articulo.Compvariable_Articulo = dfielddefConstantes.EntradaSalidaMercaderias.ToString()
-                articulo.CompFila = fila
+                clsarticulo.Compvariable_Articulo = dfielddefConstantes.EntradaSalidaMercaderias.ToString()
+                clsarticulo.CompFila = fila
                 Dim frmAP = New Vista.frmArticulosProveedor()
                 frmAP.ShowDialog()
                 dgvEntradaMercaderia.EndEdit()
-                If articulo.CompId_Articulo <> "" Then
+                If clsarticulo.CompId_Articulo <> "" Then
                     Me.dgvEntradaMercaderia.CurrentCell = Me.dgvEntradaMercaderia(enumerado.ColumnaCodArticulo, fila)
-                    dgvEntradaMercaderia.Item(enumerado.ColumnaCodArticulo, fila).Value = articulo.CompId_Articulo
+                    dgvEntradaMercaderia.Item(enumerado.ColumnaCodArticulo, fila).Value = clsarticulo.CompId_Articulo
                 Else
                     If dgvEntradaMercaderia.Rows.Count > 0 Then
                         EliminarFila()
@@ -412,13 +418,13 @@ Public Class frmEntradaMercaderia
     End Sub
     Public Sub completar_Texto(ByVal DescripcionArticulo As String, ByVal fila As Integer, ByVal columna As Integer)
         Dim consulta As String
-        Dim articulo As New Controlador.Articulos
-        Dim datos As New DataTable
-        Dim Proveedor As New Controlador.ContProveedor
+        'Dim articulo As New Controlador.clsArticulos
+        Dim dtdatos As New DataTable
+        'Dim Proveedor As New Controlador.clsContProveedor
         Dim Numero_Condicion_IVA_Proveedor As Integer
-        Dim Empresa As New Controlador.Empresas
+        'Dim Empresa As New Controlador.clsEmpresas
         Dim Numero_Condicion_IVA_Empresa As Integer
-        Dim FacturacionProveedor As New Controlador.FacturacionProveedor
+        'Dim clsFacturacionProveedor As New Controlador.clsFacturacionProveedor
         Dim tipoComprobante As String
         Dim ObtenerTasa As Double
         Try
@@ -428,22 +434,22 @@ Public Class frmEntradaMercaderia
             'consulta += "  where(P.INHABILITAR = False)" & vbCrLf
             'consulta += "  and P.Descripcion = '" + (DescripcionArticulo) + "'" & vbCrLf
             'consulta += "  and EA.Id_Empresa='" + DatosEmpresa(0).Item("Id_Empresa") + "' " & vbCrLf
-            articulo.recuperar_Datos_Producto_EmpresaArticulo_Descripcion(DescripcionArticulo, DatosEmpresa(0).Item("Id_Empresa"), datos)
-            If datos.Rows.Count > 0 Then
-                dgvEntradaMercaderia.Item(enumerado.columnaTipoUnidad, fila).Value = datos.Rows(0).Item("Tipo_Unidad")
-                dgvEntradaMercaderia.Item(enumerado.ColumnaCodArticulo, fila).Value = datos.Rows(0).Item("Id_Producto")
-                dgvEntradaMercaderia.Item(enumerado.ColumnaDescripcionArt, fila).Value = datos.Rows(0).Item("Descripcion")
+            clsarticulo.recuperar_Datos_Producto_EmpresaArticulo_Descripcion(DescripcionArticulo, DatosEmpresa(0).Item("Id_Empresa"), dtdatos)
+            If dtdatos.Rows.Count > 0 Then
+                dgvEntradaMercaderia.Item(enumerado.columnaTipoUnidad, fila).Value = dtdatos.Rows(0).Item("Tipo_Unidad")
+                dgvEntradaMercaderia.Item(enumerado.ColumnaCodArticulo, fila).Value = dtdatos.Rows(0).Item("Id_Producto")
+                dgvEntradaMercaderia.Item(enumerado.ColumnaDescripcionArt, fila).Value = dtdatos.Rows(0).Item("Descripcion")
                 dgvEntradaMercaderia.Item(enumerado.ColumnaUnidKilos, fila).Value = "0"
-                dgvEntradaMercaderia.Item(enumerado.ColumnaCodBarras, fila).Value = datos.Rows(0).Item("Codigo_Barras")
+                dgvEntradaMercaderia.Item(enumerado.ColumnaCodBarras, fila).Value = dtdatos.Rows(0).Item("Codigo_Barras")
             Else
                 'articulo.CompId_Proveedor = Convert.ToInt32(txtCodigoProveedor.Text.Trim())
-                articulo.CompFila = fila
+                clsarticulo.CompFila = fila
                 Dim frmAP = New Vista.frmArticulosProveedor()
                 frmAP.ShowDialog()
                 dgvEntradaMercaderia.EndEdit()
-                If articulo.CompDescripcion <> "" Then
-                    dgvEntradaMercaderia.Item(enumerado.ColumnaDescripcionArt, fila).Value = articulo.CompDescripcion
-                    DescripcionArticulo = articulo.CompDescripcion
+                If clsarticulo.CompDescripcion <> "" Then
+                    dgvEntradaMercaderia.Item(enumerado.ColumnaDescripcionArt, fila).Value = clsarticulo.CompDescripcion
+                    DescripcionArticulo = clsarticulo.CompDescripcion
                 Else
                     If dgvEntradaMercaderia.Rows.Count > 0 Then
                         EliminarFila()
@@ -471,12 +477,12 @@ Public Class frmEntradaMercaderia
     End Sub
     Public Sub New()
         Dim consulta As String
-        Dim Empresa As New Empresas()
-        Dim Configuracion As New Controlador.Configuracion
+        'Dim Empresa As New clsEmpresas()
+        'Dim clsConfiguracion As New Controlador.clsConfiguracion
         'consulta = "select * from Empresa where Id_Empresa= '" + (Empresa.Compvariable) + "'"
-        Empresa.Obtener_Empresa(Empresa.Compvariable, DatosEmpresa)
+        clsEmpresa.Obtener_Empresa(clsEmpresa.Compvariable, DatosEmpresa)
         'consulta = "Select * from Configuracion"
-        Configuracion.Obtener_Datos_Configuracion(Datos_Configuracion)
+        clsConfiguracion.Obtener_Datos_Configuracion(Datos_Configuracion)
         ' Llamada necesaria para el Diseñador de Windows Forms.
         InitializeComponent()
         If dgvEntradaMercaderia.Rows.Count = 0 Then

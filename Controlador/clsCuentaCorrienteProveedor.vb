@@ -1,14 +1,13 @@
 ﻿Imports System.Windows.Forms
 Imports Modelo
-Public Class CuentaCorriente
-    Public session As New Controlador.Session()
+Public Class clsCuentaCorrienteProveedor
+    Public session As New Controlador.clsSession()
     Private Shared variable As String
     Private Shared CantidadUnidades As Integer
     Private Shared Datos As DataTable
     Private Shared DataGrid As DataGridView
     Private Shared TipoComprobante As String
-
-    Public Structure eCuentaCorriente
+    Public Structure eCuentaCorrienteProveedor
         Public Id_CuentaCorriente As String
         Public PuntoVenta As String
         Public TipoComprobante As String
@@ -81,6 +80,7 @@ Public Class CuentaCorriente
             es_Vacio = True
         Else
             es_Vacio = False
+
         End If
     End Function
     Public Function es_Numero(ByVal valor As String) As Boolean
@@ -100,6 +100,7 @@ Public Class CuentaCorriente
         conectar.srt_conexion = session.Session.CadenaConeccion
         datos = conectar.consulta_reader(consulta)
     End Sub
+
     Public Sub se_Cargo(ByVal consulta As String, ByRef existe As Boolean)
         Dim conectar As New coneccion()
         conectar.srt_conexion = session.Session.CadenaConeccion
@@ -108,7 +109,7 @@ Public Class CuentaCorriente
     Public Sub obtenerTasa(ByVal valor As String, ByRef tasa As Double)
         tasa = (CDbl(valor) / 100) + 1
     End Sub
-    Public Sub Pasar_A_Coleccion(ByVal CuentaCorriente_estructura() As eCuentaCorriente, ByRef datos As Collection, ByVal i As Integer)
+    Public Sub Pasar_A_Coleccion(ByVal CuentaCorriente_estructura() As eCuentaCorrienteProveedor, ByRef datos As Collection, ByVal i As Integer)
         datos.Add(CuentaCorriente_estructura(i).Id_CuentaCorriente)
         datos.Add(CuentaCorriente_estructura(i).PuntoVenta)
         datos.Add(CuentaCorriente_estructura(i).TipoComprobante)
@@ -129,7 +130,7 @@ Public Class CuentaCorriente
         Dim datos As New DataTable
         Dim consulta As String
         conectar.srt_conexion = session.Session.CadenaConeccion
-        consulta = "Select Max(IdCuentaCorriente) as Maximo from CuentaCorriente"
+        consulta = "Select Max(IdCuentaCorriente) as Maximo from CuentaCorriente_Proveedor"
         datos = conectar.consulta_reader(consulta)
         If DBNull.Value.Equals(datos.Rows(0).Item(0)) Then
             Ultimo = 1

@@ -1,7 +1,7 @@
 ﻿Imports Modelo
 Imports System.Windows.Forms
-Public Class Lista_Precios
-    Public session As New Controlador.Session()
+Public Class clsLista_Precios
+    Public session As New Controlador.clsSession()
     Public Structure eListaPrecio
         Public Id_Lista_Precio As Integer
         Public Descripcion As String
@@ -56,7 +56,7 @@ Public Class Lista_Precios
         PasarDatosListaPrecioAEstructura(datos, datosListaPrecio)
     End Sub
     Private Sub PasarDatosListaPrecioAEstructura(ByVal datos As DataTable, ByRef datosListaPrecio As eListaPrecio)
-        Dim dfielddefListaPrecio As Controlador.DfieldDef.eListaPrecio
+        Dim dfielddefListaPrecio As Controlador.clsDfieldDef.eListaPrecio
         datosListaPrecio.Id_Lista_Precio = datos.Rows(0).Item(dfielddefListaPrecio.Id_Lista_Precio)
         datosListaPrecio.Descripcion = datos.Rows(0).Item(dfielddefListaPrecio.Descripcion)
     End Sub

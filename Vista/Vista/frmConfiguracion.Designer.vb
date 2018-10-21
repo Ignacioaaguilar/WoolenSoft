@@ -331,7 +331,7 @@ Partial Class frmConfiguracion
         Me.StyleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Blue
         Me.StyleManager1.MetroColorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(87, Byte), Integer), CType(CType(154, Byte), Integer)))
         '
-        'Configuracion
+        'frmConfiguracion
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -343,7 +343,7 @@ Partial Class frmConfiguracion
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "Configuracion"
+        Me.Name = "frmConfiguracion"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Configuracion"
         Me.ToolStrip1.ResumeLayout(False)

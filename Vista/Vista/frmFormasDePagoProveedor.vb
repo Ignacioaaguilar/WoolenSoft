@@ -1,44 +1,52 @@
 ﻿Imports Controlador
 
 Public Class frmFormasDePagoProveedor
-    Dim FactEncESt(0) As Controlador.FacturacionProveedor.eEncabezadoFacturaProveedor
-    Dim FactCuerpoESt(0) As Controlador.FacturacionProveedor.eCuerpoFacturaProveedor
-    Dim ArticulosEStFact(0) As Controlador.Articulos.eArticulo
+    Dim FactEncESt(0) As Controlador.clsFacturacionProveedor.eEncabezadoFacturaProveedor
+    Dim FactCuerpoESt(0) As Controlador.clsFacturacionProveedor.eCuerpoFacturaProveedor
+    Dim ArticulosEStFact(0) As Controlador.clsArticulos.eArticulo
     'Dim Numero_ComprobanteEStFact(0) As Controlador.NumeroComprobante.eNumeracionComprobante
-    Dim dfielddefConstantes As Controlador.DfieldDef.eConstantes
-    Dim FomasdePagoEfectivo(0) As Controlador.ImputacionesProveedor.eCajaProveedor
-    Dim FomasdePagoCuentaCorriente(0) As Controlador.CuentaCorrienteProveedor.eCuentaCorrienteProveedor
-    Dim formaPago As New Controlador.FormasDePago
+    Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
+    Dim FomasdePagoEfectivo(0) As Controlador.clsImputacionesProveedor.eCajaProveedor
+    Dim FomasdePagoCuentaCorriente(0) As Controlador.clsCuentaCorrienteProveedor.eCuentaCorrienteProveedor
+    Dim formaPago As New Controlador.clsFormasDePago
     Dim tran As New Collection
-    Dim Session As New Controlador.Session
-    Public Sub New(ByVal FacturacionProveedor_Enc_estructura() As Controlador.FacturacionProveedor.eEncabezadoFacturaProveedor, ByVal FacturacionProveedor_Cuerpo_estructura() As Controlador.FacturacionProveedor.eCuerpoFacturaProveedor, ByVal Articulos_Estructura() As Controlador.Articulos.eArticulo)
+    Dim Session As New Controlador.clsSession
+    Dim clsQueryBuilder As New Controlador.clsQueryBuilder
+    Dim clsFacturacionProveedor As New Controlador.clsFacturacionProveedor
+    Dim clsEmpresa As New Controlador.clsEmpresas
+    Dim clsCliente As New Controlador.clsCliente
+    Dim clsArticulo As New Controlador.clsArticulos
+    Dim clsCaja As New Controlador.clsImputacionesProveedor
+    Dim clsCuentaCorrienteProveedor As New Controlador.clsCuentaCorrienteProveedor
+    Dim clsTransaccion As New Controlador.clsTransacciones
+    Public Sub New(ByVal FacturacionProveedor_Enc_estructura() As Controlador.clsFacturacionProveedor.eEncabezadoFacturaProveedor, ByVal FacturacionProveedor_Cuerpo_estructura() As Controlador.clsFacturacionProveedor.eCuerpoFacturaProveedor, ByVal Articulos_Estructura() As Controlador.clsArticulos.eArticulo)
         FactEncESt = FacturacionProveedor_Enc_estructura
         FactCuerpoESt = FacturacionProveedor_Cuerpo_estructura
         ArticulosEStFact = Articulos_Estructura
         InitializeComponent()
     End Sub
     Private Sub Guardar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGuardar.Click
-        Dim querybuilder As New Controlador.QueryBuilder
+        'Dim clsQueryBuilder As New Controlador.clsQueryBuilder
         Dim esquema As New Collection
         Dim consulta As String
         Dim datos As New Collection
         Dim ClavePrincipal As New Collection
-        Dim FacturacionProveedor As New Controlador.FacturacionProveedor
+        'Dim clsFacturacionProveedor As New Controlador.clsFacturacionProveedor
         'Dim NumeroComprobante As New Controlador.NumeroComprobante
-        Dim datosDataTable As New DataTable
+        Dim dtdatosDataTable As New DataTable
         Dim tipocomprobante As String
         Dim Numero_Condicion_IVA_Empresa As Integer
-        Dim Empresa As New Controlador.Empresas
+        'Dim Empresa As New Controlador.clsEmpresas
         Dim Numero_Condicion_IVA_Cliente As Integer
-        Dim Cliente As New Controlador.Cliente
-        Dim Articulo As New Controlador.Articulos
-        Dim Caja As New Controlador.ImputacionesProveedor
-        Dim CuentaCorrienteProveedor As New Controlador.CuentaCorrienteProveedor
+        'Dim clsCliente As New Controlador.clsCliente
+        'Dim Articulo As New Controlador.clsArticulos
+        'Dim Caja As New Controlador.clsImputacionesProveedor
+        'Dim clsCuentaCorrienteProveedor As New Controlador.clsCuentaCorrienteProveedor
         Dim i As Integer
         Dim ultimo As Integer
         Dim UltimoCaja As Integer
         Dim UltimoCuentaCorriente As Integer
-        Dim Transaccion As New Controlador.Transacciones
+        'Dim Transaccion As New Controlador.clsTransacciones
         Dim idx As Integer
         Try
             If (rbContado.Checked = True) Or (rbcc.Checked = True) Then
@@ -47,22 +55,22 @@ Public Class frmFormasDePagoProveedor
                 ElseIf (rbcc.Checked = True) Then
                     FactEncESt(1).Forma_Pago = dfielddefConstantes.CuentaCorriente.ToString()
                 End If
-                querybuilder.obtener_estructura(dfielddefConstantes.Encabezado_Factura_Proveedor.ToString(), esquema)
-                FacturacionProveedor.Obtener_Clave_Principal_Encabezado_Factura_Proveedor(ClavePrincipal)
-                FacturacionProveedor.Pasar_A_Coleccion_Encabezado_Factura_Proveedor(FactEncESt, datos, 1)
-                querybuilder.ArmaInsert(dfielddefConstantes.Encabezado_Factura_Proveedor.ToString(), esquema, datos, ClavePrincipal, consulta)
+                clsQueryBuilder.obtener_estructura(dfielddefConstantes.Encabezado_Factura_Proveedor.ToString(), esquema)
+                clsFacturacionProveedor.Obtener_Clave_Principal_Encabezado_Factura_Proveedor(ClavePrincipal)
+                clsFacturacionProveedor.Pasar_A_Coleccion_Encabezado_Factura_Proveedor(FactEncESt, datos, 1)
+                clsQueryBuilder.ArmaInsert(dfielddefConstantes.Encabezado_Factura_Proveedor.ToString(), esquema, datos, ClavePrincipal, consulta)
                 tran.Add(consulta)
                 esquema.Clear()
                 datos.Clear()
                 ClavePrincipal.Clear()
-                querybuilder.obtener_estructura(dfielddefConstantes.Cuerpo_Factura_Proveedor.ToString(), esquema)
-                FacturacionProveedor.Obtener_Clave_Principal_Cuerpo_Factura_Proveedor(ClavePrincipal)
+                clsQueryBuilder.obtener_estructura(dfielddefConstantes.Cuerpo_Factura_Proveedor.ToString(), esquema)
+                clsFacturacionProveedor.Obtener_Clave_Principal_Cuerpo_Factura_Proveedor(ClavePrincipal)
                 For i = 1 To FactCuerpoESt.Count - 1
                     'consulta = "Select Max(IdCuerpoFactura) as Maximo from " + dfielddefConstantes.Cuerpo_Factura_Proveedor.ToString() + ""
-                    FacturacionProveedor.ObtenerUltimoNumeroCuerpoFacturaProveedor(ultimo)
+                    clsFacturacionProveedor.ObtenerUltimoNumeroCuerpoFacturaProveedor(ultimo)
                     FactCuerpoESt(i).IdCuerpoFactura = ultimo
-                    FacturacionProveedor.Pasar_A_Coleccion_Cuerpo_Factura_Proveedor(FactCuerpoESt, datos, i)
-                    querybuilder.ArmaInsert(dfielddefConstantes.Cuerpo_Factura_Proveedor.ToString(), esquema, datos, ClavePrincipal, consulta)
+                    clsFacturacionProveedor.Pasar_A_Coleccion_Cuerpo_Factura_Proveedor(FactCuerpoESt, datos, i)
+                    clsQueryBuilder.ArmaInsert(dfielddefConstantes.Cuerpo_Factura_Proveedor.ToString(), esquema, datos, ClavePrincipal, consulta)
                     tran.Add(consulta)
                     consulta = ""
                     datos.Clear()
@@ -79,7 +87,7 @@ Public Class frmFormasDePagoProveedor
                 ClavePrincipal.Clear()
                 If (rbContado.Checked = True) Then
                     'consulta = "Select Max(IdCaja) as Maximo from " + dfielddefConstantes.Imputaciones_Proveedor.ToString() + ""
-                    Caja.ObtenerUltimoNumeroCaja(UltimoCaja)
+                    clsCaja.ObtenerUltimoNumeroCaja(UltimoCaja)
                     ReDim FomasdePagoEfectivo(1)
                     FomasdePagoEfectivo(1).Id_Caja = UltimoCaja
                     FomasdePagoEfectivo(1).PuntoVenta = FactEncESt(1).Punto_Venta
@@ -104,14 +112,14 @@ Public Class frmFormasDePagoProveedor
                         FomasdePagoEfectivo(1).Signo = "-1"
                     End If
                     FomasdePagoEfectivo(1).NroPuesto = Session.Session.NroPuesto
-                    querybuilder.obtener_estructura(dfielddefConstantes.Imputaciones_Proveedor.ToString(), esquema)
-                    Caja.Obtener_Clave_Principal(ClavePrincipal)
-                    Caja.Pasar_A_Coleccion(FomasdePagoEfectivo, datos, 1)
-                    querybuilder.ArmaInsert(dfielddefConstantes.Imputaciones_Proveedor.ToString(), esquema, datos, ClavePrincipal, consulta)
+                    clsQueryBuilder.obtener_estructura(dfielddefConstantes.Imputaciones_Proveedor.ToString(), esquema)
+                    clsCaja.Obtener_Clave_Principal(ClavePrincipal)
+                    clsCaja.Pasar_A_Coleccion(FomasdePagoEfectivo, datos, 1)
+                    clsQueryBuilder.ArmaInsert(dfielddefConstantes.Imputaciones_Proveedor.ToString(), esquema, datos, ClavePrincipal, consulta)
                     tran.Add(consulta)
                 ElseIf (rbcc.Checked = True) Then
                     'consulta = "Select Max(IdCuentaCorriente) as Maximo from " + dfielddefConstantes.CuentaCorriente_Proveedor.ToString() + ""
-                    CuentaCorrienteProveedor.ObtenerUltimoNumeroCuentaCorriente(UltimoCuentaCorriente)
+                    clsCuentaCorrienteProveedor.ObtenerUltimoNumeroCuentaCorriente(UltimoCuentaCorriente)
                     ReDim FomasdePagoCuentaCorriente(1)
                     FomasdePagoCuentaCorriente(1).Id_CuentaCorriente = UltimoCuentaCorriente
                     FomasdePagoCuentaCorriente(1).PuntoVenta = FactEncESt(1).Punto_Venta
@@ -135,13 +143,13 @@ Public Class frmFormasDePagoProveedor
                         FomasdePagoCuentaCorriente(1).Signo = "-1"
                     End If
                     FomasdePagoCuentaCorriente(1).NroPuesto = Session.Session.NroPuesto
-                    querybuilder.obtener_estructura(dfielddefConstantes.CuentaCorriente_Proveedor.ToString(), esquema)
-                    CuentaCorrienteProveedor.Obtener_Clave_Principal(ClavePrincipal)
-                    CuentaCorrienteProveedor.Pasar_A_Coleccion(FomasdePagoCuentaCorriente, datos, 1)
-                    querybuilder.ArmaInsert(dfielddefConstantes.CuentaCorriente_Proveedor.ToString(), esquema, datos, ClavePrincipal, consulta)
+                    clsQueryBuilder.obtener_estructura(dfielddefConstantes.CuentaCorriente_Proveedor.ToString(), esquema)
+                    clsCuentaCorrienteProveedor.Obtener_Clave_Principal(ClavePrincipal)
+                    clsCuentaCorrienteProveedor.Pasar_A_Coleccion(FomasdePagoCuentaCorriente, datos, 1)
+                    clsQueryBuilder.ArmaInsert(dfielddefConstantes.CuentaCorriente_Proveedor.ToString(), esquema, datos, ClavePrincipal, consulta)
                     tran.Add(consulta)
                 End If
-                Transaccion.Operaciones_Tabla_Transaccion(tran)
+                clsTransaccion.Operaciones_Tabla_Transaccion(tran)
                 tran.Clear()
                 MessageBox.Show("El Comprobante, se ha agregado Correctamente!!!", "Informacion", MessageBoxButtons.OK, _
                                  MessageBoxIcon.Information)

@@ -1,21 +1,34 @@
 ﻿Imports Controlador
 Public Class frmNotaCreditoProveedores
-    Dim dfielddefProveedor As Controlador.DfieldDef.eProveedor
-    Dim dfielddefEmpresa As Controlador.DfieldDef.eEmpresa
-    Dim dfielddefConstantes As Controlador.DfieldDef.eConstantes
-    Dim dfieldefConfiguracion As Controlador.DfieldDef.eConfiguracion
+    Dim dfielddefProveedor As Controlador.clsDfieldDef.eProveedor
+    Dim dfielddefEmpresa As Controlador.clsDfieldDef.eEmpresa
+    Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
+    Dim dfieldefConfiguracion As Controlador.clsDfieldDef.eConfiguracion
     Dim Responsabilidad_IVA_Empresa As String
     Dim caracteres As String = ""
-    Dim Datos_Configuracion As Controlador.Configuracion.eConfiguracion
-    Dim DatosEmpresa As New DataTable
-    Public NotaCreditoProveedor_Enc_estructura(0) As Controlador.FacturacionProveedor.eEncabezadoFacturaProveedor
-    Public NotaCreditoProveedor_Cuerpo_estructura(0) As Controlador.FacturacionProveedor.eCuerpoFacturaProveedor
-    Public Articulos_Estructura(0) As Controlador.Articulos.eArticulo
-    Dim dfielddefArticuloListaPrecio As Controlador.DfieldDef.eArticuloCuerpoDocumento
-    Dim dfielddefConfiguracion As Controlador.DfieldDef.eConfiguracion
-    Dim dfielddefListaPrecio As Controlador.DfieldDef.eListaPrecio
-    Dim dfielddefCliente As Controlador.DfieldDef.eCliente
-    Dim dfielddecNumeroComprobantea As Controlador.DfieldDef.eNumeroComprobante
+    Dim eDatos_Configuracion As Controlador.clsConfiguracion.eConfiguracion
+    Dim dtDatosEmpresa As New DataTable
+    Public eNotaCreditoProveedor_Enc_estructura(0) As Controlador.clsFacturacionProveedor.eEncabezadoFacturaProveedor
+    Public eNotaCreditoProveedor_Cuerpo_estructura(0) As Controlador.clsFacturacionProveedor.eCuerpoFacturaProveedor
+    Public eArticulos_Estructura(0) As Controlador.clsArticulos.eArticulo
+    Dim dfielddefArticuloListaPrecio As Controlador.clsDfieldDef.eArticuloCuerpoDocumento
+    Dim dfielddefConfiguracion As Controlador.clsDfieldDef.eConfiguracion
+    Dim dfielddefListaPrecio As Controlador.clsDfieldDef.eListaPrecio
+    Dim dfielddefCliente As Controlador.clsDfieldDef.eCliente
+    Dim dfielddecNumeroComprobantea As Controlador.clsDfieldDef.eNumeroComprobante
+    Dim clsProveedor As New Controlador.clsContProveedor()
+    Dim clsEmpresa As New clsEmpresas()
+    Dim clsNotaCreditoProveedor As New Controlador.clsFacturacionProveedor()
+    Dim clsNumeroComprobante As New Controlador.clsNumeroComprobante()
+    Dim eDatoTipoComprobante As Controlador.clsFacturacionProveedor.eTipoComprobante
+    Dim clsConfiguracion As New Controlador.clsConfiguracion
+    Dim clsContProveedor As New Controlador.clsContProveedor
+    Dim clsarticulo As New Controlador.clsArticulos
+    Dim clsFacturacionProveedor As New Controlador.clsFacturacionProveedor
+    Dim eNumero_Condicion_IVA_Proveedor As Controlador.clsCliente.eCondicion_Frente_Al_Iva
+    Dim clsCliente As New Controlador.clsCliente
+    Dim clsformaPago As New Controlador.clsFormasDePago
+
     Enum enumerado
         columnaTipoUnidad = 1
         ColumnaCProdProv = 2
@@ -26,13 +39,13 @@ Public Class frmNotaCreditoProveedores
         ColumnaImporte = 7
     End Enum
     Private Sub txtCodigoProveedor_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtCodigoProveedor.TextChanged
-        Dim Proveedor As New Controlador.ContProveedor()
-        Dim Empresa As New Empresas()
-        Dim NotaCreditoProveedor As New Controlador.FacturacionProveedor()
-        Dim NumeroComprobante As New Controlador.NumeroComprobante()
+        'Dim Proveedor As New Controlador.clsContProveedor()
+        'Dim Empresa As New clsEmpresas()
+        'Dim NotaCreditoProveedor As New Controlador.clsFacturacionProveedor()
+        'Dim clsNumeroComprobante As New Controlador.clsNumeroComprobante()
         Dim consulta As String
-        Dim datos As New DataTable
-        Dim DatoTipoComprobante As Controlador.FacturacionProveedor.eTipoComprobante
+        Dim dtdatos As New DataTable
+        'Dim DatoTipoComprobante As Controlador.clsFacturacionProveedor.eTipoComprobante
         Dim Numero_Condicion_IVA_Proveedor As Integer
         Dim Numero_Condicion_IVA_Empresa As Integer
         Dim Numero_Sucursal As String
@@ -42,30 +55,30 @@ Public Class frmNotaCreditoProveedores
         Dim nuComprobante As Integer
         Dim existe As Boolean
         Try
-            If Not (Proveedor.es_Numero(txtCodigoProveedor.Text)) Then
+            If Not (clsProveedor.es_Numero(txtCodigoProveedor.Text)) Then
                 txtCodigoProveedor.Text = String.Empty
             ElseIf txtCodigoProveedor.Text <> "" Then
                 'consulta = "Select * from Proveedor where Id_Proveedor=" & Convert.ToInt32(txtCodigoProveedor.Text) & ""
-                Proveedor.Validar_Proveedor(Convert.ToInt32(txtCodigoProveedor.Text), existe)
-                Proveedor.ObtenerConsulta(Convert.ToInt32(txtCodigoProveedor.Text), datos)
+                clsProveedor.Validar_Proveedor(Convert.ToInt32(txtCodigoProveedor.Text), existe)
+                clsProveedor.ObtenerConsulta(Convert.ToInt32(txtCodigoProveedor.Text), dtdatos)
                 'consulta = "select * from Empresa where Id_Empresa= '" + (Empresa.Compvariable) + "'"
-                Empresa.Obtener_Empresa(Empresa.Compvariable, DatosEmpresa)
-                Responsabilidad_IVA_Empresa = DatosEmpresa.Rows(0).Item(dfielddefEmpresa.Responsabilidad_IVA).ToString()
+                clsEmpresa.Obtener_Empresa(clsEmpresa.Compvariable, dtDatosEmpresa)
+                Responsabilidad_IVA_Empresa = dtDatosEmpresa.Rows(0).Item(dfielddefEmpresa.Responsabilidad_IVA).ToString()
                 If existe Then
                     lblCodN.Visible = True
-                    NotaCreditoProveedor.Limpiar_Datos_Comprobante_Proveedor(dgvNotaCreditoProveedor, txtSubTotal, txtDescuento, txtIVa, txtTotal, txtRazonSocial, txtDireccion, txtCelular, txtTelefono, txtCondIva, txtMail, txtLimiteCC, txtCodigoPostal, lblTipoComprobante, lblIdComprobante)
-                    txtRazonSocial.Text = datos.Rows(0).Item(dfielddefProveedor.Razon_Social).ToString()
-                    txtDireccion.Text = datos.Rows(0).Item(dfielddefProveedor.Calle).ToString() + " " + datos.Rows(0).Item(dfielddefProveedor.Piso).ToString() + " " + datos.Rows(0).Item(dfielddefProveedor.Nro).ToString()
-                    txtCelular.Text = datos.Rows(0).Item(dfielddefProveedor.Celular).ToString()
-                    txtTelefono.Text = datos.Rows(0).Item(dfielddefProveedor.Telefono).ToString()
-                    txtCondIva.Text = datos.Rows(0).Item(dfielddefProveedor.Responsabilidad_IVA).ToString()
-                    txtMail.Text = datos.Rows(0).Item(dfielddefProveedor.E_Mail).ToString()
-                    txtLimiteCC.Text = datos.Rows(0).Item(dfielddefProveedor.Saldo_CC).ToString()
-                    txtCodigoPostal.Text = datos.Rows(0).Item(dfielddefProveedor.Codigo_Postal).ToString()
+                    clsNotaCreditoProveedor.Limpiar_Datos_Comprobante_Proveedor(dgvNotaCreditoProveedor, txtSubTotal, txtDescuento, txtIVa, txtTotal, txtRazonSocial, txtDireccion, txtCelular, txtTelefono, txtCondIva, txtMail, txtLimiteCC, txtCodigoPostal, lblTipoComprobante, lblIdComprobante)
+                    txtRazonSocial.Text = dtdatos.Rows(0).Item(dfielddefProveedor.Razon_Social).ToString()
+                    txtDireccion.Text = dtdatos.Rows(0).Item(dfielddefProveedor.Calle).ToString() + " " + dtdatos.Rows(0).Item(dfielddefProveedor.Piso).ToString() + " " + dtdatos.Rows(0).Item(dfielddefProveedor.Nro).ToString()
+                    txtCelular.Text = dtdatos.Rows(0).Item(dfielddefProveedor.Celular).ToString()
+                    txtTelefono.Text = dtdatos.Rows(0).Item(dfielddefProveedor.Telefono).ToString()
+                    txtCondIva.Text = dtdatos.Rows(0).Item(dfielddefProveedor.Responsabilidad_IVA).ToString()
+                    txtMail.Text = dtdatos.Rows(0).Item(dfielddefProveedor.E_Mail).ToString()
+                    txtLimiteCC.Text = dtdatos.Rows(0).Item(dfielddefProveedor.Saldo_CC).ToString()
+                    txtCodigoPostal.Text = dtdatos.Rows(0).Item(dfielddefProveedor.Codigo_Postal).ToString()
                     'consulta = "select Id_Condicion_IVA from Condicion_Frente_Al_IVA where Condicion_Frente_Al_IVA.Descripcion= '" & (txtCondIva.Text) & "' "
-                    Proveedor.Obtener_CondicionFrenteAIVa(txtCondIva.Text, Numero_Condicion_IVA_Proveedor)
+                    clsProveedor.Obtener_CondicionFrenteAIVa(txtCondIva.Text, Numero_Condicion_IVA_Proveedor)
                     'consulta = "select Id_Condicion_IVA from Condicion_Frente_Al_IVA where Condicion_Frente_Al_IVA.Descripcion= '" & (Responsabilidad_IVA_Empresa) & "' "
-                    Empresa.Obtener_Responsabilidad_IVA_Empresa(Responsabilidad_IVA_Empresa, Numero_Condicion_IVA_Empresa)
+                    clsEmpresa.Obtener_Responsabilidad_IVA_Empresa(Responsabilidad_IVA_Empresa, Numero_Condicion_IVA_Empresa)
 
                     'consulta = " Select TC.IdTipoComprobante,TC.Descripcion" & vbCrLf
                     'consulta += " from (Tipos_Comprobantes as TC" & vbCrLf
@@ -75,14 +88,14 @@ Public Class frmNotaCreditoProveedores
                     'consulta += " and (C.IdComprobantes)=TC.IdTipoComprobante" & vbCrLf
                     'consulta += " and TC.IdTipoComprobante in ('3','8','13')"
 
-                    NotaCreditoProveedor.Obtener_Datos_Comprobante_Proveedor(Numero_Condicion_IVA_Proveedor, Numero_Condicion_IVA_Empresa, dfielddefConstantes.Nota_De_Credito.ToString(), DatoTipoComprobante)
+                    clsNotaCreditoProveedor.Obtener_Datos_Comprobante_Proveedor(Numero_Condicion_IVA_Proveedor, Numero_Condicion_IVA_Empresa, dfielddefConstantes.Nota_De_Credito.ToString(), eDatoTipoComprobante)
                     'tipoComprobante = datos.Rows(0).Item("Descripcion")
-                    lblTipoComprobante.Text = DatoTipoComprobante.Descripcion
+                    lblTipoComprobante.Text = eDatoTipoComprobante.Descripcion
                     'IDComprobante = datos.Rows(0).Item("IdTipoComprobante")
 
-                    lblIdComprobante.Text = Convert.ToString(DatoTipoComprobante.IdTipoComprobante).PadLeft(2, "0")
+                    lblIdComprobante.Text = Convert.ToString(eDatoTipoComprobante.IdTipoComprobante).PadLeft(2, "0")
 
-                    If DatoTipoComprobante.Descripcion = "NOTA DE CREDITO A" Then ' muestra o no el total iva
+                    If eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO A" Then ' muestra o no el total iva
                         Label2.Enabled = True
                         txtIVa.Enabled = True
                     Else
@@ -97,7 +110,7 @@ Public Class frmNotaCreditoProveedores
                     MessageBox.Show("El Proveedor seleccionado no ha sido cargado, Ingreselo al Sistema!!!", "Informacion", MessageBoxButtons.OK, _
                                                          MessageBoxIcon.Information)
                     LimpiarEstructuras()
-                    NotaCreditoProveedor.Limpiar_Datos_Comprobante_Proveedor(dgvNotaCreditoProveedor, txtSubTotal, txtDescuento, txtIVa, txtTotal, txtRazonSocial, txtDireccion, txtCelular, txtTelefono, txtCondIva, txtMail, txtLimiteCC, txtCodigoPostal, lblTipoComprobante, lblIdComprobante)
+                    clsNotaCreditoProveedor.Limpiar_Datos_Comprobante_Proveedor(dgvNotaCreditoProveedor, txtSubTotal, txtDescuento, txtIVa, txtTotal, txtRazonSocial, txtDireccion, txtCelular, txtTelefono, txtCondIva, txtMail, txtLimiteCC, txtCodigoPostal, lblTipoComprobante, lblIdComprobante)
                     txtCodigoProveedor.Text = ""
                     lblCodN.Visible = False
                     If dgvNotaCreditoProveedor.Rows.Count = 0 Then
@@ -110,12 +123,12 @@ Public Class frmNotaCreditoProveedores
         End Try
     End Sub
     Private Sub FacturacionProveedor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim Empresa As New Controlador.Empresas()
+        'Dim Empresa As New Controlador.clsEmpresas()
         Dim Consulta As String
-        Dim Configuracion As New Controlador.Configuracion
-        Dim Lista_Precio As New Controlador.Lista_Precios
+        'Dim clsConfiguracion As New Controlador.clsConfiguracion
+        'Dim Lista_Precio As New Controlador.clsLista_Precios
         Dim puerto As Integer
-        Dim proveedor As New Controlador.ContProveedor()
+        'Dim proveedor As New Controlador.clsContProveedor()
         Try
             mtFecha.Text = Date.Now
             lblCodN.Visible = False
@@ -123,20 +136,20 @@ Public Class frmNotaCreditoProveedores
                 lblCodN.Visible = True
             End If
             'Consulta = "Select * from Configuracion"
-            Configuracion.Obtener_Datos_Configuracion(Datos_Configuracion)
-            If proveedor.CompvariableProveedores = dfielddefConstantes.NotaCreditoProveedor.ToString() Then
-                txtCodigoProveedor.Text = proveedor.CompCodigo
-                proveedor.CompCodigo = Nothing
-                proveedor.CompvariableProveedores = Nothing
+            clsConfiguracion.Obtener_Datos_Configuracion(eDatos_Configuracion)
+            If clsProveedor.CompvariableProveedores = dfielddefConstantes.NotaCreditoProveedor.ToString() Then
+                txtCodigoProveedor.Text = clsProveedor.CompCodigo
+                clsProveedor.CompCodigo = Nothing
+                clsProveedor.CompvariableProveedores = Nothing
             End If
         Catch ex As Exception
             MsgBox("Error:" & vbCrLf & ex.Message)
         End Try
     End Sub
     Public Sub LimpiarEstructuras()
-        ReDim NotaCreditoProveedor_Enc_estructura(0)
-        ReDim NotaCreditoProveedor_Cuerpo_estructura(0)
-        ReDim Articulos_Estructura(0)
+        ReDim eNotaCreditoProveedor_Enc_estructura(0)
+        ReDim eNotaCreditoProveedor_Cuerpo_estructura(0)
+        ReDim eArticulos_Estructura(0)
     End Sub
     Private Sub ToolStripButtonSalir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButtonSalir.Click
         For x As Integer = ProgressBarFacturacionProveedor.Minimum To ProgressBarFacturacionProveedor.Maximum
@@ -160,9 +173,9 @@ Public Class frmNotaCreditoProveedores
         End Try
     End Sub
     Private Sub btnBuscarProveedor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscarProveedor.Click
-        Dim Proveedores As New Controlador.ContProveedor()
+        'Dim Proveedores As New Controlador.clsContProveedor()
         Try
-            Proveedores.CompvariableProveedores = dfielddefConstantes.NotaCreditoProveedor.ToString()
+            clsProveedor.CompvariableProveedores = dfielddefConstantes.NotaCreditoProveedor.ToString()
             Me.Hide()
             frmProveedor.Show()
         Catch ex As Exception
@@ -170,9 +183,9 @@ Public Class frmNotaCreditoProveedores
         End Try
     End Sub
     Private Sub tbPuntoVenta_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbPuntoVenta.TextChanged
-        Dim ContProveedor As New Controlador.ContProveedor
+        'Dim clsContProveedor As New Controlador.clsContProveedor
         Try
-            If Not (ContProveedor.es_Numero(tbPuntoVenta.Text)) Then
+            If Not (clsProveedor.es_Numero(tbPuntoVenta.Text)) Then
                 tbPuntoVenta.Text = String.Empty
             End If
         Catch ex As Exception
@@ -180,9 +193,9 @@ Public Class frmNotaCreditoProveedores
         End Try
     End Sub
     Private Sub tbNumeroComprobante_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbNumeroComprobante.TextChanged
-        Dim ContProveedor As New Controlador.ContProveedor
+        'Dim clsContProveedor As New Controlador.clsContProveedor
         Try
-            If Not (ContProveedor.es_Numero(tbNumeroComprobante.Text)) Then
+            If Not (clsProveedor.es_Numero(tbNumeroComprobante.Text)) Then
                 tbNumeroComprobante.Text = String.Empty
             End If
         Catch ex As Exception
@@ -303,14 +316,14 @@ Public Class frmNotaCreditoProveedores
     End Sub
     Public Sub completar(ByVal CodigoP As Integer, ByVal fila As Integer, ByVal columna As Integer)
         Dim consulta As String
-        Dim articulo As New Controlador.Articulos
-        Dim datos As New DataTable
-        Dim Proveedor As New Controlador.ContProveedor
+        'Dim articulo As New Controlador.clsArticulos
+        Dim dtdatos As New DataTable
+        'Dim Proveedor As New Controlador.clsContProveedor
         Dim Numero_Condicion_IVA_Proveedor As Integer
-        Dim Empresa As New Controlador.Empresas
+        'Dim Empresa As New Controlador.clsEmpresas
         Dim Numero_Condicion_IVA_Empresa As Integer
-        Dim FacturacionProveedor As New Controlador.FacturacionProveedor
-        Dim DatoTipoComprobante As Controlador.FacturacionProveedor.eTipoComprobante
+        'Dim clsFacturacionProveedor As New Controlador.clsFacturacionProveedor
+        'Dim DatoTipoComprobante As Controlador.clsFacturacionProveedor.eTipoComprobante
         Dim ObtenerTasa As Double
         Try
             'consulta = "  select P.Id_Tasa_IVA, P.Tipo_Unidad,P.Id_Producto,P.Descripcion,PLP.Precio_Costo,PLP.DescripcionListaPrecio,P.Cod_Prod_Proveedor " & vbCrLf
@@ -323,12 +336,12 @@ Public Class frmNotaCreditoProveedores
             'consulta += "and ((P.Id_Producto ='" + Convert.ToString(CodigoP) + "')or (P.Cod_Prod_Proveedor='" + Convert.ToString(CodigoP) + "')) " & vbCrLf
             'consulta += "and EA.Id_Empresa='" + DatosEmpresa(0).Item("Id_Empresa") + "' " & vbCrLf
 
-            articulo.recuperar_Datos_Producto_Producto_Lista_Precio_EmpresaArticulo(txtCodigoProveedor.Text.Trim(), Datos_Configuracion.Id_Lista_Precio.ToString(), Convert.ToString(CodigoP), DatosEmpresa(0).Item("Id_Empresa"), datos)
-            If datos.Rows.Count > 0 Then
+            clsarticulo.recuperar_Datos_Producto_Producto_Lista_Precio_EmpresaArticulo(txtCodigoProveedor.Text.Trim(), eDatos_Configuracion.Id_Lista_Precio.ToString(), Convert.ToString(CodigoP), dtDatosEmpresa(0).Item("Id_Empresa"), dtdatos)
+            If dtdatos.Rows.Count > 0 Then
                 'consulta = "select Id_Condicion_IVA from " + dfielddefConstantes.Condicion_Frente_Al_IVA.ToString() + " where Condicion_Frente_Al_IVA.Descripcion= '" & (txtCondIva.Text) & "' "
-                Proveedor.Obtener_CondicionFrenteAIVa(txtCondIva.Text, Numero_Condicion_IVA_Proveedor)
+                clsProveedor.Obtener_CondicionFrenteAIVa(txtCondIva.Text, Numero_Condicion_IVA_Proveedor)
                 'consulta = "select Id_Condicion_IVA from " + dfielddefConstantes.Condicion_Frente_Al_IVA.ToString() + " where Condicion_Frente_Al_IVA.Descripcion= '" & (Responsabilidad_IVA_Empresa) & "' "
-                Empresa.Obtener_Responsabilidad_IVA_Empresa(Responsabilidad_IVA_Empresa, Numero_Condicion_IVA_Empresa)
+                clsEmpresa.Obtener_Responsabilidad_IVA_Empresa(Responsabilidad_IVA_Empresa, Numero_Condicion_IVA_Empresa)
 
                 'consulta = " Select TC.Descripcion" & vbCrLf
                 'consulta += " from (Tipos_Comprobantes as TC" & vbCrLf
@@ -337,34 +350,34 @@ Public Class frmNotaCreditoProveedores
                 'consulta += " and C.IdCondFrenteIvaProveedor='" & (Numero_Condicion_IVA_Proveedor) & "' " & vbCrLf
                 'consulta += " and (C.IdComprobantes)=TC.IdTipoComprobante" & vbCrLf
                 'consulta += " and TC.IdTipoComprobante in ('3','8','13')"
-                FacturacionProveedor.Obtener_Datos_Comprobante_Proveedor(Numero_Condicion_IVA_Proveedor, Numero_Condicion_IVA_Empresa, dfielddefConstantes.Nota_De_Credito.ToString(), DatoTipoComprobante)
-                If DatoTipoComprobante.Descripcion = "NOTA DE CREDITO A" Then
-                    dgvNotaCreditoProveedor.Item(enumerado.columnaTipoUnidad, fila).Value = datos.Rows(0).Item("Tipo_Unidad")
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCProdProv, fila).Value = datos.Rows(0).Item("Cod_Prod_Proveedor")
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCodArticulo, fila).Value = datos.Rows(0).Item("Id_Producto")
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaDescripcionArt, fila).Value = datos.Rows(0).Item("Descripcion")
+                clsFacturacionProveedor.Obtener_Datos_Comprobante_Proveedor(Numero_Condicion_IVA_Proveedor, Numero_Condicion_IVA_Empresa, dfielddefConstantes.Nota_De_Credito.ToString(), eDatoTipoComprobante)
+                If eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO A" Then
+                    dgvNotaCreditoProveedor.Item(enumerado.columnaTipoUnidad, fila).Value = dtdatos.Rows(0).Item("Tipo_Unidad")
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCProdProv, fila).Value = dtdatos.Rows(0).Item("Cod_Prod_Proveedor")
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCodArticulo, fila).Value = dtdatos.Rows(0).Item("Id_Producto")
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaDescripcionArt, fila).Value = dtdatos.Rows(0).Item("Descripcion")
                     dgvNotaCreditoProveedor.Item(enumerado.ColumnaUnidKilos, fila).Value = "0"
-                    FacturacionProveedor.obtenerTasa(datos.Rows(0).Item("Id_Tasa_IVA"), ObtenerTasa)
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaPUnit, fila).Value = Format(datos.Rows(0).Item("Precio_Costo").ToString() / ObtenerTasa, "##,##0.00")
+                    clsFacturacionProveedor.obtenerTasa(dtdatos.Rows(0).Item("Id_Tasa_IVA"), ObtenerTasa)
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaPUnit, fila).Value = Format(dtdatos.Rows(0).Item("Precio_Costo").ToString() / ObtenerTasa, "##,##0.00")
                     dgvNotaCreditoProveedor.Item(enumerado.ColumnaImporte, fila).Value = "0"
-                ElseIf DatoTipoComprobante.Descripcion = "NOTA DE CREDITO B" Or DatoTipoComprobante.Descripcion = "NOTA DE CREDITO C" Then
-                    dgvNotaCreditoProveedor.Item(enumerado.columnaTipoUnidad, fila).Value = datos.Rows(0).Item("Tipo_Unidad")
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCProdProv, fila).Value = datos.Rows(0).Item("Cod_Prod_Proveedor")
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCodArticulo, fila).Value = datos.Rows(0).Item("Id_Producto")
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaDescripcionArt, fila).Value = datos.Rows(0).Item("Descripcion")
+                ElseIf eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO B" Or eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO C" Then
+                    dgvNotaCreditoProveedor.Item(enumerado.columnaTipoUnidad, fila).Value = dtdatos.Rows(0).Item("Tipo_Unidad")
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCProdProv, fila).Value = dtdatos.Rows(0).Item("Cod_Prod_Proveedor")
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCodArticulo, fila).Value = dtdatos.Rows(0).Item("Id_Producto")
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaDescripcionArt, fila).Value = dtdatos.Rows(0).Item("Descripcion")
                     dgvNotaCreditoProveedor.Item(enumerado.ColumnaUnidKilos, fila).Value = "0"
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaPUnit, fila).Value = datos.Rows(0).Item("Precio_Costo")
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaPUnit, fila).Value = dtdatos.Rows(0).Item("Precio_Costo")
                     dgvNotaCreditoProveedor.Item(enumerado.ColumnaImporte, fila).Value = "0"
                 End If
             Else
-                articulo.CompId_Proveedor = Convert.ToInt32(txtCodigoProveedor.Text.Trim())
-                articulo.CompFila = fila
+                clsarticulo.CompId_Proveedor = Convert.ToInt32(txtCodigoProveedor.Text.Trim())
+                clsarticulo.CompFila = fila
                 Dim frmAP = New Vista.frmArticulosProveedor()
                 frmAP.ShowDialog()
                 dgvNotaCreditoProveedor.EndEdit()
-                If articulo.CompId_Articulo <> "" Then
+                If clsarticulo.CompId_Articulo <> "" Then
                     Me.dgvNotaCreditoProveedor.CurrentCell = Me.dgvNotaCreditoProveedor(enumerado.ColumnaCodArticulo, fila)
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCodArticulo, fila).Value = articulo.CompId_Articulo
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCodArticulo, fila).Value = clsarticulo.CompId_Articulo
                 Else
                     If dgvNotaCreditoProveedor.Rows.Count > 0 Then
                         EliminarFila()
@@ -380,14 +393,14 @@ Public Class frmNotaCreditoProveedores
     End Sub
     Public Sub completar_Texto(ByVal DescripcionArticulo As String, ByVal fila As Integer, ByVal columna As Integer)
         Dim consulta As String
-        Dim articulo As New Controlador.Articulos
-        Dim datos As New DataTable
-        Dim Proveedor As New Controlador.ContProveedor
+        'Dim articulo As New Controlador.clsArticulos
+        Dim dtdatos As New DataTable
+        Dim Proveedor As New Controlador.clsContProveedor
         Dim Numero_Condicion_IVA_Proveedor As Integer
-        Dim Empresa As New Controlador.Empresas
+        'Dim Empresa As New Controlador.clsEmpresas
         Dim Numero_Condicion_IVA_Empresa As Integer
-        Dim FacturacionProveedor As New Controlador.FacturacionProveedor
-        Dim DatoTipoComprobante As Controlador.FacturacionProveedor.eTipoComprobante
+        'Dim clsFacturacionProveedor As New Controlador.clsFacturacionProveedor
+        'Dim DatoTipoComprobante As Controlador.clsFacturacionProveedor.eTipoComprobante
         Dim ObtenerTasa As Double
         Try
             'consulta = " select P.Id_Tasa_IVA,P.Tipo_Unidad,P.Id_Producto,P.Descripcion,PLP.Precio_Costo,PLP.DescripcionListaPrecio,P.Cod_Prod_Proveedor " & vbCrLf
@@ -400,12 +413,12 @@ Public Class frmNotaCreditoProveedores
             'consulta += "and P.Descripcion = '" + (DescripcionArticulo) + "'   " & vbCrLf
             'consulta += "and EA.Id_Empresa='" + DatosEmpresa(0).Item("Id_Empresa") + "' "
 
-            articulo.recuperar_Datos_Producto_Producto_Lista_Precio_EmpresaArticulo_Descripcion(txtCodigoProveedor.Text.Trim(), Datos_Configuracion.Id_Lista_Precio.ToString(), DescripcionArticulo, DatosEmpresa(0).Item("Id_Empresa"), datos)
-            If datos.Rows.Count > 0 Then
+            clsarticulo.recuperar_Datos_Producto_Producto_Lista_Precio_EmpresaArticulo_Descripcion(txtCodigoProveedor.Text.Trim(), eDatos_Configuracion.Id_Lista_Precio.ToString(), DescripcionArticulo, dtDatosEmpresa(0).Item("Id_Empresa"), dtdatos)
+            If dtdatos.Rows.Count > 0 Then
                 'consulta = "select Id_Condicion_IVA from " + dfielddefConstantes.Condicion_Frente_Al_IVA.ToString() + " where Condicion_Frente_Al_IVA.Descripcion= '" & (txtCondIva.Text) & "' "
-                Proveedor.Obtener_CondicionFrenteAIVa(txtCondIva.Text, Numero_Condicion_IVA_Proveedor)
+                clsProveedor.Obtener_CondicionFrenteAIVa(txtCondIva.Text, Numero_Condicion_IVA_Proveedor)
                 'consulta = "select Id_Condicion_IVA from " + dfielddefConstantes.Condicion_Frente_Al_IVA.ToString() + " where Condicion_Frente_Al_IVA.Descripcion= '" & (Responsabilidad_IVA_Empresa) & "' "
-                Empresa.Obtener_Responsabilidad_IVA_Empresa(Responsabilidad_IVA_Empresa, Numero_Condicion_IVA_Empresa)
+                clsEmpresa.Obtener_Responsabilidad_IVA_Empresa(Responsabilidad_IVA_Empresa, Numero_Condicion_IVA_Empresa)
 
                 'consulta = " Select TC.Descripcion" & vbCrLf
                 'consulta += "from (Tipos_Comprobantes as TC" & vbCrLf
@@ -415,34 +428,34 @@ Public Class frmNotaCreditoProveedores
                 'consulta += "and (C.IdComprobantes)=TC.IdTipoComprobante" & vbCrLf
                 'consulta += "and TC.IdTipoComprobante in ('3','8','13')"
 
-                FacturacionProveedor.Obtener_Datos_Comprobante_Proveedor(Numero_Condicion_IVA_Proveedor, Numero_Condicion_IVA_Empresa, dfielddefConstantes.Nota_De_Credito.ToString(), DatoTipoComprobante)
-                If DatoTipoComprobante.Descripcion = "NOTA DE CREDITO A" Then
-                    dgvNotaCreditoProveedor.Item(enumerado.columnaTipoUnidad, fila).Value = datos.Rows(0).Item("Tipo_Unidad")
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCProdProv, fila).Value = datos.Rows(0).Item("Cod_Prod_Proveedor")
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCodArticulo, fila).Value = datos.Rows(0).Item("Id_Producto")
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaDescripcionArt, fila).Value = datos.Rows(0).Item("Descripcion")
+                clsFacturacionProveedor.Obtener_Datos_Comprobante_Proveedor(Numero_Condicion_IVA_Proveedor, Numero_Condicion_IVA_Empresa, dfielddefConstantes.Nota_De_Credito.ToString(), eDatoTipoComprobante)
+                If eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO A" Then
+                    dgvNotaCreditoProveedor.Item(enumerado.columnaTipoUnidad, fila).Value = dtdatos.Rows(0).Item("Tipo_Unidad")
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCProdProv, fila).Value = dtdatos.Rows(0).Item("Cod_Prod_Proveedor")
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCodArticulo, fila).Value = dtdatos.Rows(0).Item("Id_Producto")
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaDescripcionArt, fila).Value = dtdatos.Rows(0).Item("Descripcion")
                     dgvNotaCreditoProveedor.Item(enumerado.ColumnaUnidKilos, fila).Value = "0"
-                    FacturacionProveedor.obtenerTasa(datos.Rows(0).Item("Id_Tasa_IVA"), ObtenerTasa)
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaPUnit, fila).Value = Format(datos.Rows(0).Item("Precio_Costo").ToString() / ObtenerTasa, "##,##0.00")
+                    clsFacturacionProveedor.obtenerTasa(dtdatos.Rows(0).Item("Id_Tasa_IVA"), ObtenerTasa)
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaPUnit, fila).Value = Format(dtdatos.Rows(0).Item("Precio_Costo").ToString() / ObtenerTasa, "##,##0.00")
                     dgvNotaCreditoProveedor.Item(enumerado.ColumnaImporte, fila).Value = "0"
-                ElseIf DatoTipoComprobante.Descripcion = "NOTA DE CREDITO B" Or DatoTipoComprobante.Descripcion = "NOTA DE CREDITO C" Then
-                    dgvNotaCreditoProveedor.Item(enumerado.columnaTipoUnidad, fila).Value = datos.Rows(0).Item("Tipo_Unidad")
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCProdProv, fila).Value = datos.Rows(0).Item("Cod_Prod_Proveedor")
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCodArticulo, fila).Value = datos.Rows(0).Item("Id_Producto")
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaDescripcionArt, fila).Value = datos.Rows(0).Item("Descripcion")
+                ElseIf eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO B" Or eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO C" Then
+                    dgvNotaCreditoProveedor.Item(enumerado.columnaTipoUnidad, fila).Value = dtdatos.Rows(0).Item("Tipo_Unidad")
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCProdProv, fila).Value = dtdatos.Rows(0).Item("Cod_Prod_Proveedor")
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaCodArticulo, fila).Value = dtdatos.Rows(0).Item("Id_Producto")
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaDescripcionArt, fila).Value = dtdatos.Rows(0).Item("Descripcion")
                     dgvNotaCreditoProveedor.Item(enumerado.ColumnaUnidKilos, fila).Value = "0"
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaPUnit, fila).Value = datos.Rows(0).Item("Precio_Costo")
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaPUnit, fila).Value = dtdatos.Rows(0).Item("Precio_Costo")
                     dgvNotaCreditoProveedor.Item(enumerado.ColumnaImporte, fila).Value = "0"
                 End If
             Else
-                articulo.CompId_Proveedor = Convert.ToInt32(txtCodigoProveedor.Text.Trim())
-                articulo.CompFila = fila
+                clsarticulo.CompId_Proveedor = Convert.ToInt32(txtCodigoProveedor.Text.Trim())
+                clsarticulo.CompFila = fila
                 Dim frmAP = New Vista.frmArticulosProveedor()
                 frmAP.ShowDialog()
                 dgvNotaCreditoProveedor.EndEdit()
-                If articulo.CompDescripcion <> "" Then
-                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaDescripcionArt, fila).Value = articulo.CompDescripcion
-                    DescripcionArticulo = articulo.CompDescripcion
+                If clsarticulo.CompDescripcion <> "" Then
+                    dgvNotaCreditoProveedor.Item(enumerado.ColumnaDescripcionArt, fila).Value = clsarticulo.CompDescripcion
+                    DescripcionArticulo = clsarticulo.CompDescripcion
                 Else
                     If dgvNotaCreditoProveedor.Rows.Count > 0 Then
                         EliminarFila()
@@ -523,10 +536,10 @@ Public Class frmNotaCreditoProveedores
         End Try
     End Sub
     Private Sub dgvNotaDebitoProveedor_CellFormatting(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellFormattingEventArgs) Handles dgvNotaCreditoProveedor.CellFormatting
-        Dim FacturacionProveedor As New Controlador.FacturacionProveedor()
+        'Dim clsFacturacionProveedor As New Controlador.clsFacturacionProveedor()
         Dim totalImporte As Double
         Try
-            FacturacionProveedor.sumar_Importe(dgvNotaCreditoProveedor, totalImporte)
+            clsFacturacionProveedor.sumar_Importe(dgvNotaCreditoProveedor, totalImporte)
             txtSubTotal.Text = Format(totalImporte, "##,##0.00")
             If totalImporte = 0.0 Then
                 txtIVa.Text = Format(0.0, "##,##0.00")
@@ -537,26 +550,26 @@ Public Class frmNotaCreditoProveedores
     End Sub
     Private Sub txtSubTotal_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSubTotal.TextChanged
         Dim consulta As String
-        Dim articulo As New Controlador.Articulos()
-        Dim Proveedor As New Controlador.ContProveedor
-        Dim Empresa As New Controlador.Empresas()
-        Dim FacturacionProveedor As New Controlador.FacturacionProveedor()
-        Dim TasaIVA As New Controlador.TasaIVA()
+        'Dim articulo As New Controlador.clsArticulos()
+        'Dim Proveedor As New Controlador.clsContProveedor
+        'Dim Empresa As New Controlador.clsEmpresas()
+        'Dim clsFacturacionProveedor As New Controlador.clsFacturacionProveedor()
+        'Dim clsTasaIVA As New Controlador.clsTasaIVA()
         Dim Numero_Condicion_IVA_Proveedor As Integer
         Dim Numero_Condicion_IVA_Empresa As Integer
         Dim Numero_Sucursal As String
-        Dim DatoTipoComprobante As Controlador.FacturacionProveedor.eTipoComprobante
+        'Dim DatoTipoComprobante As Controlador.clsFacturacionProveedor.eTipoComprobante
         Dim obtenerTasa As Double
         Dim Total As Double
-        Dim datosTasa As New DataTable
+        Dim dtdatosTasa As New DataTable
         Dim TIVA As Double
         Try
             If dgvNotaCreditoProveedor.Rows.Count > 0 Then
                 If IsNumeric(Convert.ToString(dgvNotaCreditoProveedor.CurrentRow.Cells("CodigoArticulo").Value)) Then
                     'consulta = "select Id_Condicion_IVA from " + dfielddefConstantes.Condicion_Frente_Al_IVA.ToString() + " where Condicion_Frente_Al_IVA.Descripcion= '" & (txtCondIva.Text) & "' "
-                    Proveedor.Obtener_CondicionFrenteAIVa(txtCondIva.Text, Numero_Condicion_IVA_Proveedor)
+                    clsProveedor.Obtener_CondicionFrenteAIVa(txtCondIva.Text, Numero_Condicion_IVA_Proveedor)
                     'consulta = "select Id_Condicion_IVA from " + dfielddefConstantes.Condicion_Frente_Al_IVA.ToString() + " where Condicion_Frente_Al_IVA.Descripcion= '" & (Responsabilidad_IVA_Empresa) & "' "
-                    Empresa.Obtener_Responsabilidad_IVA_Empresa(Responsabilidad_IVA_Empresa, Numero_Condicion_IVA_Empresa)
+                    clsEmpresa.Obtener_Responsabilidad_IVA_Empresa(Responsabilidad_IVA_Empresa, Numero_Condicion_IVA_Empresa)
 
                     'consulta = "Select TC.Descripcion" & vbCrLf
                     'consulta += "from (Tipos_Comprobantes as TC" & vbCrLf
@@ -566,8 +579,8 @@ Public Class frmNotaCreditoProveedores
                     'consulta += "and (C.IdComprobantes)=TC.IdTipoComprobante" & vbCrLf
                     'consulta += " and TC.IdTipoComprobante in ('3','8','13')"
 
-                    FacturacionProveedor.Obtener_Datos_Comprobante_Proveedor(Numero_Condicion_IVA_Proveedor, Numero_Condicion_IVA_Empresa, dfielddefConstantes.Nota_De_Credito.ToString(), DatoTipoComprobante)
-                    If DatoTipoComprobante.Descripcion = "NOTA DE CREDITO A" Then
+                    clsFacturacionProveedor.Obtener_Datos_Comprobante_Proveedor(Numero_Condicion_IVA_Proveedor, Numero_Condicion_IVA_Empresa, dfielddefConstantes.Nota_De_Credito.ToString(), eDatoTipoComprobante)
+                    If eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO A" Then
                         consulta = String.Empty
                         ' consulta = "select Tasa from Tasa_IVA where Id_Tasa_IVA=" + Datos_Configuracion.Rows(0).Item("Id_Tasa_IVA") + " "
                         'TasaIVA.recuperar_Datos(Datos_Configuracion.Id_Tasa_IVA, datosTasa)
@@ -581,7 +594,7 @@ Public Class frmNotaCreditoProveedores
                             txtTotal.Text = Format(Total, "##,##0.00")
                         End If
                     Else
-                        If DatoTipoComprobante.Descripcion = "NOTA DE CREDITO B" Or DatoTipoComprobante.Descripcion = "NOTA DE CREDITO C" Then
+                        If eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO B" Or eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO C" Then
                             If txtDescuento.Text <> "" Then
                                 Total = CDbl(txtSubTotal.Text) - CDbl(txtDescuento.Text)
                                 txtTotal.Text = Format(Total, "##,##0.00")
@@ -604,24 +617,24 @@ Public Class frmNotaCreditoProveedores
     Private Sub txtDescuento_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtDescuento.TextChanged
         Dim total As Double
         Dim consulta As String
-        Dim articulo As New Controlador.Articulos()
-        Dim Proveedor As New Controlador.ContProveedor
-        Dim Empresa As New Controlador.Empresas()
-        Dim TasaIVA As New Controlador.TasaIVA()
-        Dim FacturacionProveedor As New Controlador.FacturacionProveedor
+        'Dim articulo As New Controlador.clsArticulos()
+        'Dim Proveedor As New Controlador.clsContProveedor
+        'Dim Empresa As New Controlador.clsEmpresas()
+        'Dim clsTasaIVA As New Controlador.clsTasaIVA()
+        'Dim clsFacturacionProveedor As New Controlador.clsFacturacionProveedor
         Dim Numero_Condicion_IVA_Proveedor As Integer
         Dim Numero_Condicion_IVA_Empresa As Integer
         Dim Numero_Sucursal As String
-        Dim DatoTipoComprobante As Controlador.FacturacionProveedor.eTipoComprobante
+        'Dim DatoTipoComprobante As Controlador.clsFacturacionProveedor.eTipoComprobante
         Dim obtenerTasa As Double
         Dim es_Numero As Boolean
-        Dim datosTasa As New DataTable
+        Dim dtdatosTasa As New DataTable
         Dim TIVA As Double
         Try
             'consulta = "select Id_Condicion_IVA from " + dfielddefConstantes.Condicion_Frente_Al_IVA.ToString() + " where Condicion_Frente_Al_IVA.Descripcion= '" & (txtCondIva.Text) & "' "
-            Proveedor.Obtener_CondicionFrenteAIVa(txtCondIva.Text, Numero_Condicion_IVA_Proveedor)
+            clsProveedor.Obtener_CondicionFrenteAIVa(txtCondIva.Text, Numero_Condicion_IVA_Proveedor)
             'consulta = "select Id_Condicion_IVA from " + dfielddefConstantes.Condicion_Frente_Al_IVA.ToString() + " where Condicion_Frente_Al_IVA.Descripcion= '" & (Responsabilidad_IVA_Empresa) & "' "
-            Empresa.Obtener_Responsabilidad_IVA_Empresa(Responsabilidad_IVA_Empresa, Numero_Condicion_IVA_Empresa)
+            clsEmpresa.Obtener_Responsabilidad_IVA_Empresa(Responsabilidad_IVA_Empresa, Numero_Condicion_IVA_Empresa)
 
             'consulta = "Select TC.IdTipoComprobante,TC.Descripcion" & vbCrLf
             'consulta += "from (Tipos_Comprobantes as TC" & vbCrLf
@@ -631,10 +644,10 @@ Public Class frmNotaCreditoProveedores
             'consulta += "and (C.IdComprobantes)=TC.IdTipoComprobante" & vbCrLf
             'consulta += "and TC.IdTipoComprobante in ('3','8','13')"
 
-            FacturacionProveedor.Obtener_Datos_Comprobante_Proveedor(Numero_Condicion_IVA_Proveedor, Numero_Condicion_IVA_Empresa, dfielddefConstantes.Nota_De_Credito.ToString(), DatoTipoComprobante)
-            es_Numero = FacturacionProveedor.es_Numero(txtDescuento.Text)
+            clsFacturacionProveedor.Obtener_Datos_Comprobante_Proveedor(Numero_Condicion_IVA_Proveedor, Numero_Condicion_IVA_Empresa, dfielddefConstantes.Nota_De_Credito.ToString(), eDatoTipoComprobante)
+            es_Numero = clsFacturacionProveedor.es_Numero(txtDescuento.Text)
             If es_Numero Then
-                If DatoTipoComprobante.Descripcion = "NOTA DE CREDITO A" Then
+                If eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO A" Then
                     consulta = String.Empty
                     'consulta = "select Tasa from Tasa_IVA where Id_Tasa_IVA=" + Datos_Configuracion.Rows(0).Item("Id_Tasa_IVA") + " "
                     'TasaIVA.recuperar_Datos(Datos_Configuracion.Id_Tasa_IVA, datosTasa)
@@ -647,7 +660,7 @@ Public Class frmNotaCreditoProveedores
                     End If
                     txtTotal.Text = Format(total, "##,##0.00")
                 Else
-                    If DatoTipoComprobante.Descripcion = "NOTA DE CREDITO B" Or DatoTipoComprobante.Descripcion = "NOTA DE CREDITO C" Then
+                    If eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO B" Or eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO C" Then
                         If txtDescuento.Text = "" Then
                             total = CDbl(txtSubTotal.Text) - 0
                         Else
@@ -658,11 +671,11 @@ Public Class frmNotaCreditoProveedores
                 End If
             Else
                 txtDescuento.Text = ""
-                If DatoTipoComprobante.Descripcion = "NOTA DE CREDITO A" Then
+                If eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO A" Then
                     total = CDbl(txtSubTotal.Text) + CDbl(txtIVa.Text)
                     txtTotal.Text = Format(total, "##,##0.00")
                 Else
-                    If DatoTipoComprobante.Descripcion = "NOTA DE CREDITO B" Or DatoTipoComprobante.Descripcion = "NOTA DE CREDITO C" Then
+                    If eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO B" Or eDatoTipoComprobante.Descripcion = "NOTA DE CREDITO C" Then
                         total = CDbl(txtSubTotal.Text)
                         txtTotal.Text = Format(total, "##,##0.00")
                     End If
@@ -673,12 +686,12 @@ Public Class frmNotaCreditoProveedores
         End Try
     End Sub
     Private Sub dgvFNotaDebitoProveedor_CellBeginEdit(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellCancelEventArgs) Handles dgvNotaCreditoProveedor.CellBeginEdit
-        Dim FacturacionProveedor As New Controlador.FacturacionProveedor
+        'Dim clsFacturacionProveedor As New Controlador.clsFacturacionProveedor
         Try
             If txtCodigoProveedor.Text = String.Empty Then
                 MessageBox.Show("No ha Ingresado el Proveedor, Ingreselo!!", "Informacion", MessageBoxButtons.OK, _
                                                    MessageBoxIcon.Information)
-                FacturacionProveedor.Limpiar_Datos_Comprobante_Proveedor(dgvNotaCreditoProveedor, txtSubTotal, txtDescuento, txtIVa, txtTotal, txtRazonSocial, txtDireccion, txtCelular, txtTelefono, txtCondIva, txtMail, txtLimiteCC, txtCodigoPostal, lblTipoComprobante, lblIdComprobante)
+                clsFacturacionProveedor.Limpiar_Datos_Comprobante_Proveedor(dgvNotaCreditoProveedor, txtSubTotal, txtDescuento, txtIVa, txtTotal, txtRazonSocial, txtDireccion, txtCelular, txtTelefono, txtCondIva, txtMail, txtLimiteCC, txtCodigoPostal, lblTipoComprobante, lblIdComprobante)
             End If
         Catch ex As Exception
             MsgBox("Error:" & vbCrLf & ex.Message)
@@ -703,22 +716,22 @@ Public Class frmNotaCreditoProveedores
         dgvNotaCreditoProveedor.Rows.Remove(dgvNotaCreditoProveedor.CurrentRow)
     End Sub
     Private Sub ToolStripButtonRegistrar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButtonRegistrar.Click
-        Dim querybuilder As New Controlador.QueryBuilder
+        'Dim clsQueryBuilder As New Controlador.clsQueryBuilder
         Dim esquema As New Collection
         Dim consulta As String
         Dim datos As New Collection
         Dim ClavePrincipal As New Collection
-        Dim NotaCreditoProveedor As New Controlador.FacturacionProveedor
-        Dim datosDataTable As New DataTable
-        Dim DatoTipoComprobante As Controlador.FacturacionProveedor.eTipoComprobante
+        'Dim NotaCreditoProveedor As New Controlador.clsFacturacionProveedor
+        Dim dtdatosDataTable As New DataTable
+        'Dim DatoTipoComprobante As Controlador.clsFacturacionProveedor.eTipoComprobante
         Dim Numero_Condicion_IVA_Empresa As Integer
-        Dim Empresa As New Controlador.Empresas
-        Dim Numero_Condicion_IVA_Proveedor As Controlador.Cliente.eCondicion_Frente_Al_Iva
-        Dim Cliente As New Controlador.Cliente
-        Dim Articulo As New Controlador.Articulos
+        'Dim Empresa As New Controlador.clsEmpresas
+        'Dim Numero_Condicion_IVA_Proveedor As Controlador.clsCliente.eCondicion_Frente_Al_Iva
+        'Dim clsCliente As New Controlador.clsCliente
+        'Dim Articulo As New Controlador.clsArticulos
         Dim dtArticulos As New DataTable
         Dim i As Integer
-        Dim formaPago As New Controlador.FormasDePago
+        'Dim formaPago As New Controlador.clsFormasDePago
         Dim existe As Boolean
         For x As Integer = ProgressBarFacturacionProveedor.Minimum To ProgressBarFacturacionProveedor.Maximum
             ProgressBarFacturacionProveedor.Value = x
@@ -729,38 +742,38 @@ Public Class frmNotaCreditoProveedores
         If txtCodigoProveedor.Text <> "" Then
             If tbPuntoVenta.Text <> "" And tbNumeroComprobante.Text <> "" Then
                 'consulta = "select * from Encabezado_Factura_Proveedor where Punto_Venta='" + tbPuntoVenta.Text.Trim() + "'and Numero_Comprobante='" + tbNumeroComprobante.Text.Trim() + "'  and  Tipo_Comprobante='" + lblIdComprobante.Text.Trim() + "' and Id_Proveedor = " + (txtCodigoProveedor.Text) + ""
-                NotaCreditoProveedor.se_Cargo(tbPuntoVenta.Text.Trim(), tbNumeroComprobante.Text.Trim(), lblIdComprobante.Text.Trim(), txtCodigoProveedor.Text, existe)
+                clsNotaCreditoProveedor.se_Cargo(tbPuntoVenta.Text.Trim(), tbNumeroComprobante.Text.Trim(), lblIdComprobante.Text.Trim(), txtCodigoProveedor.Text, existe)
                 If Not existe Then
                     If Convert.ToDouble(txtSubTotal.Text) > 0 Then
-                        ReDim NotaCreditoProveedor_Enc_estructura(1)
-                        NotaCreditoProveedor_Enc_estructura(1).Punto_Venta = Convert.ToString(tbPuntoVenta.Text.Trim()).PadLeft(4, "0")
-                        NotaCreditoProveedor_Enc_estructura(1).Tipo_Comprobante = lblIdComprobante.Text.Trim()
-                        NotaCreditoProveedor_Enc_estructura(1).Numero_Comprobante = Convert.ToString(tbNumeroComprobante.Text.Trim()).PadLeft(8, "0")
-                        NotaCreditoProveedor_Enc_estructura(1).Id_Proveedor = Convert.ToInt32(txtCodigoProveedor.Text)
-                        NotaCreditoProveedor_Enc_estructura(1).Razon_Social = txtRazonSocial.Text.Trim()
-                        NotaCreditoProveedor_Enc_estructura(1).Situacion_Frente_A_IVA = txtCondIva.Text.Trim()
-                        NotaCreditoProveedor_Enc_estructura(1).Forma_Pago = ""
-                        NotaCreditoProveedor_Enc_estructura(1).Fecha_Comprobante = mtFecha.Text.Trim()
-                        NotaCreditoProveedor_Enc_estructura(1).Codigo_Vendedor = 1
-                        NotaCreditoProveedor_Enc_estructura(1).Neto_Grabado = txtSubTotal.Text.Trim()
-                        NotaCreditoProveedor_Enc_estructura(1).Conc_No_Grabado = ""
-                        NotaCreditoProveedor_Enc_estructura(1).Exentos = ""
-                        NotaCreditoProveedor_Enc_estructura(1).IVA_Facturado = txtIVa.Text.Trim()
-                        NotaCreditoProveedor_Enc_estructura(1).IVA_Resp_No_Inscripto = ""
-                        NotaCreditoProveedor_Enc_estructura(1).Persepciones = ""
+                        ReDim eNotaCreditoProveedor_Enc_estructura(1)
+                        eNotaCreditoProveedor_Enc_estructura(1).Punto_Venta = Convert.ToString(tbPuntoVenta.Text.Trim()).PadLeft(4, "0")
+                        eNotaCreditoProveedor_Enc_estructura(1).Tipo_Comprobante = lblIdComprobante.Text.Trim()
+                        eNotaCreditoProveedor_Enc_estructura(1).Numero_Comprobante = Convert.ToString(tbNumeroComprobante.Text.Trim()).PadLeft(8, "0")
+                        eNotaCreditoProveedor_Enc_estructura(1).Id_Proveedor = Convert.ToInt32(txtCodigoProveedor.Text)
+                        eNotaCreditoProveedor_Enc_estructura(1).Razon_Social = txtRazonSocial.Text.Trim()
+                        eNotaCreditoProveedor_Enc_estructura(1).Situacion_Frente_A_IVA = txtCondIva.Text.Trim()
+                        eNotaCreditoProveedor_Enc_estructura(1).Forma_Pago = ""
+                        eNotaCreditoProveedor_Enc_estructura(1).Fecha_Comprobante = mtFecha.Text.Trim()
+                        eNotaCreditoProveedor_Enc_estructura(1).Codigo_Vendedor = 1
+                        eNotaCreditoProveedor_Enc_estructura(1).Neto_Grabado = txtSubTotal.Text.Trim()
+                        eNotaCreditoProveedor_Enc_estructura(1).Conc_No_Grabado = ""
+                        eNotaCreditoProveedor_Enc_estructura(1).Exentos = ""
+                        eNotaCreditoProveedor_Enc_estructura(1).IVA_Facturado = txtIVa.Text.Trim()
+                        eNotaCreditoProveedor_Enc_estructura(1).IVA_Resp_No_Inscripto = ""
+                        eNotaCreditoProveedor_Enc_estructura(1).Persepciones = ""
                         If txtDescuento.Text.Trim() <> "" Then
-                            NotaCreditoProveedor_Enc_estructura(1).Descuentos = Replace(txtDescuento.Text.Trim(), ".", ",")
+                            eNotaCreditoProveedor_Enc_estructura(1).Descuentos = Replace(txtDescuento.Text.Trim(), ".", ",")
                         Else
-                            NotaCreditoProveedor_Enc_estructura(1).Descuentos = "0"
+                            eNotaCreditoProveedor_Enc_estructura(1).Descuentos = "0"
                         End If
-                        NotaCreditoProveedor_Enc_estructura(1).Retenciones = ""
-                        NotaCreditoProveedor_Enc_estructura(1).Total = txtTotal.Text.Trim()
-                        NotaCreditoProveedor_Enc_estructura(1).Cancelado = dfielddefConstantes.No.ToString()
-                        NotaCreditoProveedor_Enc_estructura(1).Signo = "-1"
+                        eNotaCreditoProveedor_Enc_estructura(1).Retenciones = ""
+                        eNotaCreditoProveedor_Enc_estructura(1).Total = txtTotal.Text.Trim()
+                        eNotaCreditoProveedor_Enc_estructura(1).Cancelado = dfielddefConstantes.No.ToString()
+                        eNotaCreditoProveedor_Enc_estructura(1).Signo = "-1"
                         'consulta = "select Id_Condicion_IVA from " + dfielddefConstantes.Condicion_Frente_Al_IVA.ToString() + " where Condicion_Frente_Al_IVA.Descripcion= '" & (txtCondIva.Text) & "' "
-                        Cliente.Obtener_CondicionFrenteAIVa(txtCondIva.Text, Numero_Condicion_IVA_Proveedor)
+                        clsCliente.Obtener_CondicionFrenteAIVa(txtCondIva.Text, eNumero_Condicion_IVA_Proveedor)
                         'consulta = "select Id_Condicion_IVA from " + dfielddefConstantes.Condicion_Frente_Al_IVA.ToString() + " where Condicion_Frente_Al_IVA.Descripcion= '" & (Responsabilidad_IVA_Empresa) & "' "
-                        Empresa.Obtener_Responsabilidad_IVA_Empresa(Responsabilidad_IVA_Empresa, Numero_Condicion_IVA_Empresa)
+                        clsEmpresa.Obtener_Responsabilidad_IVA_Empresa(Responsabilidad_IVA_Empresa, Numero_Condicion_IVA_Empresa)
 
                         'consulta = " Select TC.IdTipoComprobante,TC.Descripcion" & vbCrLf
                         'consulta += "from (Tipos_Comprobantes as TC" & vbCrLf
@@ -770,40 +783,40 @@ Public Class frmNotaCreditoProveedores
                         'consulta += "and (C.IdComprobantes)=TC.IdTipoComprobante" & vbCrLf
                         'consulta += "and TC.IdTipoComprobante in ('3','8','13')"
 
-                        NotaCreditoProveedor.Obtener_Datos_Comprobante_Proveedor(Numero_Condicion_IVA_Proveedor.Id_Condicion_IVA, Numero_Condicion_IVA_Empresa, dfielddefConstantes.Nota_De_Credito.ToString(), DatoTipoComprobante)
-                        NotaCreditoProveedor_Enc_estructura(1).Comprobante = DatoTipoComprobante.Descripcion
+                        clsNotaCreditoProveedor.Obtener_Datos_Comprobante_Proveedor(eNumero_Condicion_IVA_Proveedor.Id_Condicion_IVA, Numero_Condicion_IVA_Empresa, dfielddefConstantes.Nota_De_Credito.ToString(), eDatoTipoComprobante)
+                        eNotaCreditoProveedor_Enc_estructura(1).Comprobante = eDatoTipoComprobante.Descripcion
                         i = 1
                         While i <= dgvNotaCreditoProveedor.Rows.Count
                             If dgvNotaCreditoProveedor.Rows(i - 1).Cells("CodigoArticulo").Value <> "" Then
-                                ReDim Preserve NotaCreditoProveedor_Cuerpo_estructura(i)
-                                ReDim Preserve Articulos_Estructura(i)
-                                NotaCreditoProveedor_Cuerpo_estructura(i).Punto_Venta = tbPuntoVenta.Text.Trim()
-                                NotaCreditoProveedor_Cuerpo_estructura(i).Tipo_Comprobante = lblIdComprobante.Text.Trim()
-                                NotaCreditoProveedor_Cuerpo_estructura(i).Numero_Comprobante = tbNumeroComprobante.Text.Trim()
-                                NotaCreditoProveedor_Cuerpo_estructura(i).Comprobante = DatoTipoComprobante.Descripcion
-                                NotaCreditoProveedor_Cuerpo_estructura(i).Numero_Articulo = dgvNotaCreditoProveedor.Rows(i - 1).Cells("CodigoArticulo").Value
-                                NotaCreditoProveedor_Cuerpo_estructura(i).Descripcion = dgvNotaCreditoProveedor.Rows(i - 1).Cells("Descripcion").Value
-                                NotaCreditoProveedor_Cuerpo_estructura(i).Cantidad = dgvNotaCreditoProveedor.Rows(i - 1).Cells("Cantidad").Value
-                                NotaCreditoProveedor_Cuerpo_estructura(i).Precio_Unitario = dgvNotaCreditoProveedor.Rows(i - 1).Cells("PrecioUnitario").Value
-                                NotaCreditoProveedor_Cuerpo_estructura(i).Signo = "-1"
+                                ReDim Preserve eNotaCreditoProveedor_Cuerpo_estructura(i)
+                                ReDim Preserve eArticulos_Estructura(i)
+                                eNotaCreditoProveedor_Cuerpo_estructura(i).Punto_Venta = tbPuntoVenta.Text.Trim()
+                                eNotaCreditoProveedor_Cuerpo_estructura(i).Tipo_Comprobante = lblIdComprobante.Text.Trim()
+                                eNotaCreditoProveedor_Cuerpo_estructura(i).Numero_Comprobante = tbNumeroComprobante.Text.Trim()
+                                eNotaCreditoProveedor_Cuerpo_estructura(i).Comprobante = eDatoTipoComprobante.Descripcion
+                                eNotaCreditoProveedor_Cuerpo_estructura(i).Numero_Articulo = dgvNotaCreditoProveedor.Rows(i - 1).Cells("CodigoArticulo").Value
+                                eNotaCreditoProveedor_Cuerpo_estructura(i).Descripcion = dgvNotaCreditoProveedor.Rows(i - 1).Cells("Descripcion").Value
+                                eNotaCreditoProveedor_Cuerpo_estructura(i).Cantidad = dgvNotaCreditoProveedor.Rows(i - 1).Cells("Cantidad").Value
+                                eNotaCreditoProveedor_Cuerpo_estructura(i).Precio_Unitario = dgvNotaCreditoProveedor.Rows(i - 1).Cells("PrecioUnitario").Value
+                                eNotaCreditoProveedor_Cuerpo_estructura(i).Signo = "-1"
                                 'consulta = "select * from " + dfielddefConstantes.Producto.ToString() + " where Id_Producto='" + NotaCreditoProveedor_Cuerpo_estructura(i).Numero_Articulo + "'"
-                                Articulo.ObtenerProductos(NotaCreditoProveedor_Cuerpo_estructura(i).Numero_Articulo, dtArticulos)
-                                Articulos_Estructura(i).Id_Producto = NotaCreditoProveedor_Cuerpo_estructura(i).Numero_Articulo
-                                Articulos_Estructura(i).Stock = dtArticulos.Rows(0).Item("Stock")
+                                clsarticulo.ObtenerProductos(eNotaCreditoProveedor_Cuerpo_estructura(i).Numero_Articulo, dtArticulos)
+                                eArticulos_Estructura(i).Id_Producto = eNotaCreditoProveedor_Cuerpo_estructura(i).Numero_Articulo
+                                eArticulos_Estructura(i).Stock = dtArticulos.Rows(0).Item("Stock")
                             End If
                             i = i + 1
                         End While
                         Try
-                            Dim FPP As New frmFormasDePagoProveedor(NotaCreditoProveedor_Enc_estructura, NotaCreditoProveedor_Cuerpo_estructura, Articulos_Estructura)
-                            formaPago.Compvariable = dfielddefConstantes.NotaCreditoProveedor.ToString()
+                            Dim FPP As New frmFormasDePagoProveedor(eNotaCreditoProveedor_Enc_estructura, eNotaCreditoProveedor_Cuerpo_estructura, eArticulos_Estructura)
+                            clsformaPago.Compvariable = dfielddefConstantes.NotaCreditoProveedor.ToString()
                             FPP.ShowDialog()
-                            If formaPago.Compvariable = dfielddefConstantes.Si.ToString() Then
+                            If clsformaPago.Compvariable = dfielddefConstantes.Si.ToString() Then
                                 LimpiarEstructuras()
-                                NotaCreditoProveedor.Limpiar_Datos_Comprobante(dgvNotaCreditoProveedor, txtSubTotal, txtDescuento, txtIVa, txtTotal, txtRazonSocial, txtDireccion, txtCelular, txtTelefono, txtCondIva, txtMail, txtLimiteCC, tbPuntoVenta, tbNumeroComprobante, lblTipoComprobante, lblIdComprobante)
+                                clsNotaCreditoProveedor.Limpiar_Datos_Comprobante(dgvNotaCreditoProveedor, txtSubTotal, txtDescuento, txtIVa, txtTotal, txtRazonSocial, txtDireccion, txtCelular, txtTelefono, txtCondIva, txtMail, txtLimiteCC, tbPuntoVenta, tbNumeroComprobante, lblTipoComprobante, lblIdComprobante)
                                 txtCodigoProveedor.Text = ""
                                 lblCodN.Visible = False
                             Else
-                                If formaPago.Compvariable = dfielddefConstantes.No.ToString() Then
+                                If clsformaPago.Compvariable = dfielddefConstantes.No.ToString() Then
                                     LimpiarEstructuras()
                                 End If
                             End If

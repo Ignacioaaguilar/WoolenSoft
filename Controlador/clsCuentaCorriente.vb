@@ -1,25 +1,22 @@
 ﻿Imports System.Windows.Forms
 Imports Modelo
-Public Class Imputaciones
-    Public session As New Controlador.Session()
+Public Class clsCuentaCorriente
+    Public session As New Controlador.clsSession()
     Private Shared variable As String
     Private Shared CantidadUnidades As Integer
     Private Shared Datos As DataTable
     Private Shared DataGrid As DataGridView
     Private Shared TipoComprobante As String
-    Public Structure eImputaciones
-        Public IdImputaciones As Integer
-        Public PuntoVentaRecibo As String
-        Public TipoComprobanteRecibo As String
-        Public NumeroComprobanteRecibo As String
-        Public Comprobante As String
-        Public NumeroCliente As String
-        Public Fecha As String
+
+    Public Structure eCuentaCorriente
+        Public Id_CuentaCorriente As String
         Public PuntoVenta As String
         Public TipoComprobante As String
         Public NumeroComprobante As String
+        Public Comprobante As String
+        Public NumeroCliente As String
+        Public Fecha As String
         Public Importe As String
-        Public ID_FormaPago As String
         Public Descripcion As String
         Public Signo As String
         Public NroPuesto As String
@@ -64,12 +61,12 @@ Public Class Imputaciones
             Me.DataGrid = Value
         End Set
     End Property
-    Public Sub llenar_tabla_Imputaciones(ByVal cadena As String, ByRef grilla As DataGridView)
+    Public Sub llenar_tabla_CuentaCorriente(ByVal cadena As String, ByRef grilla As DataGridView)
         Dim conectar As New coneccion()
         conectar.srt_conexion = session.Session.CadenaConeccion
         conectar.cargar_tabla(grilla, cadena)
     End Sub
-    Public Sub llenar_Combo_Imputaciones(ByRef combo As ComboBox, ByVal cadena As String, ByVal value As String, ByVal member As String)
+    Public Sub llenar_Combo_CuentaCorriente(ByRef combo As ComboBox, ByVal cadena As String, ByVal value As String, ByVal member As String)
         Dim conectar As New coneccion()
         conectar.srt_conexion = session.Session.CadenaConeccion
         conectar.cargar_combo(combo, cadena, value, member)
@@ -111,32 +108,28 @@ Public Class Imputaciones
     Public Sub obtenerTasa(ByVal valor As String, ByRef tasa As Double)
         tasa = (CDbl(valor) / 100) + 1
     End Sub
-    Public Sub Pasar_A_Coleccion(ByVal Imputaciones_estructura() As eImputaciones, ByRef datos As Collection, ByVal i As Integer)
-        datos.Add(Imputaciones_estructura(i).IdImputaciones)
-        datos.Add(Imputaciones_estructura(i).PuntoVentaRecibo)
-        datos.Add(Imputaciones_estructura(i).TipoComprobanteRecibo)
-        datos.Add(Imputaciones_estructura(i).NumeroComprobanteRecibo)
-        datos.Add(Imputaciones_estructura(i).Comprobante)
-        datos.Add(Imputaciones_estructura(i).NumeroCliente)
-        datos.Add(Imputaciones_estructura(i).Fecha)
-        datos.Add(Imputaciones_estructura(i).PuntoVenta)
-        datos.Add(Imputaciones_estructura(i).TipoComprobante)
-        datos.Add(Imputaciones_estructura(i).NumeroComprobante)
-        datos.Add(Imputaciones_estructura(i).Importe)
-        datos.Add(Imputaciones_estructura(i).ID_FormaPago)
-        datos.Add(Imputaciones_estructura(i).Descripcion)
-        datos.Add(Imputaciones_estructura(i).Signo)
-        datos.Add(Imputaciones_estructura(i).NroPuesto)
+    Public Sub Pasar_A_Coleccion(ByVal CuentaCorriente_estructura() As eCuentaCorriente, ByRef datos As Collection, ByVal i As Integer)
+        datos.Add(CuentaCorriente_estructura(i).Id_CuentaCorriente)
+        datos.Add(CuentaCorriente_estructura(i).PuntoVenta)
+        datos.Add(CuentaCorriente_estructura(i).TipoComprobante)
+        datos.Add(CuentaCorriente_estructura(i).NumeroComprobante)
+        datos.Add(CuentaCorriente_estructura(i).Comprobante)
+        datos.Add(CuentaCorriente_estructura(i).NumeroCliente)
+        datos.Add(CuentaCorriente_estructura(i).Fecha)
+        datos.Add(CuentaCorriente_estructura(i).Importe)
+        datos.Add(CuentaCorriente_estructura(i).Descripcion)
+        datos.Add(CuentaCorriente_estructura(i).Signo)
+        datos.Add(CuentaCorriente_estructura(i).NroPuesto)
     End Sub
     Public Sub Obtener_Clave_Principal(ByRef Clave_Princ As Collection)
-        Clave_Princ.Add("IdImputaciones")
+        Clave_Princ.Add("IdCuentaCorriente")
     End Sub
-    Public Sub ObtenerUltimoNumeroImputaciones(ByRef Ultimo As Integer)
+    Public Sub ObtenerUltimoNumeroCuentaCorriente(ByRef Ultimo As Integer)
         Dim conectar As New coneccion()
         Dim datos As New DataTable
         Dim consulta As String
         conectar.srt_conexion = session.Session.CadenaConeccion
-        consulta = "Select Max(IdImputaciones) as Maximo from Imputaciones"
+        consulta = "Select Max(IdCuentaCorriente) as Maximo from CuentaCorriente"
         datos = conectar.consulta_reader(consulta)
         If DBNull.Value.Equals(datos.Rows(0).Item(0)) Then
             Ultimo = 1

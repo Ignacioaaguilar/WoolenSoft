@@ -3,7 +3,7 @@ Imports Modelo
 Imports System.IO.StreamWriter
 Imports System.IO
 Imports System.Xml
-Public Class Session
+Public Class clsSession
     Class Contacto
         Public Cadena As String
         Public NroPuesto As String

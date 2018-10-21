@@ -8,30 +8,42 @@ Public Class frmFacturacion
     Dim Responsabilidad_IVA_Empresa As String
     Public _Cant As Integer
     Dim Enviar(0) As Byte
-    Public Facturacion_Enc_estructura(0) As Controlador.Facturacion.eEncabezadoFactura
-    Public Datos_Clientes As Controlador.Cliente.eCliente
-    Public Datos_Clientes_Cond_Frente_A_Iva As Controlador.Cliente.eCondicion_Frente_Al_Iva
-    Public Facturacion_Cuerpo_estructura(0) As Controlador.Facturacion.eCuerpoFactura
-    Public Numero_Comprobante(0) As Controlador.NumeroComprobante.eNumeracionComprobante
-    Public Articulos_Estructura(0) As Controlador.Articulos.eArticulo
-    Public DatosFactura As Controlador.Facturacion.eDatosFactura
-    Public Datos_Empresa As Controlador.Empresas.eEmpresa
-    Public Datos_Tipo_Comprobante As Controlador.Facturacion.eTipoComprobante
-    Public Datos_Configuracion As Controlador.Configuracion.eConfiguracion
-    Public Datos_Articulo As Controlador.Articulos.eArticulo
-    Public DatosArticuloCuerpoDocumento As Controlador.Articulos.eArticuloCuerpoDocumento
-    Public datos_Lista_Precio As Controlador.Lista_Precios.eListaPrecio
-    Public ListCuerpoFactura As New List(Of Controlador.Articulos.eArticuloCuerpoDocumento)
-    Dim dfielddefArticuloListaPrecio As Controlador.DfieldDef.eArticuloCuerpoDocumento
-    Dim dfielddefEmpresa As Controlador.DfieldDef.eEmpresa
-    Dim dfielddefConfiguracion As Controlador.DfieldDef.eConfiguracion
-    Dim dfielddefListaPrecio As Controlador.DfieldDef.eListaPrecio
-    Dim dfielddefCliente As Controlador.DfieldDef.eCliente
-    Dim dfielddecNumeroComprobantea As Controlador.DfieldDef.eNumeroComprobante
-    Dim dfielddefConstantes As Controlador.DfieldDef.eConstantes
-    Public estTasaIVA(0) As Controlador.TasaIVA.eTasaIVA
-    Public session As New Controlador.Session()
+    Public Facturacion_Enc_estructura(0) As Controlador.clsFacturacion.eEncabezadoFactura
+    Public Datos_Clientes As Controlador.clsCliente.eCliente
+    Public Datos_Clientes_Cond_Frente_A_Iva As Controlador.clsCliente.eCondicion_Frente_Al_Iva
+    Public Facturacion_Cuerpo_estructura(0) As Controlador.clsFacturacion.eCuerpoFactura
+    Public Numero_Comprobante(0) As Controlador.clsNumeroComprobante.eNumeracionComprobante
+    Public Articulos_Estructura(0) As Controlador.clsArticulos.eArticulo
+    Public DatosFactura As Controlador.clsFacturacion.eDatosFactura
+    Public Datos_Empresa As Controlador.clsEmpresas.eEmpresa
+    Public Datos_Tipo_Comprobante As Controlador.clsFacturacion.eTipoComprobante
+    Public Datos_Configuracion As Controlador.clsConfiguracion.eConfiguracion
+    Public Datos_Articulo As Controlador.clsArticulos.eArticulo
+    Public DatosArticuloCuerpoDocumento As Controlador.clsArticulos.eArticuloCuerpoDocumento
+    Public datos_Lista_Precio As Controlador.clsLista_Precios.eListaPrecio
+    Public ListCuerpoFactura As New List(Of Controlador.clsArticulos.eArticuloCuerpoDocumento)
+    Dim dfielddefArticuloListaPrecio As Controlador.clsDfieldDef.eArticuloCuerpoDocumento
+    Dim dfielddefEmpresa As Controlador.clsDfieldDef.eEmpresa
+    Dim dfielddefConfiguracion As Controlador.clsDfieldDef.eConfiguracion
+    Dim dfielddefListaPrecio As Controlador.clsDfieldDef.eListaPrecio
+    Dim dfielddefCliente As Controlador.clsDfieldDef.eCliente
+    Dim dfielddecNumeroComprobantea As Controlador.clsDfieldDef.eNumeroComprobante
+    Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
+    Public estTasaIVA(0) As Controlador.clsTasaIVA.eTasaIVA
+    Public session As New Controlador.clsSession()
     Private CodigoCliente As String
+    Dim clsEmpresa As New Controlador.clsEmpresas()
+    Dim clsConfiguracion As New Controlador.clsConfiguracion
+    Dim clsTasaIVA As New Controlador.clsTasaIVA()
+    Dim clsLista_Precio As New Controlador.clsLista_Precios
+    Dim clsfacturacion As New Controlador.clsFacturacion()
+    Dim clsarticulo As New Controlador.clsArticulos()
+    Dim clscliente As New Controlador.clsCliente
+    Dim eNumero_Condicion_IVA_Cliente As Controlador.clsCliente.eCondicion_Frente_Al_Iva
+    Dim eDatoTipoComprobante As Controlador.clsFacturacion.eTipoComprobante
+    Dim clsNumeroComprobante As New Controlador.clsNumeroComprobante
+    Dim clsformaPago As New Controlador.clsFormasDePago
+    Dim clscantidad As New Controlador.clsCantidad()
 #End Region
 
 #Region "Constructor"
@@ -39,11 +51,11 @@ Public Class frmFacturacion
 
 
     Private Sub Facturacion_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim Empresa As New Controlador.Empresas()
-        Dim Configuracion As New Controlador.Configuracion
+        'Dim Empresa As New Controlador.clsEmpresas()
+        'Dim clsConfiguracion As New Controlador.clsConfiguracion
         Dim puerto As Integer
         Try
-            Configuracion.Obtener_Datos_Configuracion(Datos_Configuracion)
+            clsConfiguracion.Obtener_Datos_Configuracion(Datos_Configuracion)
             OcultarTasasIVA()
             puerto = Convert.ToInt32(Datos_Configuracion.Nro_Puerto)
             If BalanzaConectada(puerto) Then
@@ -57,7 +69,7 @@ Public Class frmFacturacion
                 AxMSComm2.Output = Enviar       ' para que la balanza repsonda con peso con indicador de estabilidad
                 AxMSComm2.Output = Enviar
             End If
-            Empresa.Obtener_Datos_Empresa(Empresa.Compvariable, Datos_Empresa)
+            clsEmpresa.Obtener_Datos_Empresa(clsEmpresa.Compvariable, Datos_Empresa)
             txtNroSucursal.Text = Datos_Empresa.Nro_Sucursal
             mtFecha.Text = Date.Now
             lblCodN.Visible = False
@@ -73,16 +85,16 @@ Public Class frmFacturacion
 
 #Region "Event Form"
     Function BalanzaConectada(ByVal NumeroPuerto As Integer) As Boolean
-        Dim Configuracion As New Controlador.Configuracion
+        'Dim clsConfiguracion As New Controlador.clsConfiguracion
         Dim puertos As New Collection
         Dim idx As Integer
         Dim encontre As Boolean
         Dim numeroP As Integer
         idx = 1
         encontre = False
-        Configuracion.GetSerialPortNames(puertos)
+        clsConfiguracion.GetSerialPortNames(puertos)
         While idx <= puertos.Count And Not encontre
-            Configuracion.ObtenerNumeroPuerto(puertos(idx), numeroP)
+            clsConfiguracion.ObtenerNumeroPuerto(puertos(idx), numeroP)
             If numeroP = NumeroPuerto Then
                 encontre = True
             Else
@@ -95,10 +107,10 @@ Public Class frmFacturacion
     End Function
 
     Sub LlenarListaPrecios()
-        Dim Lista_Precio As New Controlador.Lista_Precios
-        Dim Configuracion As New Controlador.Configuracion
-        Configuracion.Obtener_Datos_Configuracion(Datos_Configuracion)
-        Lista_Precio.llenar_Combo_ListaPrecio(cbListaPrecio, "Id_Lista_Precio", "Descripcion")
+        'Dim Lista_Precio As New Controlador.clsLista_Precios
+        'Dim clsConfiguracion As New Controlador.clsConfiguracion
+        clsConfiguracion.Obtener_Datos_Configuracion(Datos_Configuracion)
+        clsLista_Precio.llenar_Combo_ListaPrecio(cbListaPrecio, "Id_Lista_Precio", "Descripcion")
         cbListaPrecio.Text = Datos_Configuracion.Lista_Precio
         datos_Lista_Precio.Id_Lista_Precio = Datos_Configuracion.Id_Lista_Precio
     End Sub
@@ -111,21 +123,21 @@ Public Class frmFacturacion
         Dim importeTotalNeto As Double
         Dim ImporteTotalSinDescuento As Double
         Dim consulta As String
-        Dim tasaIva As New Controlador.TasaIVA()
-        Dim datosiva As New DataTable()
+        ' Dim clsTasaIVA As New Controlador.clsTasaIVA()
+        Dim dtdatosiva As New DataTable()
         Dim idx As Integer
 
         If (Datos_Clientes.Id_Cliente <> Nothing) Then
             consulta = "Select * " & vbCrLf
             consulta += "From Tasa_IVA"
-            tasaIva.recuperar_All_Datos(datosiva)
+            clsTasaIVA.recuperar_All_Datos(dtdatosiva)
             idx = 1
             ReDim estTasaIVA(0)
-            For i As Integer = 0 To datosiva.Rows.Count - 1
+            For i As Integer = 0 To dtdatosiva.Rows.Count - 1
                 ReDim Preserve estTasaIVA(idx)
-                estTasaIVA(idx).Id_Tasa_IVA = datosiva.Rows(i).Item("Id_Tasa_IVA")
-                estTasaIVA(idx).Descripcion = datosiva.Rows(i).Item("Descripcion")
-                estTasaIVA(idx).Tasa = datosiva.Rows(i).Item("Tasa")
+                estTasaIVA(idx).Id_Tasa_IVA = dtdatosiva.Rows(i).Item("Id_Tasa_IVA")
+                estTasaIVA(idx).Descripcion = dtdatosiva.Rows(i).Item("Descripcion")
+                estTasaIVA(idx).Tasa = dtdatosiva.Rows(i).Item("Tasa")
                 idx = idx + 1
             Next
             ReDim Preserve Facturacion_Enc_estructura(1)
@@ -182,28 +194,28 @@ Public Class frmFacturacion
         End If
     End Sub
     Private Sub txtBalanza_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtBalanza.TextChanged
-        Dim VentaRapida As New Controlador.Facturacion()
-        If Not (VentaRapida.validateDoublesAndCurrency_Comprobante(txtBalanza.Text)) Then
+        'Dim VentaRapida As New Controlador.clsFacturacion()
+        If Not (clsfacturacion.validateDoublesAndCurrency_Comprobante(txtBalanza.Text)) Then
             txtBalanza.Text = String.Empty
         End If
     End Sub
     Private Sub txtBusquedaArticulo_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtBusquedaArticulo.KeyDown
-        Dim articulo As New Controlador.Articulos()
-        If Not (articulo.es_Numero(txtBusquedaArticulo.Text)) Then
+        'Dim articulo As New Controlador.clsArticulos()
+        If Not (clsarticulo.es_Numero(txtBusquedaArticulo.Text)) Then
             txtBusquedaArticulo.Text = String.Empty
 
         ElseIf e.KeyCode = Keys.Enter Then
-            articulo.Compvariable = dfielddefConstantes.ArticulosFacturacion.ToString()
+            clsarticulo.Compvariable = dfielddefConstantes.ArticulosFacturacion.ToString()
             Datos_Articulo.Id_Producto = txtBusquedaArticulo.Text.Trim()
             cargarArticulos()
             txtBusquedaArticulo.Text = String.Empty
         End If
     End Sub
     Private Sub ToolStripBuscar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripBuscar.Click
-        Dim Fact As New Controlador.Facturacion()
-        Dim Cli As New Controlador.Cliente
+        'Dim Fact As New Controlador.clsFacturacion()
+        'Dim Cli As New Controlador.clsCliente
         Dim idx As Integer
-        Dim art As New Controlador.Articulos
+        'Dim art As New Controlador.clsArticulos
         For x As Integer = ProgressBarFacturacion.Minimum To ProgressBarFacturacion.Maximum
             ProgressBarFacturacion.Value = x
         Next
@@ -211,20 +223,20 @@ Public Class frmFacturacion
             ProgressBarFacturacion.Value = x
         Next
 
-        Fact.Compvariable = dfielddefConstantes.FACTURA.ToString()
+        clsFacturacion.Compvariable = dfielddefConstantes.FACTURA.ToString()
         Vista.frmBuscarComprobante.ShowDialog()
-        If art.busquedaComprobante = dfielddefConstantes.BuscarComprobante.ToString() Then
-            If Fact.ComplistOfCodProd.Count > 0 Then
-                txtCodigoCliente.Text = Cli.CompCodigo
-                TxtPorcDesc.Text = Fact.CompPorcDescuentos
+        If clsarticulo.busquedaComprobante = dfielddefConstantes.BuscarComprobante.ToString() Then
+            If clsfacturacion.ComplistOfCodProd.Count > 0 Then
+                txtCodigoCliente.Text = clscliente.CompCodigo
+                TxtPorcDesc.Text = clsfacturacion.CompPorcDescuentos
 
                 If dgvFacturacion.Rows.Count - 1 >= 1 Then
-                    Fact.Limpiar_Importes_Comprobante(dgvFacturacion, txtNeto, txtDescuento, txtIVA21, txtIVA105, txtIVA27, TxtSubTotal, txtTotal)
+                    clsfacturacion.Limpiar_Importes_Comprobante(dgvFacturacion, txtNeto, txtDescuento, txtIVA21, txtIVA105, txtIVA27, TxtSubTotal, txtTotal)
                     LimpiarEstructuras()
                     agregarFilaInicial()
                 End If
-                For idx = 0 To Fact.ComplistOfCodProd.Count - 1
-                    txtBusquedaArticulo.Text = Fact.ComplistOfCodProd(idx)
+                For idx = 0 To clsfacturacion.ComplistOfCodProd.Count - 1
+                    txtBusquedaArticulo.Text = clsfacturacion.ComplistOfCodProd(idx)
                 Next
 
             End If
@@ -237,21 +249,21 @@ Public Class frmFacturacion
         Dim consulta As String
         'Dim datos As New Collection
         'Dim ClavePrincipal As New Collection
-        Dim Facturacion As New Controlador.Facturacion
-        Dim NumeroComprobante As New Controlador.NumeroComprobante
-        Dim datosDataTable As New DataTable
+        'Dim clsFacturacion As New Controlador.clsFacturacion
+        'Dim clsNumeroComprobante As New Controlador.clsNumeroComprobante
+        Dim dtdatosDataTable As New DataTable
         Dim tipocomprobante As String
         Dim Numero_Condicion_IVA_Empresa As Integer
-        Dim Empresa As New Controlador.Empresas
-        Dim Numero_Condicion_IVA_Cliente As Controlador.Cliente.eCondicion_Frente_Al_Iva
-        Dim Cliente As New Controlador.Cliente
-        Dim Articulo As New Controlador.Articulos
+        'Dim Empresa As New Controlador.clsEmpresas
+        'Dim Numero_Condicion_IVA_Cliente As Controlador.clsCliente.eCondicion_Frente_Al_Iva
+        'Dim clsCliente As New Controlador.clsCliente
+        'Dim Articulo As New Controlador.clsArticulos
         Dim dtArticulos As New DataTable
         Dim i As Integer
-        Dim formaPago As New Controlador.FormasDePago
-        Dim datosComprobante As New DataTable
+        'Dim formaPago As New Controlador.clsFormasDePago
+        Dim dtdatosComprobante As New DataTable
         Dim IdTipoComprobante As Integer
-        Dim DatoTipoComprobante As Controlador.Facturacion.eTipoComprobante
+        'Dim DatoTipoComprobante As Controlador.clsFacturacion.eTipoComprobante
         For x As Integer = ProgressBarFacturacion.Minimum To ProgressBarFacturacion.Maximum
             ProgressBarFacturacion.Value = x
         Next
@@ -330,9 +342,9 @@ Public Class frmFacturacion
                 Facturacion_Enc_estructura(1).Signo = "1"
                 Facturacion_Enc_estructura(1).NroPuesto = session.Session.NroPuesto
                 'consulta = "select Id_Condicion_IVA from " + dfielddefConstantes.Condicion_Frente_Al_IVA.ToString() + " where Condicion_Frente_Al_IVA.Descripcion= '" & (txtCondIVA.Text) & "' "
-                Cliente.Obtener_CondicionFrenteAIVa(txtCondIVA.Text, Numero_Condicion_IVA_Cliente)
+                clscliente.Obtener_CondicionFrenteAIVa(txtCondIVA.Text, eNumero_Condicion_IVA_Cliente)
                 'consulta = "select Id_Condicion_IVA from " + dfielddefConstantes.Condicion_Frente_Al_IVA.ToString() + " where Condicion_Frente_Al_IVA.Descripcion= '" & (Responsabilidad_IVA_Empresa) & "' "
-                Empresa.Obtener_Responsabilidad_IVA_Empresa(Responsabilidad_IVA_Empresa, Numero_Condicion_IVA_Empresa)
+                clsEmpresa.Obtener_Responsabilidad_IVA_Empresa(Responsabilidad_IVA_Empresa, Numero_Condicion_IVA_Empresa)
 
                 'consulta = " Select TC.IdTipoComprobante,TC.Descripcion" & vbCrLf
                 'consulta += " from (Tipos_Comprobantes as TC" & vbCrLf
@@ -343,21 +355,21 @@ Public Class frmFacturacion
                 'consulta += " and TC.IdTipoComprobante in ('1','11','6')"
 
                 'Facturacion.Obtener_Tipo_Comprobante(consulta, tipocomprobante)
-                Facturacion.Obtener_Datos_Comprobante(Numero_Condicion_IVA_Cliente.Id_Condicion_IVA, Numero_Condicion_IVA_Empresa, dfielddefConstantes.FACTURA.ToString(), DatoTipoComprobante)
+                clsfacturacion.Obtener_Datos_Comprobante(eNumero_Condicion_IVA_Cliente.Id_Condicion_IVA, Numero_Condicion_IVA_Empresa, dfielddefConstantes.FACTURA.ToString(), eDatoTipoComprobante)
                 'tipocomprobante = datosComprobante.Rows(0).Item("Descripcion")
                 'IdTipoComprobante = Convert.ToInt32(datosComprobante.Rows(0).Item("IdTipoComprobante"))
-                tipocomprobante = DatoTipoComprobante.Descripcion
-                IdTipoComprobante = Convert.ToInt32(DatoTipoComprobante.IdTipoComprobante)
+                tipocomprobante = eDatoTipoComprobante.Descripcion
+                IdTipoComprobante = Convert.ToInt32(eDatoTipoComprobante.IdTipoComprobante)
 
                 Facturacion_Enc_estructura(1).Comprobante = tipocomprobante
                 'consulta = "select Id_Comprobante,Descripcion, Numeracion,Id_Empresa,Id_Tipo_Comprobante from " + dfielddefConstantes.Numeracion_Comprobante.ToString() + "   where Id_Empresa='" + Empresa.Compvariable + "' and Id_Tipo_Comprobante = '" & Convert.ToString(IdTipoComprobante) & "'"
-                NumeroComprobante.obtener_Datos_Numero_Comprobante_Empresa_TipoComprobante(Empresa.Compvariable, Convert.ToString(IdTipoComprobante), datosDataTable)
+                clsNumeroComprobante.obtener_Datos_Numero_Comprobante_Empresa_TipoComprobante(clsEmpresa.Compvariable, Convert.ToString(IdTipoComprobante), dtdatosDataTable)
                 ReDim Numero_Comprobante(1)
-                Numero_Comprobante(1).Id_Comprobante = datosDataTable.Rows(0).Item(dfielddecNumeroComprobantea.Id_Comprobante)
-                Numero_Comprobante(1).Descripcion = datosDataTable.Rows(0).Item(dfielddecNumeroComprobantea.Descripcion)
+                Numero_Comprobante(1).Id_Comprobante = dtdatosDataTable.Rows(0).Item(dfielddecNumeroComprobantea.Id_Comprobante)
+                Numero_Comprobante(1).Descripcion = dtdatosDataTable.Rows(0).Item(dfielddecNumeroComprobantea.Descripcion)
                 Numero_Comprobante(1).Numeracion = txtnumeroComprobante.Text.Trim()
-                Numero_Comprobante(1).Id_Empresa = datosDataTable.Rows(0).Item(dfielddecNumeroComprobantea.Id_Empresa)
-                Numero_Comprobante(1).Id_Tipo_Comprobante = datosDataTable.Rows(0).Item(dfielddecNumeroComprobantea.Id_Tipo_Comprobante)
+                Numero_Comprobante(1).Id_Empresa = dtdatosDataTable.Rows(0).Item(dfielddecNumeroComprobantea.Id_Empresa)
+                Numero_Comprobante(1).Id_Tipo_Comprobante = dtdatosDataTable.Rows(0).Item(dfielddecNumeroComprobantea.Id_Tipo_Comprobante)
 
                 i = 1
 
@@ -378,7 +390,7 @@ Public Class frmFacturacion
                         Facturacion_Cuerpo_estructura(i).Signo = "1"
                         Facturacion_Cuerpo_estructura(i).NroPuesto = session.Session.NroPuesto
                         'consulta = "select * from " + dfielddefConstantes.Producto.ToString() + " where Id_Producto='" + Facturacion_Cuerpo_estructura(i).Numero_Articulo + "'"
-                        Articulo.ObtenerProductos(Facturacion_Cuerpo_estructura(i).Numero_Articulo, dtArticulos)
+                        clsarticulo.ObtenerProductos(Facturacion_Cuerpo_estructura(i).Numero_Articulo, dtArticulos)
                         Articulos_Estructura(i).Id_Producto = Facturacion_Cuerpo_estructura(i).Numero_Articulo
                         Articulos_Estructura(i).Stock = dtArticulos.Rows(0).Item("Stock") ''''VER
                     End If
@@ -387,15 +399,15 @@ Public Class frmFacturacion
                 Try
 
                     Dim FPP As New frmFormasDePago(Facturacion_Enc_estructura, Facturacion_Cuerpo_estructura, Articulos_Estructura, Numero_Comprobante)
-                    formaPago.Compvariable = dfielddefConstantes.FACTURA.ToString()
+                    clsformaPago.Compvariable = dfielddefConstantes.FACTURA.ToString()
                     FPP.ShowDialog()
-                    If formaPago.Compvariable = dfielddefConstantes.Si.ToString() Then
+                    If clsformaPago.Compvariable = dfielddefConstantes.Si.ToString() Then
                         LimpiarEstructuras()
-                        Facturacion.Limpiar_Datos_Comprobante(dgvFacturacion, txtNeto, txtDescuento, txtIVA21, txtIVA105, txtIVA27, TxtSubTotal, txtTotal, txtNombre, txtApellido, txtDireccion, txtCelular, txtTelefono, txtCondIVA, txtMail, txtLimiteCC, txtnumeroComprobante, lblTipoComprobante, lblIdComprobante, TxtPorcDesc)
+                        clsfacturacion.Limpiar_Datos_Comprobante(dgvFacturacion, txtNeto, txtDescuento, txtIVA21, txtIVA105, txtIVA27, TxtSubTotal, txtTotal, txtNombre, txtApellido, txtDireccion, txtCelular, txtTelefono, txtCondIVA, txtMail, txtLimiteCC, txtnumeroComprobante, lblTipoComprobante, lblIdComprobante, TxtPorcDesc)
                         txtCodigoCliente.Text = String.Empty
                         lblCodN.Visible = False
                     Else
-                        If formaPago.Compvariable = dfielddefConstantes.No.ToString() Then
+                        If clsformaPago.Compvariable = dfielddefConstantes.No.ToString() Then
                             LimpiarEstructuras()
                         End If
                     End If
@@ -504,40 +516,40 @@ Public Class frmFacturacion
         End Try
     End Sub
     Private Sub txtBusquedaArticulo_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtBusquedaArticulo.TextChanged
-        Dim articulo As New Controlador.Articulos()
+        'Dim articulo As New Controlador.clsArticulos()
 
-        If (articulo.CompvariableCargarArticulo = dfielddefConstantes.Si.ToString()) Then
+        If (clsarticulo.CompvariableCargarArticulo = dfielddefConstantes.Si.ToString()) Then
 
             cargarArticulos()
             txtBusquedaArticulo.Text = String.Empty
 
         Else
-            If (articulo.busquedaComprobante = dfielddefConstantes.BuscarComprobante.ToString()) Then
+            If (clsarticulo.busquedaComprobante = dfielddefConstantes.BuscarComprobante.ToString()) Then
                 Datos_Articulo.Id_Producto = txtBusquedaArticulo.Text.Trim()
                 cargarArticulos()
-                articulo.busquedaComprobante = String.Empty
+                clsarticulo.busquedaComprobante = String.Empty
                 txtBusquedaArticulo.Text = String.Empty
 
             End If
         End If
     End Sub
     Private Sub btnBuscarArticulo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscarArticulo.Click
-        Dim articulo As New Controlador.Articulos()
-        Dim FacturacionArt As New Controlador.Facturacion()
+        'Dim articulo As New Controlador.clsArticulos()
+        'Dim FacturacionArt As New Controlador.clsFacturacion()
         Try
             If Datos_Clientes.Id_Cliente <> Nothing Then
-                articulo.Compvariable = dfielddefConstantes.ArticulosFacturacion.ToString()
-                articulo.CompvariableCargarArticulo = dfielddefConstantes.Si.ToString()
+                clsarticulo.Compvariable = dfielddefConstantes.ArticulosFacturacion.ToString()
+                clsarticulo.CompvariableCargarArticulo = dfielddefConstantes.Si.ToString()
 
                 frmArticulos.ShowDialog()
-                If FacturacionArt.FacturacionCodArticulo <> String.Empty Then
-                    Datos_Articulo.Id_Producto = FacturacionArt.FacturacionCodArticulo.ToString()
-                    articulo.CompId_Articulo = Nothing
-                    FacturacionArt.FacturacionCodArticulo = Nothing
+                If clsfacturacion.FacturacionCodArticulo <> String.Empty Then
+                    Datos_Articulo.Id_Producto = clsfacturacion.FacturacionCodArticulo.ToString()
+                    clsarticulo.CompId_Articulo = Nothing
+                    clsfacturacion.FacturacionCodArticulo = Nothing
                     txtBusquedaArticulo.Text = Datos_Articulo.Id_Producto
                 Else
-                    articulo.CompId_Articulo = Nothing
-                    FacturacionArt.FacturacionCodArticulo = Nothing
+                    clsarticulo.CompId_Articulo = Nothing
+                    clsfacturacion.FacturacionCodArticulo = Nothing
                 End If
 
                 AxMSComm2.InputLen = 0
@@ -552,31 +564,31 @@ Public Class frmFacturacion
         End Try
     End Sub
     Public Sub txtCodigoCliente_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtCodigoCliente.TextChanged
-        Dim Clientes As New Controlador.Cliente()
-        Dim Empresa As New Controlador.Empresas()
-        Dim Facturacion As New Controlador.Facturacion()
-        Dim NumeroComprobante As New Controlador.NumeroComprobante()
+        'Dim Clientes As New Controlador.clsCliente()
+        'Dim Empresa As New Controlador.clsEmpresas()
+        'Dim clsFacturacion As New Controlador.clsFacturacion()
+        'Dim clsNumeroComprobante As New Controlador.clsNumeroComprobante()
         Dim tipoComprobante As String
         Dim IDTipoComprobante As Integer
         Dim numeroComp As String
         Dim nuComprobante As Integer
         Dim existe As Boolean
         Try
-            If Not (Clientes.es_Numero(txtCodigoCliente.Text)) Then
+            If Not (clscliente.es_Numero(txtCodigoCliente.Text)) Then
                 'If Not (Clientes.es_Numero(Clientes.CompCodigo)) Then
                 txtCodigoCliente.Text = String.Empty
                 Datos_Clientes.Id_Cliente = Nothing
-                Facturacion.Limpiar_Datos_Comprobante(dgvFacturacion, txtNeto, txtDescuento, txtIVA21, txtIVA105, txtIVA27, TxtSubTotal, txtTotal, txtNombre, txtApellido, txtDireccion, txtCelular, txtTelefono, txtCondIVA, txtMail, txtLimiteCC, txtnumeroComprobante, lblTipoComprobante, lblIdComprobante, TxtPorcDesc)
+                clsfacturacion.Limpiar_Datos_Comprobante(dgvFacturacion, txtNeto, txtDescuento, txtIVA21, txtIVA105, txtIVA27, TxtSubTotal, txtTotal, txtNombre, txtApellido, txtDireccion, txtCelular, txtTelefono, txtCondIVA, txtMail, txtLimiteCC, txtnumeroComprobante, lblTipoComprobante, lblIdComprobante, TxtPorcDesc)
             ElseIf txtCodigoCliente.Text <> String.Empty Then
                 'ElseIf Clientes.CompCodigo <> String.Empty Then
 
-                Empresa.Obtener_Datos_Empresa(Empresa.Compvariable, Datos_Empresa)
+                clsEmpresa.Obtener_Datos_Empresa(clsEmpresa.Compvariable, Datos_Empresa)
                 CargarDatosCliente(Convert.ToInt32(txtCodigoCliente.Text), Datos_Clientes)
                 'CargarDatosCliente(Convert.ToInt32(Clientes.CompCodigo), Datos_Clientes)
-                Clientes.Validar_Cliente(Datos_Clientes.Id_Cliente, existe)
+                clscliente.Validar_Cliente(Datos_Clientes.Id_Cliente, existe)
                 If existe Then
                     Me.lblCodN.Visible = True
-                    Facturacion.Limpiar_Datos_Comprobante(dgvFacturacion, txtNeto, txtDescuento, txtIVA21, txtIVA105, txtIVA27, TxtSubTotal, txtTotal, txtNombre, txtApellido, txtDireccion, txtCelular, txtTelefono, txtCondIVA, txtMail, txtLimiteCC, txtnumeroComprobante, lblTipoComprobante, lblIdComprobante, TxtPorcDesc)
+                    clsfacturacion.Limpiar_Datos_Comprobante(dgvFacturacion, txtNeto, txtDescuento, txtIVA21, txtIVA105, txtIVA27, TxtSubTotal, txtTotal, txtNombre, txtApellido, txtDireccion, txtCelular, txtTelefono, txtCondIVA, txtMail, txtLimiteCC, txtnumeroComprobante, lblTipoComprobante, lblIdComprobante, TxtPorcDesc)
                     txtNombre.Text = Datos_Clientes.Nombre
                     txtApellido.Text = Datos_Clientes.Apellido
                     txtDireccion.Text = Datos_Clientes.Calle + " " + Datos_Clientes.Piso + " " + Datos_Clientes.Nro
@@ -585,8 +597,8 @@ Public Class frmFacturacion
                     txtCondIVA.Text = Datos_Clientes.Responsabilidad_IVA
                     txtMail.Text = Datos_Clientes.E_Mail
                     txtLimiteCC.Text = Datos_Clientes.Saldo_CC
-                    Clientes.Obtener_CondicionFrenteAIVa(Datos_Clientes.Responsabilidad_IVA, Datos_Clientes_Cond_Frente_A_Iva)
-                    Facturacion.Obtener_Datos_Comprobante(Datos_Clientes_Cond_Frente_A_Iva.Id_Condicion_IVA, Datos_Empresa.Id_Responsabilidad_IVA, dfielddefConstantes.FACTURA.ToString(), Datos_Tipo_Comprobante)
+                    clscliente.Obtener_CondicionFrenteAIVa(Datos_Clientes.Responsabilidad_IVA, Datos_Clientes_Cond_Frente_A_Iva)
+                    clsfacturacion.Obtener_Datos_Comprobante(Datos_Clientes_Cond_Frente_A_Iva.Id_Condicion_IVA, Datos_Empresa.Id_Responsabilidad_IVA, dfielddefConstantes.FACTURA.ToString(), Datos_Tipo_Comprobante)
                     tipoComprobante = Datos_Tipo_Comprobante.Descripcion
                     IDTipoComprobante = Convert.ToInt32(Datos_Tipo_Comprobante.IdTipoComprobante)
                     lblTipoComprobante.Text = tipoComprobante
@@ -595,9 +607,9 @@ Public Class frmFacturacion
                     txtNroSucursal.Text = Datos_Empresa.Nro_Sucursal
                     Responsabilidad_IVA_Empresa = Datos_Empresa.Responsabilidad_IVA
 
-                    NumeroComprobante.obtener_Numero_Comprobante(Empresa.Compvariable, IDTipoComprobante, numeroComp)
+                    clsNumeroComprobante.obtener_Numero_Comprobante(clsEmpresa.Compvariable, IDTipoComprobante, numeroComp)
                     nuComprobante = Convert.ToInt32(numeroComp) + 1
-                    NumeroComprobante.Aumentar_Numeracion_Comprobante(nuComprobante, numeroComp)
+                    clsNumeroComprobante.Aumentar_Numeracion_Comprobante(nuComprobante, numeroComp)
                     txtnumeroComprobante.Text = numeroComp
 
                     InicializarEstructuras()
@@ -615,7 +627,7 @@ Public Class frmFacturacion
                     MessageBox.Show("El Cliente no ha sido cargado!!!", "Informacion", MessageBoxButtons.OK, _
                                                          MessageBoxIcon.Information)
                     LimpiarEstructuras()
-                    Facturacion.Limpiar_Datos_Comprobante(dgvFacturacion, txtNeto, txtDescuento, txtIVA21, txtIVA105, txtIVA27, TxtSubTotal, txtTotal, txtNombre, txtApellido, txtDireccion, txtCelular, txtTelefono, txtCondIVA, txtMail, txtLimiteCC, txtnumeroComprobante, lblTipoComprobante, lblIdComprobante, TxtPorcDesc)
+                    clsfacturacion.Limpiar_Datos_Comprobante(dgvFacturacion, txtNeto, txtDescuento, txtIVA21, txtIVA105, txtIVA27, TxtSubTotal, txtTotal, txtNombre, txtApellido, txtDireccion, txtCelular, txtTelefono, txtCondIVA, txtMail, txtLimiteCC, txtnumeroComprobante, lblTipoComprobante, lblIdComprobante, TxtPorcDesc)
                     txtCodigoCliente.Text = String.Empty
                     lblCodN.Visible = False
                 End If
@@ -627,19 +639,19 @@ Public Class frmFacturacion
 
     End Sub
     Private Sub btnBuscarCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscarCliente.Click
-        Dim Cli As New Controlador.Cliente()
+        'Dim Cli As New Controlador.clsCliente()
         Try
-            Cli.Compvariable = dfielddefConstantes.FACTURA.ToString()
+            clscliente.Compvariable = dfielddefConstantes.FACTURA.ToString()
             frmClientes.ShowDialog()
-            txtCodigoCliente.Text = Cli.CompCodigo
-            Cli.CompCodigo = Nothing
+            txtCodigoCliente.Text = clscliente.CompCodigo
+            clscliente.CompCodigo = Nothing
         Catch ex As Exception
             MsgBox("Error:" & vbCrLf & ex.Message)
         End Try
     End Sub
     Private Sub dgvFacturacion_CellContentClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvFacturacion.CellContentClick
         Dim filaseleccionada As Integer
-        Dim Facturacion As New Controlador.Facturacion()
+        'Dim clsFacturacion As New Controlador.clsFacturacion()
         Dim ObtenerTasa As Double
         Dim importe As Double
         Dim importetotal As Double
@@ -648,8 +660,8 @@ Public Class frmFacturacion
         Dim descuentoCalculado105 As Double
         Dim descuentoCalculado27 As Double
         Dim consulta As String
-        Dim tasaIva As New Controlador.TasaIVA()
-        Dim datosiva As New DataTable()
+        'Dim clsTasaIVA As New Controlador.clsTasaIVA()
+        Dim dtdatosiva As New DataTable()
         Dim idx As Integer
         Try
             filaseleccionada = Convert.ToInt32(dgvFacturacion.CurrentRow.Index.ToString())
@@ -658,19 +670,19 @@ Public Class frmFacturacion
                 If ListCuerpoFactura.Any() Then
                     'consulta = "Select * " & vbCrLf
                     'consulta += "From Tasa_IVA"
-                    tasaIva.recuperar_All_Datos(datosiva)
+                    clsTasaIVA.recuperar_All_Datos(dtdatosiva)
                     idx = 1
                     ReDim estTasaIVA(0)
-                    For i As Integer = 0 To datosiva.Rows.Count - 1
+                    For i As Integer = 0 To dtdatosiva.Rows.Count - 1
                         ReDim Preserve estTasaIVA(idx)
-                        estTasaIVA(idx).Id_Tasa_IVA = datosiva.Rows(i).Item("Id_Tasa_IVA")
-                        estTasaIVA(idx).Descripcion = datosiva.Rows(i).Item("Descripcion")
-                        estTasaIVA(idx).Tasa = datosiva.Rows(i).Item("Tasa")
+                        estTasaIVA(idx).Id_Tasa_IVA = dtdatosiva.Rows(i).Item("Id_Tasa_IVA")
+                        estTasaIVA(idx).Descripcion = dtdatosiva.Rows(i).Item("Descripcion")
+                        estTasaIVA(idx).Tasa = dtdatosiva.Rows(i).Item("Tasa")
                         idx = idx + 1
                     Next
 
                     If Datos_Tipo_Comprobante.Descripcion = "FACTURA B" Or Datos_Tipo_Comprobante.Descripcion = "FACTURA C" Then
-                        Facturacion.obtenerTasa(ListCuerpoFactura(filaseleccionada).TasaIVa, ObtenerTasa)
+                        clsfacturacion.obtenerTasa(ListCuerpoFactura(filaseleccionada).TasaIVa, ObtenerTasa)
                         importe = Convert.ToDouble(ListCuerpoFactura(filaseleccionada).Importe)
                         If Facturacion_Enc_estructura(1).PorcDescuentos <> Nothing Then
                             descuento = ((importe * Convert.ToDouble(Facturacion_Enc_estructura(1).PorcDescuentos)) / 100)
@@ -819,20 +831,20 @@ Public Class frmFacturacion
         End If
     End Sub
     Private Sub cargarArticulos()
-        Dim articulo As New Controlador.Articulos()
-        Dim Facturacion As New Controlador.Facturacion()
+        'Dim articulo As New Controlador.clsArticulos()
+        'Dim clsFacturacion As New Controlador.clsFacturacion()
         Dim UltimaFila As Integer
         Dim ObtenerTasa As Double
         Dim importe As Double
         Try
 
-            If Not (articulo.es_Numero(Datos_Clientes.Id_Cliente.ToString())) Then
+            If Not (clsarticulo.es_Numero(Datos_Clientes.Id_Cliente.ToString())) Then
                 txtCodigoCliente.Text = String.Empty
-            ElseIf articulo.Compvariable = dfielddefConstantes.ArticulosFacturacion.ToString() Then
-                articulo.Compvariable = String.Empty
+            ElseIf clsarticulo.Compvariable = dfielddefConstantes.ArticulosFacturacion.ToString() Then
+                clsarticulo.Compvariable = String.Empty
                 If Datos_Clientes.Id_Cliente <> Nothing Then
                     datos_Lista_Precio.Id_Lista_Precio = cbListaPrecio.SelectedValue.ToString()
-                    articulo.recuperar_Datos(datos_Lista_Precio.Id_Lista_Precio, Datos_Articulo.Id_Producto, DatosArticuloCuerpoDocumento)
+                    clsarticulo.recuperar_Datos(datos_Lista_Precio.Id_Lista_Precio, Datos_Articulo.Id_Producto, DatosArticuloCuerpoDocumento)
                     If DatosArticuloCuerpoDocumento.IdProducto <> Nothing Then
 
                         If Datos_Articulo.Id_Producto <> Nothing Then
@@ -854,7 +866,7 @@ Public Class frmFacturacion
                                         dgvFacturacion.CurrentCell = dgvFacturacion.Rows(UltimaFila).Cells(0)
                                     Else
                                         MessageBox.Show("El Articulo es Pesable, conecte la balanza o ingrese el peso manualmente. ", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                                        articulo.CompvariableCargarArticulo = dfielddefConstantes.No.ToString()
+                                        clsarticulo.CompvariableCargarArticulo = dfielddefConstantes.No.ToString()
                                         Return
                                     End If
                                 Else
@@ -875,13 +887,13 @@ Public Class frmFacturacion
                                         dgvFacturacion.Rows.Add()
                                         dgvFacturacion.CurrentCell = dgvFacturacion.Rows(UltimaFila).Cells(0)
                                     Else
-                                        Dim cantid As New Controlador.Cantidad()
+                                        'Dim cantid As New Controlador.clsCantidad()
                                         Dim FormCantidadad As New Vista.frmCantidad()
-                                        cantid.CompDatos = DatosArticuloCuerpoDocumento ' datos
-                                        cantid.CompDataGrid = dgvFacturacion
-                                        cantid.CompTipoComprobante = Datos_Tipo_Comprobante.Descripcion ' tipoComprobante
+                                        clscantidad.CompDatos = DatosArticuloCuerpoDocumento ' datos
+                                        clscantidad.CompDataGrid = dgvFacturacion
+                                        clscantidad.CompTipoComprobante = Datos_Tipo_Comprobante.Descripcion ' tipoComprobante
                                         FormCantidadad.ShowDialog()
-                                        DatosArticuloCuerpoDocumento = cantid.CompDatos
+                                        DatosArticuloCuerpoDocumento = clscantidad.CompDatos
                                         obtenerImporteComprobante()
                                     End If
                                 End If
@@ -897,7 +909,7 @@ Public Class frmFacturacion
                                             dgvFacturacion.Rows(UltimaFila).Cells("Descripcion").Value = DatosArticuloCuerpoDocumento.Descripcion
                                             dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value = Replace(txtBalanza.Text, ".", ",")
                                             DatosArticuloCuerpoDocumento.cantidad = dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value
-                                            Facturacion.obtenerTasa(DatosArticuloCuerpoDocumento.IdTasaIVa, ObtenerTasa)
+                                            clsfacturacion.obtenerTasa(DatosArticuloCuerpoDocumento.IdTasaIVa, ObtenerTasa)
                                             dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value = Format((Replace(DatosArticuloCuerpoDocumento.PrecioVenta, ",", ".")) / ObtenerTasa, "##,##0.00")
                                             importe = CDbl(dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value) * CDbl(dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value)
                                             DatosArticuloCuerpoDocumento.Importe = importe
@@ -907,7 +919,7 @@ Public Class frmFacturacion
                                             dgvFacturacion.CurrentCell = dgvFacturacion.Rows(UltimaFila).Cells(0)
                                         Else
                                             MessageBox.Show("El Articulo es Pesable, conecte la balanza o ingrese el peso manualmente. ", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                                            articulo.CompvariableCargarArticulo = dfielddefConstantes.No.ToString()
+                                            clsarticulo.CompvariableCargarArticulo = dfielddefConstantes.No.ToString()
                                             Return
                                         End If
                                     Else
@@ -919,7 +931,7 @@ Public Class frmFacturacion
                                             dgvFacturacion.Rows(UltimaFila).Cells("Descripcion").Value = DatosArticuloCuerpoDocumento.Descripcion
                                             dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value = 1
                                             DatosArticuloCuerpoDocumento.cantidad = dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value
-                                            Facturacion.obtenerTasa(DatosArticuloCuerpoDocumento.TasaIVa, ObtenerTasa)
+                                            clsfacturacion.obtenerTasa(DatosArticuloCuerpoDocumento.TasaIVa, ObtenerTasa)
                                             dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value = Format(Convert.ToDouble(Replace(DatosArticuloCuerpoDocumento.PrecioVenta, ",", ".")) / ObtenerTasa, "##,##0.00")
                                             DatosArticuloCuerpoDocumento.PrecioVenta = dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value
                                             importe = (dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value) * CDbl(dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value)
@@ -929,13 +941,13 @@ Public Class frmFacturacion
                                             dgvFacturacion.Rows.Add()
                                             dgvFacturacion.CurrentCell = dgvFacturacion.Rows(UltimaFila).Cells(0)
                                         Else
-                                            Dim cantid As New Controlador.Cantidad()
+                                            'Dim cantid As New Controlador.clsCantidad()
                                             Dim FormCantidadad As New Vista.frmCantidad()
-                                            cantid.CompDatos = DatosArticuloCuerpoDocumento
-                                            cantid.CompDataGrid = dgvFacturacion
-                                            cantid.CompTipoComprobante = Datos_Tipo_Comprobante.Descripcion ' tipoComprobante
+                                            clscantidad.CompDatos = DatosArticuloCuerpoDocumento
+                                            clscantidad.CompDataGrid = dgvFacturacion
+                                            clscantidad.CompTipoComprobante = Datos_Tipo_Comprobante.Descripcion ' tipoComprobante
                                             FormCantidadad.ShowDialog()
-                                            DatosArticuloCuerpoDocumento = cantid.CompDatos
+                                            DatosArticuloCuerpoDocumento = clscantidad.CompDatos
                                             obtenerImporteComprobante()
                                         End If
                                     End If
@@ -945,7 +957,7 @@ Public Class frmFacturacion
                     Else
                         If txtBusquedaArticulo.Text.Trim() <> String.Empty Then
                             MessageBox.Show("El Articulo no pertenece a la lista de precio: " + cbListaPrecio.Text + " , agreguelo a la lista!!!", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            articulo.CompvariableCargarArticulo = dfielddefConstantes.No.ToString()
+                            clsarticulo.CompvariableCargarArticulo = dfielddefConstantes.No.ToString()
                             Return
                         End If
                     End If
@@ -953,10 +965,10 @@ Public Class frmFacturacion
             Else
                 MessageBox.Show("El Cliente no ha sido cargado!!!", "Informacion", MessageBoxButtons.OK, _
                                                          MessageBoxIcon.Information)
-                articulo.CompvariableCargarArticulo = dfielddefConstantes.No.ToString()
+                clsarticulo.CompvariableCargarArticulo = dfielddefConstantes.No.ToString()
                 Return
             End If
-            articulo.CompvariableCargarArticulo = dfielddefConstantes.No.ToString()
+            clsarticulo.CompvariableCargarArticulo = dfielddefConstantes.No.ToString()
         Catch ex As Exception
             MsgBox("Error:" & vbCrLf & ex.Message)
         End Try
@@ -972,12 +984,12 @@ Public Class frmFacturacion
         Facturacion_Enc_estructura(1).PorcDescuentos = "0"
     End Sub
 
-    Private Sub CargarDatosCliente(ByVal CodigoCliente As Integer, ByRef Datos_Clientes As Controlador.Cliente.eCliente)
-        Dim Cliente As New Controlador.Cliente()
-        Cliente.ObtenerDatosCliente(CodigoCliente, Datos_Clientes)
+    Private Sub CargarDatosCliente(ByVal CodigoCliente As Integer, ByRef Datos_Clientes As Controlador.clsCliente.eCliente)
+        'Dim clsCliente As New Controlador.clsCliente()
+        clscliente.ObtenerDatosCliente(CodigoCliente, Datos_Clientes)
     End Sub
     Private Sub cbListaPrecio_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbListaPrecio.SelectedIndexChanged
-        Dim Facturacion As New Controlador.Facturacion
+        'Dim clsFacturacion As New Controlador.clsFacturacion
         If cbListaPrecio.ValueMember <> String.Empty Then
 
             If ListCuerpoFactura.Any() Then
@@ -986,7 +998,7 @@ Public Class frmFacturacion
                     datos_Lista_Precio.Id_Lista_Precio = cbListaPrecio.SelectedValue
 
                     LimpiarEstructuras()
-                    Facturacion.Limpiar_Importes_Comprobante(dgvFacturacion, txtNeto, txtDescuento, txtIVA21, txtIVA105, txtIVA27, TxtSubTotal, txtTotal)
+                    clsfacturacion.Limpiar_Importes_Comprobante(dgvFacturacion, txtNeto, txtDescuento, txtIVA21, txtIVA105, txtIVA27, TxtSubTotal, txtTotal)
 
                     If dgvFacturacion.Rows.Count = 0 Then
                         agregarFilaInicial()
@@ -1011,28 +1023,28 @@ Public Class frmFacturacion
         Dim descuentoCalculado105 As Double
         Dim descuentoCalculado27 As Double
         Dim consulta As String
-        Dim tasaIva As New Controlador.TasaIVA()
-        Dim datosiva As New DataTable()
+        'Dim clsTasaIVA As New Controlador.clsTasaIVA()
+        Dim dtdatosiva As New DataTable()
         Dim idx As Integer
-        Dim Facturacion As New Controlador.Facturacion()
+        'Dim clsFacturacion As New Controlador.clsFacturacion()
         Dim ObtenerTasa As Double
 
         'consulta = "Select * " & vbCrLf
         'consulta += "From Tasa_IVA"
-        tasaIva.recuperar_All_Datos(datosiva)
+        clsTasaIVA.recuperar_All_Datos(dtdatosiva)
         idx = 1
         ReDim estTasaIVA(0)
-        For i As Integer = 0 To datosiva.Rows.Count - 1
+        For i As Integer = 0 To dtdatosiva.Rows.Count - 1
             ReDim Preserve estTasaIVA(idx)
-            estTasaIVA(idx).Id_Tasa_IVA = datosiva.Rows(i).Item("Id_Tasa_IVA")
-            estTasaIVA(idx).Descripcion = datosiva.Rows(i).Item("Descripcion")
-            estTasaIVA(idx).Tasa = datosiva.Rows(i).Item("Tasa")
+            estTasaIVA(idx).Id_Tasa_IVA = dtdatosiva.Rows(i).Item("Id_Tasa_IVA")
+            estTasaIVA(idx).Descripcion = dtdatosiva.Rows(i).Item("Descripcion")
+            estTasaIVA(idx).Tasa = dtdatosiva.Rows(i).Item("Tasa")
             idx = idx + 1
         Next
 
         ReDim Preserve Facturacion_Enc_estructura(1)
         If Datos_Tipo_Comprobante.Descripcion = "FACTURA B" Or Datos_Tipo_Comprobante.Descripcion = "FACTURA C" Then
-            Facturacion.obtenerTasa(DatosArticuloCuerpoDocumento.TasaIVa, ObtenerTasa)
+            clsfacturacion.obtenerTasa(DatosArticuloCuerpoDocumento.TasaIVa, ObtenerTasa)
 
             If Facturacion_Enc_estructura(1).PorcDescuentos <> Nothing Then
                 descuento = ((Convert.ToDouble(DatosArticuloCuerpoDocumento.Importe) * Convert.ToDouble(Facturacion_Enc_estructura(1).PorcDescuentos)) / 100)

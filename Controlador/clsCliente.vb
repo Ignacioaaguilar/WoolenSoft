@@ -1,8 +1,8 @@
 ﻿Imports System.Windows.Forms
 Imports Modelo
 
-Public Class Cliente
-    Public session As New Controlador.Session()
+Public Class clsCliente
+    Public session As New Controlador.clsSession()
     Private Shared variable As String
     Private Shared codigo As String
     Private Shared botonPulsado As Boolean
@@ -402,7 +402,7 @@ Public Class Cliente
         End If
     End Sub
     Public Sub PasarDatosClienteAEstructura(ByVal datos As DataTable, ByRef DClientes As eCliente)
-        Dim dfielddefCliente As Controlador.DfieldDef.eCliente
+        Dim dfielddefCliente As Controlador.clsDfieldDef.eCliente
         DClientes.Id_Cliente = datos.Rows(0).Item(dfielddefCliente.Id_Cliente).ToString()
         DClientes.Nombre = datos.Rows(0).Item(dfielddefCliente.Nombre).ToString()
         DClientes.Apellido = datos.Rows(0).Item(dfielddefCliente.Apellido).ToString()
@@ -424,7 +424,7 @@ Public Class Cliente
     Public Sub Obtener_CondicionFrenteAIVa(ByVal Responsabilidad_IVA_Desc As String, ByRef numero_Condicion As eCondicion_Frente_Al_Iva)
         Dim conectar As New coneccion()
         Dim datos As DataTable
-        Dim dfieddefCondicionFrenteAlIva As Controlador.DfieldDef.eCondicionFrenteAlIVa
+        Dim dfieddefCondicionFrenteAlIva As Controlador.clsDfieldDef.eCondicionFrenteAlIVa
         Dim consulta As String
         consulta = "select Id_Condicion_IVA,Descripcion from Condicion_Frente_Al_IVA where Condicion_Frente_Al_IVA.Descripcion= '" & (Responsabilidad_IVA_Desc) & "' "
         conectar.srt_conexion = session.Session.CadenaConeccion

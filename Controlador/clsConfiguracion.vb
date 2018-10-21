@@ -1,7 +1,7 @@
 ﻿Imports Modelo
 Imports System.Windows.Forms
-Public Class Configuracion
-    Public session As New Controlador.Session()
+Public Class clsConfiguracion
+    Public session As New Controlador.clsSession()
     Private Shared variable As String
 
     Public Structure eConfiguracion
@@ -283,7 +283,7 @@ Public Class Configuracion
         End If
     End Sub
     Private Sub PasarDatosConfiguracionAEstructura(ByVal Datos As DataTable, ByRef Datos_Configuracion As eConfiguracion)
-        Dim dfielddefConfiguracion As Controlador.DfieldDef.eConfiguracion
+        Dim dfielddefConfiguracion As Controlador.clsDfieldDef.eConfiguracion
         Datos_Configuracion.Id_Configuracion = Datos.Rows(0).Item(dfielddefConfiguracion.Id_Configuracion.ToString())
         Datos_Configuracion.Id_Lista_Precio = Datos.Rows(0).Item(dfielddefConfiguracion.Id_Lista_Precio.ToString())
         Datos_Configuracion.Lector_Codigo_Barras = Datos.Rows(0).Item(dfielddefConfiguracion.Lector_Codigo_Barras.ToString())

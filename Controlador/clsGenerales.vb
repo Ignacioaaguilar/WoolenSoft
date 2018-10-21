@@ -1,8 +1,8 @@
 ﻿
 Imports System.Windows.Forms
 Imports Modelo
-Public Class Generales
-    Public session As New Controlador.Session()
+Public Class clsGenerales
+    Public session As New Controlador.clsSession()
     Private Shared variable As String
     Private Shared CantidadUnidades As Integer
     Private Shared Datos As DataTable

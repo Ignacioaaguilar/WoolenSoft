@@ -1,7 +1,7 @@
 ﻿Imports Modelo
 Imports System.Windows.Forms
-Public Class TasaIVA
-    Public session As New Controlador.Session()
+Public Class clsTasaIVA
+    Public session As New Controlador.clsSession()
     Public Shared Descripcion As String
 
     Public Structure eTasaIVA
@@ -104,7 +104,7 @@ Public Class TasaIVA
         text1.Text = ""
         text2.Text = ""
     End Sub
-    Public Sub Pasar_A_Coleccion(ByVal tasaiva_estructura() As TasaIVA.eTasaIVA, ByRef datos As Collection, ByVal i As Integer)
+    Public Sub Pasar_A_Coleccion(ByVal tasaiva_estructura() As clsTasaIVA.eTasaIVA, ByRef datos As Collection, ByVal i As Integer)
         datos.Add(tasaiva_estructura(i).Id_Tasa_IVA)
         datos.Add(tasaiva_estructura(i).Descripcion)
         datos.Add(tasaiva_estructura(i).Tasa)
