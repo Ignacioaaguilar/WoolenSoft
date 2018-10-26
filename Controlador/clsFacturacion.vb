@@ -319,7 +319,7 @@ Public Class clsFacturacion
         conectar.srt_conexion = session.Session.CadenaConeccion
         existe = conectar.verificar_existencia(consulta)
     End Sub
-    Public Sub Limpiar_Datos_Comprobante(ByRef dgvFacturacion As DataGridView, ByRef txtNeto As TextBox, ByRef txtDescuento As TextBox, ByRef txtIVa21 As TextBox, ByRef txtIVa105 As TextBox, ByRef txtIVa27 As TextBox, ByRef txtSubTotal As TextBox, ByRef txtTotal As TextBox, ByRef txtNombre As TextBox, ByRef txtApellido As TextBox, ByRef txtDireccion As TextBox, ByRef txtCelular As TextBox, ByRef txtTelefono As TextBox, ByRef txtCondIVA As TextBox, ByRef txtMail As TextBox, ByRef txtLimiteCC As TextBox, ByRef txtnumeroComprobante As TextBox, ByRef lblTipoComprobante As Label, ByRef lblIdComprobante As Label, ByRef txtporcDesc As TextBox)
+    Public Sub Limpiar_Datos_Comprobante(ByRef dgvFacturacion As DataGridView, ByRef txtNeto As Label, ByRef txtDescuento As Label, ByRef txtIVa21 As Label, ByRef txtIVa105 As Label, ByRef txtIVa27 As Label, ByRef txtSubTotal As Label, ByRef txtTotal As Label, ByRef txtNombre As TextBox, ByRef txtApellido As TextBox, ByRef txtDireccion As TextBox, ByRef txtCelular As TextBox, ByRef txtTelefono As TextBox, ByRef txtCondIVA As TextBox, ByRef txtMail As TextBox, ByRef txtLimiteCC As TextBox, ByRef txtnumeroComprobante As TextBox, ByRef lblTipoComprobante As Label, ByRef lblIdComprobante As Label, ByRef txtporcDesc As TextBox)
         dgvFacturacion.DataSource = Nothing
         dgvFacturacion.Rows.Clear()
         txtNeto.Text = "0,00"
@@ -343,7 +343,7 @@ Public Class clsFacturacion
         txtporcDesc.Text = String.Empty
     End Sub
 
-    Public Sub Limpiar_Importes_Comprobante(ByRef dgvFacturacion As DataGridView, ByRef txtNeto As TextBox, ByRef txtDescuento As TextBox, ByRef txtIVa21 As TextBox, ByRef txtIVa105 As TextBox, ByRef txtIVa27 As TextBox, ByRef txtSubTotal As TextBox, ByRef txtTotal As TextBox)
+    Public Sub Limpiar_Importes_Comprobante(ByRef dgvFacturacion As DataGridView, ByRef txtNeto As Label, ByRef txtDescuento As Label, ByRef txtIVa21 As Label, ByRef txtIVa105 As Label, ByRef txtIVa27 As Label, ByRef txtSubTotal As Label, ByRef txtTotal As Label)
         dgvFacturacion.DataSource = Nothing
         dgvFacturacion.Rows.Clear()
         txtNeto.Text = "0,00"

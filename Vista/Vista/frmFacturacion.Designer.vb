@@ -24,8 +24,8 @@ Partial Class frmFacturacion
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmFacturacion))
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
         Me.VisualStyler1 = New SkinSoft.VisualStyler.VisualStyler(Me.components)
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip
         Me.ProgressBarFacturacion = New System.Windows.Forms.ToolStripProgressBar
@@ -44,8 +44,6 @@ Partial Class frmFacturacion
         Me.Cantidad = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.PrecioUnitario = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.Importe = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.btnBuscarCliente = New System.Windows.Forms.Button
-        Me.btnBuscarArticulo = New System.Windows.Forms.Button
         Me.Label1 = New System.Windows.Forms.Label
         Me.txtCodigoCliente = New System.Windows.Forms.TextBox
         Me.Label2 = New System.Windows.Forms.Label
@@ -67,6 +65,7 @@ Partial Class frmFacturacion
         Me.Label10 = New System.Windows.Forms.Label
         Me.cbCondicionPago = New System.Windows.Forms.ComboBox
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.pbBuscarCliente = New System.Windows.Forms.PictureBox
         Me.TxtPorcDesc = New System.Windows.Forms.TextBox
         Me.Label15 = New System.Windows.Forms.Label
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
@@ -81,6 +80,7 @@ Partial Class frmFacturacion
         Me.Label12 = New System.Windows.Forms.Label
         Me.lblTipoComprobante = New System.Windows.Forms.Label
         Me.GroupBox3 = New System.Windows.Forms.GroupBox
+        Me.pbBuscarArticulo = New System.Windows.Forms.PictureBox
         Me.btnLimpiarBuff = New System.Windows.Forms.Button
         Me.btnCerrar = New System.Windows.Forms.Button
         Me.GroupBox4 = New System.Windows.Forms.GroupBox
@@ -92,35 +92,44 @@ Partial Class frmFacturacion
         Me.txtBusquedaArticulo = New System.Windows.Forms.TextBox
         Me.Label13 = New System.Windows.Forms.Label
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
-        Me.Neto = New System.Windows.Forms.Label
-        Me.txtNeto = New System.Windows.Forms.TextBox
-        Me.txtDescuento = New System.Windows.Forms.TextBox
-        Me.txtIVA21 = New System.Windows.Forms.TextBox
-        Me.txtTotal = New System.Windows.Forms.TextBox
-        Me.Label18 = New System.Windows.Forms.Label
-        Me.lbl21 = New System.Windows.Forms.Label
-        Me.Label20 = New System.Windows.Forms.Label
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.SerialPort1 = New System.IO.Ports.SerialPort(Me.components)
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
         Me.PanelEx4 = New DevComponents.DotNetBar.PanelEx
-        Me.txtIVA27 = New System.Windows.Forms.TextBox
-        Me.lbl27 = New System.Windows.Forms.Label
-        Me.txtIVA105 = New System.Windows.Forms.TextBox
-        Me.lbl105 = New System.Windows.Forms.Label
-        Me.TxtSubTotal = New System.Windows.Forms.TextBox
-        Me.Label11 = New System.Windows.Forms.Label
+        Me.GroupBox11 = New System.Windows.Forms.GroupBox
+        Me.txtTotal = New System.Windows.Forms.Label
+        Me.gb27 = New System.Windows.Forms.GroupBox
+        Me.txtIVA27 = New System.Windows.Forms.Label
+        Me.gb105 = New System.Windows.Forms.GroupBox
+        Me.txtIVA105 = New System.Windows.Forms.Label
+        Me.gb21 = New System.Windows.Forms.GroupBox
+        Me.txtIVA21 = New System.Windows.Forms.Label
+        Me.GroupBox7 = New System.Windows.Forms.GroupBox
+        Me.TxtSubTotal = New System.Windows.Forms.Label
+        Me.GroupBox6 = New System.Windows.Forms.GroupBox
+        Me.txtDescuento = New System.Windows.Forms.Label
+        Me.GroupBox5 = New System.Windows.Forms.GroupBox
+        Me.txtNeto = New System.Windows.Forms.Label
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip
         Me.StyleManager1 = New DevComponents.DotNetBar.StyleManager(Me.components)
         CType(Me.VisualStyler1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStrip1.SuspendLayout()
         CType(Me.dgvFacturacion, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.pbBuscarCliente, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
+        CType(Me.pbBuscarArticulo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox4.SuspendLayout()
         CType(Me.AxMSComm2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelEx4.SuspendLayout()
+        Me.GroupBox11.SuspendLayout()
+        Me.gb27.SuspendLayout()
+        Me.gb105.SuspendLayout()
+        Me.gb21.SuspendLayout()
+        Me.GroupBox7.SuspendLayout()
+        Me.GroupBox6.SuspendLayout()
+        Me.GroupBox5.SuspendLayout()
         Me.SuspendLayout()
         '
         'VisualStyler1
@@ -139,7 +148,7 @@ Partial Class frmFacturacion
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBarFacturacion, Me.ToolStripSeparator1, Me.ToolStripRegistrarFactura, Me.ToolStripSeparator2, Me.ToolStripBuscar, Me.ToolStripSeparator3, Me.ToolStripSalir})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(905, 45)
+        Me.ToolStrip1.Size = New System.Drawing.Size(904, 45)
         Me.ToolStrip1.TabIndex = 0
         Me.ToolStrip1.Text = "ToolStrip1"
         '
@@ -199,9 +208,9 @@ Partial Class frmFacturacion
         'dgvFacturacion
         '
         Me.dgvFacturacion.AllowUserToAddRows = False
-        DataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        DataGridViewCellStyle1.NullValue = Nothing
-        Me.dgvFacturacion.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        DataGridViewCellStyle3.NullValue = Nothing
+        Me.dgvFacturacion.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle3
         Me.dgvFacturacion.BackgroundColor = System.Drawing.SystemColors.InactiveCaption
         Me.dgvFacturacion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.dgvFacturacion.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Eliminar, Me.Tipo_Unidad, Me.IdArticulo, Me.Descripcion, Me.Cantidad, Me.PrecioUnitario, Me.Importe})
@@ -231,8 +240,8 @@ Partial Class frmFacturacion
         '
         'Tipo_Unidad
         '
-        DataGridViewCellStyle2.ForeColor = System.Drawing.Color.Gray
-        Me.Tipo_Unidad.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle4.ForeColor = System.Drawing.Color.Gray
+        Me.Tipo_Unidad.DefaultCellStyle = DataGridViewCellStyle4
         Me.Tipo_Unidad.FillWeight = 40.0!
         Me.Tipo_Unidad.HeaderText = "T.U"
         Me.Tipo_Unidad.MaxInputLength = 5
@@ -282,39 +291,6 @@ Partial Class frmFacturacion
         Me.Importe.Name = "Importe"
         Me.Importe.ReadOnly = True
         Me.Importe.Width = 101
-        '
-        'btnBuscarCliente
-        '
-        Me.btnBuscarCliente.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btnBuscarCliente.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btnBuscarCliente.FlatAppearance.BorderSize = 0
-        Me.btnBuscarCliente.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnBuscarCliente.ForeColor = System.Drawing.Color.Transparent
-        Me.btnBuscarCliente.Image = CType(resources.GetObject("btnBuscarCliente.Image"), System.Drawing.Image)
-        Me.btnBuscarCliente.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnBuscarCliente.Location = New System.Drawing.Point(168, 23)
-        Me.btnBuscarCliente.Name = "btnBuscarCliente"
-        Me.btnBuscarCliente.Size = New System.Drawing.Size(38, 24)
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnBuscarCliente, New DevComponents.DotNetBar.SuperTooltipInfo("Buscar", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Blue, True, True, New System.Drawing.Size(60, 21)))
-        Me.btnBuscarCliente.TabIndex = 2
-        Me.btnBuscarCliente.UseVisualStyleBackColor = True
-        '
-        'btnBuscarArticulo
-        '
-        Me.btnBuscarArticulo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btnBuscarArticulo.BackColor = System.Drawing.Color.Transparent
-        Me.btnBuscarArticulo.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btnBuscarArticulo.FlatAppearance.BorderSize = 0
-        Me.btnBuscarArticulo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnBuscarArticulo.ForeColor = System.Drawing.Color.Transparent
-        Me.btnBuscarArticulo.Image = CType(resources.GetObject("btnBuscarArticulo.Image"), System.Drawing.Image)
-        Me.btnBuscarArticulo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnBuscarArticulo.Location = New System.Drawing.Point(598, 44)
-        Me.btnBuscarArticulo.Name = "btnBuscarArticulo"
-        Me.btnBuscarArticulo.Size = New System.Drawing.Size(43, 23)
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnBuscarArticulo, New DevComponents.DotNetBar.SuperTooltipInfo("Buscar", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Blue, True, True, New System.Drawing.Size(60, 21)))
-        Me.btnBuscarArticulo.TabIndex = 2
-        Me.btnBuscarArticulo.UseVisualStyleBackColor = False
         '
         'Label1
         '
@@ -514,6 +490,7 @@ Partial Class frmFacturacion
         'GroupBox1
         '
         Me.GroupBox1.BackColor = System.Drawing.Color.Transparent
+        Me.GroupBox1.Controls.Add(Me.pbBuscarCliente)
         Me.GroupBox1.Controls.Add(Me.TxtPorcDesc)
         Me.GroupBox1.Controls.Add(Me.cbCondicionPago)
         Me.GroupBox1.Controls.Add(Me.Label10)
@@ -534,7 +511,6 @@ Partial Class frmFacturacion
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.txtNombre)
         Me.GroupBox1.Controls.Add(Me.Label2)
-        Me.GroupBox1.Controls.Add(Me.btnBuscarCliente)
         Me.GroupBox1.Controls.Add(Me.txtCodigoCliente)
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Location = New System.Drawing.Point(10, 83)
@@ -543,6 +519,15 @@ Partial Class frmFacturacion
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Tag = "XC"
+        '
+        'pbBuscarCliente
+        '
+        Me.pbBuscarCliente.Image = CType(resources.GetObject("pbBuscarCliente.Image"), System.Drawing.Image)
+        Me.pbBuscarCliente.Location = New System.Drawing.Point(168, 23)
+        Me.pbBuscarCliente.Name = "pbBuscarCliente"
+        Me.pbBuscarCliente.Size = New System.Drawing.Size(30, 23)
+        Me.pbBuscarCliente.TabIndex = 21
+        Me.pbBuscarCliente.TabStop = False
         '
         'TxtPorcDesc
         '
@@ -683,11 +668,11 @@ Partial Class frmFacturacion
         '
         'GroupBox3
         '
+        Me.GroupBox3.Controls.Add(Me.pbBuscarArticulo)
         Me.GroupBox3.Controls.Add(Me.btnLimpiarBuff)
         Me.GroupBox3.Controls.Add(Me.btnCerrar)
         Me.GroupBox3.Controls.Add(Me.GroupBox4)
         Me.GroupBox3.Controls.Add(Me.btnAbrir)
-        Me.GroupBox3.Controls.Add(Me.btnBuscarArticulo)
         Me.GroupBox3.Controls.Add(Me.AxMSComm2)
         Me.GroupBox3.Controls.Add(Me.txtBusquedaArticulo)
         Me.GroupBox3.Controls.Add(Me.Label13)
@@ -697,6 +682,15 @@ Partial Class frmFacturacion
         Me.GroupBox3.TabIndex = 0
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Tag = "XC"
+        '
+        'pbBuscarArticulo
+        '
+        Me.pbBuscarArticulo.Image = CType(resources.GetObject("pbBuscarArticulo.Image"), System.Drawing.Image)
+        Me.pbBuscarArticulo.Location = New System.Drawing.Point(597, 45)
+        Me.pbBuscarArticulo.Name = "pbBuscarArticulo"
+        Me.pbBuscarArticulo.Size = New System.Drawing.Size(30, 23)
+        Me.pbBuscarArticulo.TabIndex = 22
+        Me.pbBuscarArticulo.TabStop = False
         '
         'btnLimpiarBuff
         '
@@ -803,92 +797,9 @@ Partial Class frmFacturacion
         Me.ImageList1.TransparentColor = System.Drawing.Color.Transparent
         Me.ImageList1.Images.SetKeyName(0, "Borrar.png")
         '
-        'Neto
-        '
-        Me.Neto.AutoSize = True
-        Me.Neto.BackColor = System.Drawing.Color.Transparent
-        Me.Neto.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Neto.Location = New System.Drawing.Point(7, 563)
-        Me.Neto.Name = "Neto"
-        Me.Neto.Size = New System.Drawing.Size(46, 19)
-        Me.Neto.TabIndex = 7
-        Me.Neto.Text = "Neto:"
-        '
-        'txtNeto
-        '
-        Me.txtNeto.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.txtNeto.Location = New System.Drawing.Point(52, 560)
-        Me.txtNeto.Name = "txtNeto"
-        Me.txtNeto.ReadOnly = True
-        Me.txtNeto.Size = New System.Drawing.Size(76, 23)
-        Me.txtNeto.TabIndex = 8
-        '
-        'txtDescuento
-        '
-        Me.txtDescuento.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.txtDescuento.Font = New System.Drawing.Font("Comic Sans MS", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDescuento.ForeColor = System.Drawing.Color.Red
-        Me.txtDescuento.Location = New System.Drawing.Point(173, 560)
-        Me.txtDescuento.Name = "txtDescuento"
-        Me.txtDescuento.ReadOnly = True
-        Me.txtDescuento.Size = New System.Drawing.Size(87, 24)
-        Me.txtDescuento.TabIndex = 9
-        '
-        'txtIVA21
-        '
-        Me.txtIVA21.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.txtIVA21.Location = New System.Drawing.Point(469, 560)
-        Me.txtIVA21.Name = "txtIVA21"
-        Me.txtIVA21.ReadOnly = True
-        Me.txtIVA21.Size = New System.Drawing.Size(59, 23)
-        Me.txtIVA21.TabIndex = 10
-        '
-        'txtTotal
-        '
-        Me.txtTotal.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.txtTotal.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTotal.Location = New System.Drawing.Point(796, 556)
-        Me.txtTotal.Multiline = True
-        Me.txtTotal.Name = "txtTotal"
-        Me.txtTotal.ReadOnly = True
-        Me.txtTotal.Size = New System.Drawing.Size(92, 29)
-        Me.txtTotal.TabIndex = 11
-        '
-        'Label18
-        '
-        Me.Label18.AutoSize = True
-        Me.Label18.BackColor = System.Drawing.Color.Transparent
-        Me.Label18.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label18.Location = New System.Drawing.Point(130, 563)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(44, 19)
-        Me.Label18.TabIndex = 12
-        Me.Label18.Text = "Desc:"
-        '
-        'lbl21
-        '
-        Me.lbl21.AutoSize = True
-        Me.lbl21.BackColor = System.Drawing.Color.Transparent
-        Me.lbl21.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl21.Location = New System.Drawing.Point(428, 562)
-        Me.lbl21.Name = "lbl21"
-        Me.lbl21.Size = New System.Drawing.Size(42, 19)
-        Me.lbl21.TabIndex = 13
-        Me.lbl21.Text = "21%:"
-        '
-        'Label20
-        '
-        Me.Label20.AutoSize = True
-        Me.Label20.BackColor = System.Drawing.Color.Transparent
-        Me.Label20.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.Location = New System.Drawing.Point(746, 562)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(48, 19)
-        Me.Label20.TabIndex = 14
-        Me.Label20.Text = "Total:"
-        '
         'Timer1
         '
+        Me.Timer1.Enabled = True
         '
         'SerialPort1
         '
@@ -898,34 +809,28 @@ Partial Class frmFacturacion
         '
         'Timer2
         '
+        Me.Timer2.Enabled = True
         Me.Timer2.Interval = 10
         '
         'PanelEx4
         '
         Me.PanelEx4.CanvasColor = System.Drawing.SystemColors.Control
         Me.PanelEx4.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.PanelEx4.Controls.Add(Me.txtIVA27)
-        Me.PanelEx4.Controls.Add(Me.lbl27)
-        Me.PanelEx4.Controls.Add(Me.txtIVA105)
-        Me.PanelEx4.Controls.Add(Me.lbl105)
-        Me.PanelEx4.Controls.Add(Me.txtTotal)
-        Me.PanelEx4.Controls.Add(Me.TxtSubTotal)
-        Me.PanelEx4.Controls.Add(Me.Label11)
-        Me.PanelEx4.Controls.Add(Me.txtNeto)
+        Me.PanelEx4.Controls.Add(Me.GroupBox11)
+        Me.PanelEx4.Controls.Add(Me.gb27)
+        Me.PanelEx4.Controls.Add(Me.gb105)
+        Me.PanelEx4.Controls.Add(Me.gb21)
+        Me.PanelEx4.Controls.Add(Me.GroupBox7)
+        Me.PanelEx4.Controls.Add(Me.GroupBox6)
+        Me.PanelEx4.Controls.Add(Me.GroupBox5)
         Me.PanelEx4.Controls.Add(Me.GroupBox3)
-        Me.PanelEx4.Controls.Add(Me.txtDescuento)
-        Me.PanelEx4.Controls.Add(Me.txtIVA21)
         Me.PanelEx4.Controls.Add(Me.GroupBox1)
         Me.PanelEx4.Controls.Add(Me.GroupBox2)
-        Me.PanelEx4.Controls.Add(Me.Label18)
-        Me.PanelEx4.Controls.Add(Me.lbl21)
-        Me.PanelEx4.Controls.Add(Me.Neto)
-        Me.PanelEx4.Controls.Add(Me.Label20)
         Me.PanelEx4.Controls.Add(Me.dgvFacturacion)
         Me.PanelEx4.DisabledBackColor = System.Drawing.Color.Empty
         Me.PanelEx4.Location = New System.Drawing.Point(2, 47)
         Me.PanelEx4.Name = "PanelEx4"
-        Me.PanelEx4.Size = New System.Drawing.Size(902, 597)
+        Me.PanelEx4.Size = New System.Drawing.Size(902, 612)
         Me.PanelEx4.Style.Alignment = System.Drawing.StringAlignment.Center
         Me.PanelEx4.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
         Me.PanelEx4.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
@@ -935,67 +840,146 @@ Partial Class frmFacturacion
         Me.PanelEx4.Style.GradientAngle = 90
         Me.PanelEx4.TabIndex = 27
         '
+        'GroupBox11
+        '
+        Me.GroupBox11.Controls.Add(Me.txtTotal)
+        Me.GroupBox11.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox11.Location = New System.Drawing.Point(775, 550)
+        Me.GroupBox11.Name = "GroupBox11"
+        Me.GroupBox11.Size = New System.Drawing.Size(115, 54)
+        Me.GroupBox11.TabIndex = 34
+        Me.GroupBox11.TabStop = False
+        Me.GroupBox11.Tag = "XC"
+        Me.GroupBox11.Text = "Total"
+        '
+        'txtTotal
+        '
+        Me.txtTotal.AutoSize = True
+        Me.txtTotal.Font = New System.Drawing.Font("Comic Sans MS", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTotal.Location = New System.Drawing.Point(22, 19)
+        Me.txtTotal.Name = "txtTotal"
+        Me.txtTotal.Size = New System.Drawing.Size(0, 23)
+        Me.txtTotal.TabIndex = 27
+        '
+        'gb27
+        '
+        Me.gb27.Controls.Add(Me.txtIVA27)
+        Me.gb27.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gb27.Location = New System.Drawing.Point(587, 550)
+        Me.gb27.Name = "gb27"
+        Me.gb27.Size = New System.Drawing.Size(91, 53)
+        Me.gb27.TabIndex = 33
+        Me.gb27.TabStop = False
+        Me.gb27.Tag = "XC"
+        Me.gb27.Text = "27%"
+        '
         'txtIVA27
         '
-        Me.txtIVA27.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.txtIVA27.Location = New System.Drawing.Point(687, 559)
+        Me.txtIVA27.AutoSize = True
+        Me.txtIVA27.Location = New System.Drawing.Point(25, 22)
         Me.txtIVA27.Name = "txtIVA27"
-        Me.txtIVA27.ReadOnly = True
-        Me.txtIVA27.Size = New System.Drawing.Size(51, 23)
-        Me.txtIVA27.TabIndex = 19
+        Me.txtIVA27.Size = New System.Drawing.Size(0, 16)
+        Me.txtIVA27.TabIndex = 26
         '
-        'lbl27
+        'gb105
         '
-        Me.lbl27.AutoSize = True
-        Me.lbl27.BackColor = System.Drawing.Color.Transparent
-        Me.lbl27.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl27.Location = New System.Drawing.Point(646, 562)
-        Me.lbl27.Name = "lbl27"
-        Me.lbl27.Size = New System.Drawing.Size(42, 19)
-        Me.lbl27.TabIndex = 20
-        Me.lbl27.Text = "27%:"
+        Me.gb105.Controls.Add(Me.txtIVA105)
+        Me.gb105.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gb105.Location = New System.Drawing.Point(500, 550)
+        Me.gb105.Name = "gb105"
+        Me.gb105.Size = New System.Drawing.Size(83, 54)
+        Me.gb105.TabIndex = 32
+        Me.gb105.TabStop = False
+        Me.gb105.Tag = "XC"
+        Me.gb105.Text = "10.5%"
         '
         'txtIVA105
         '
-        Me.txtIVA105.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.txtIVA105.Location = New System.Drawing.Point(585, 559)
+        Me.txtIVA105.AutoSize = True
+        Me.txtIVA105.Location = New System.Drawing.Point(20, 22)
         Me.txtIVA105.Name = "txtIVA105"
-        Me.txtIVA105.ReadOnly = True
-        Me.txtIVA105.Size = New System.Drawing.Size(59, 23)
-        Me.txtIVA105.TabIndex = 17
+        Me.txtIVA105.Size = New System.Drawing.Size(0, 16)
+        Me.txtIVA105.TabIndex = 25
         '
-        'lbl105
+        'gb21
         '
-        Me.lbl105.AutoSize = True
-        Me.lbl105.BackColor = System.Drawing.Color.Transparent
-        Me.lbl105.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl105.Location = New System.Drawing.Point(530, 561)
-        Me.lbl105.Name = "lbl105"
-        Me.lbl105.Size = New System.Drawing.Size(56, 19)
-        Me.lbl105.TabIndex = 18
-        Me.lbl105.Text = "10.5%:"
+        Me.gb21.Controls.Add(Me.txtIVA21)
+        Me.gb21.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gb21.Location = New System.Drawing.Point(414, 550)
+        Me.gb21.Name = "gb21"
+        Me.gb21.Size = New System.Drawing.Size(82, 55)
+        Me.gb21.TabIndex = 31
+        Me.gb21.TabStop = False
+        Me.gb21.Tag = "XC"
+        Me.gb21.Text = "21%"
+        '
+        'txtIVA21
+        '
+        Me.txtIVA21.AutoSize = True
+        Me.txtIVA21.Location = New System.Drawing.Point(16, 22)
+        Me.txtIVA21.Name = "txtIVA21"
+        Me.txtIVA21.Size = New System.Drawing.Size(0, 16)
+        Me.txtIVA21.TabIndex = 24
+        '
+        'GroupBox7
+        '
+        Me.GroupBox7.Controls.Add(Me.TxtSubTotal)
+        Me.GroupBox7.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox7.Location = New System.Drawing.Point(208, 550)
+        Me.GroupBox7.Name = "GroupBox7"
+        Me.GroupBox7.Size = New System.Drawing.Size(101, 54)
+        Me.GroupBox7.TabIndex = 30
+        Me.GroupBox7.TabStop = False
+        Me.GroupBox7.Tag = "XC"
+        Me.GroupBox7.Text = "Sub Total"
         '
         'TxtSubTotal
         '
-        Me.TxtSubTotal.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.TxtSubTotal.Font = New System.Drawing.Font("Comic Sans MS", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtSubTotal.ForeColor = System.Drawing.Color.Black
-        Me.TxtSubTotal.Location = New System.Drawing.Point(339, 559)
+        Me.TxtSubTotal.AutoSize = True
+        Me.TxtSubTotal.Location = New System.Drawing.Point(24, 22)
         Me.TxtSubTotal.Name = "TxtSubTotal"
-        Me.TxtSubTotal.ReadOnly = True
-        Me.TxtSubTotal.Size = New System.Drawing.Size(87, 24)
-        Me.TxtSubTotal.TabIndex = 15
+        Me.TxtSubTotal.Size = New System.Drawing.Size(0, 16)
+        Me.TxtSubTotal.TabIndex = 23
         '
-        'Label11
+        'GroupBox6
         '
-        Me.Label11.AutoSize = True
-        Me.Label11.BackColor = System.Drawing.Color.Transparent
-        Me.Label11.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(262, 563)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(78, 19)
-        Me.Label11.TabIndex = 16
-        Me.Label11.Text = "Sub Total:"
+        Me.GroupBox6.Controls.Add(Me.txtDescuento)
+        Me.GroupBox6.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox6.Location = New System.Drawing.Point(115, 550)
+        Me.GroupBox6.Name = "GroupBox6"
+        Me.GroupBox6.Size = New System.Drawing.Size(89, 55)
+        Me.GroupBox6.TabIndex = 29
+        Me.GroupBox6.TabStop = False
+        Me.GroupBox6.Tag = "XC"
+        Me.GroupBox6.Text = "Descuento"
+        '
+        'txtDescuento
+        '
+        Me.txtDescuento.AutoSize = True
+        Me.txtDescuento.Location = New System.Drawing.Point(21, 22)
+        Me.txtDescuento.Name = "txtDescuento"
+        Me.txtDescuento.Size = New System.Drawing.Size(0, 16)
+        Me.txtDescuento.TabIndex = 22
+        '
+        'GroupBox5
+        '
+        Me.GroupBox5.Controls.Add(Me.txtNeto)
+        Me.GroupBox5.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox5.Location = New System.Drawing.Point(12, 550)
+        Me.GroupBox5.Name = "GroupBox5"
+        Me.GroupBox5.Size = New System.Drawing.Size(99, 56)
+        Me.GroupBox5.TabIndex = 28
+        Me.GroupBox5.TabStop = False
+        Me.GroupBox5.Tag = "XC"
+        Me.GroupBox5.Text = "Neto"
+        '
+        'txtNeto
+        '
+        Me.txtNeto.AutoSize = True
+        Me.txtNeto.Location = New System.Drawing.Point(24, 22)
+        Me.txtNeto.Name = "txtNeto"
+        Me.txtNeto.Size = New System.Drawing.Size(0, 16)
+        Me.txtNeto.TabIndex = 21
         '
         'SuperTooltip1
         '
@@ -1006,21 +990,20 @@ Partial Class frmFacturacion
         Me.StyleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Blue
         Me.StyleManager1.MetroColorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(87, Byte), Integer), CType(CType(154, Byte), Integer)))
         '
-        'Facturacion
+        'frmFacturacion
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(905, 649)
+        Me.ClientSize = New System.Drawing.Size(904, 659)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.PanelEx4)
         Me.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
-        Me.MaximumSize = New System.Drawing.Size(913, 683)
         Me.MinimizeBox = False
-        Me.MinimumSize = New System.Drawing.Size(913, 683)
-        Me.Name = "Facturacion"
+        Me.MinimumSize = New System.Drawing.Size(16, 683)
+        Me.Name = "frmFacturacion"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Facturacion"
@@ -1030,15 +1013,30 @@ Partial Class frmFacturacion
         CType(Me.dgvFacturacion, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.pbBuscarCliente, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
+        CType(Me.pbBuscarArticulo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox4.ResumeLayout(False)
         Me.GroupBox4.PerformLayout()
         CType(Me.AxMSComm2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelEx4.ResumeLayout(False)
-        Me.PanelEx4.PerformLayout()
+        Me.GroupBox11.ResumeLayout(False)
+        Me.GroupBox11.PerformLayout()
+        Me.gb27.ResumeLayout(False)
+        Me.gb27.PerformLayout()
+        Me.gb105.ResumeLayout(False)
+        Me.gb105.PerformLayout()
+        Me.gb21.ResumeLayout(False)
+        Me.gb21.PerformLayout()
+        Me.GroupBox7.ResumeLayout(False)
+        Me.GroupBox7.PerformLayout()
+        Me.GroupBox6.ResumeLayout(False)
+        Me.GroupBox6.PerformLayout()
+        Me.GroupBox5.ResumeLayout(False)
+        Me.GroupBox5.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1070,7 +1068,6 @@ Partial Class frmFacturacion
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents txtNombre As System.Windows.Forms.TextBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents btnBuscarCliente As System.Windows.Forms.Button
     Friend WithEvents txtCodigoCliente As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
@@ -1083,17 +1080,8 @@ Partial Class frmFacturacion
     Friend WithEvents lblTipoComprobante As System.Windows.Forms.Label
     Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
     Friend WithEvents Label13 As System.Windows.Forms.Label
-    Friend WithEvents btnBuscarArticulo As System.Windows.Forms.Button
     Friend WithEvents dgvFacturacion As System.Windows.Forms.DataGridView
     Friend WithEvents ImageList1 As System.Windows.Forms.ImageList
-    Friend WithEvents Label18 As System.Windows.Forms.Label
-    Friend WithEvents txtTotal As System.Windows.Forms.TextBox
-    Friend WithEvents txtIVA21 As System.Windows.Forms.TextBox
-    Friend WithEvents txtDescuento As System.Windows.Forms.TextBox
-    Friend WithEvents txtNeto As System.Windows.Forms.TextBox
-    Friend WithEvents Neto As System.Windows.Forms.Label
-    Friend WithEvents Label20 As System.Windows.Forms.Label
-    Friend WithEvents lbl21 As System.Windows.Forms.Label
     Public WithEvents txtBusquedaArticulo As System.Windows.Forms.TextBox
     Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
     Friend WithEvents txtBalanza As System.Windows.Forms.TextBox
@@ -1122,11 +1110,21 @@ Partial Class frmFacturacion
     Friend WithEvents Importe As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents TxtPorcDesc As System.Windows.Forms.TextBox
     Friend WithEvents Label15 As System.Windows.Forms.Label
-    Friend WithEvents TxtSubTotal As System.Windows.Forms.TextBox
-    Friend WithEvents Label11 As System.Windows.Forms.Label
-    Friend WithEvents txtIVA105 As System.Windows.Forms.TextBox
-    Friend WithEvents lbl105 As System.Windows.Forms.Label
-    Friend WithEvents txtIVA27 As System.Windows.Forms.TextBox
-    Friend WithEvents lbl27 As System.Windows.Forms.Label
     Friend WithEvents mtFecha As System.Windows.Forms.MaskedTextBox
+    Friend WithEvents txtNeto As System.Windows.Forms.Label
+    Friend WithEvents txtTotal As System.Windows.Forms.Label
+    Friend WithEvents txtIVA27 As System.Windows.Forms.Label
+    Friend WithEvents txtIVA105 As System.Windows.Forms.Label
+    Friend WithEvents txtIVA21 As System.Windows.Forms.Label
+    Friend WithEvents TxtSubTotal As System.Windows.Forms.Label
+    Friend WithEvents txtDescuento As System.Windows.Forms.Label
+    Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
+    Friend WithEvents gb21 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBox7 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBox6 As System.Windows.Forms.GroupBox
+    Friend WithEvents gb105 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBox11 As System.Windows.Forms.GroupBox
+    Friend WithEvents gb27 As System.Windows.Forms.GroupBox
+    Friend WithEvents pbBuscarCliente As System.Windows.Forms.PictureBox
+    Friend WithEvents pbBuscarArticulo As System.Windows.Forms.PictureBox
 End Class

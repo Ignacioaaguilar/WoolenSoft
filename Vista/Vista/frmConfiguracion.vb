@@ -69,7 +69,7 @@
                     End If
                     Configuracion_estructura(1).Lista_Precio = cbLista_Precio.Text
                     Configuracion_estructura(1).Id_Lista_Precio = cbLista_Precio.SelectedValue
-                    Configuracion_estructura(1).NroEquipo = session.Session.NroPuesto
+                    Configuracion_estructura(1).NroPuesto = session.Session.NroPuesto
                     clsQueryBuilder.obtener_estructura(dfieldefConstantes.Configuracion.ToString(), esquema)
                     clsConfiguracion.Obtener_Clave_Principal_Configuracion(ClavePrincipal)
                     clsConfiguracion.Pasar_A_Coleccion_Configuracion(Configuracion_estructura, datos, 1)
@@ -102,7 +102,7 @@
                     End If
                     Configuracion_estructura(1).Lista_Precio = cbLista_Precio.Text
                     Configuracion_estructura(1).Id_Lista_Precio = cbLista_Precio.SelectedValue
-                    Configuracion_estructura(1).NroEquipo = session.Session.NroPuesto
+                    Configuracion_estructura(1).NroPuesto = session.Session.NroPuesto
                     clsQueryBuilder.obtener_estructura(dfieldefConstantes.Configuracion.ToString(), esquema)
                     clsConfiguracion.Obtener_Clave_Principal_Configuracion(ClavePrincipal)
                     clsConfiguracion.Pasar_A_Coleccion_Configuracion(Configuracion_estructura, datos, 1)

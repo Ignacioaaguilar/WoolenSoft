@@ -114,7 +114,26 @@
         Id_Lista_Precio = 5
         Lista_Precio = 6
         Id_Tasa_IVA = 7
-        NroEquipo = 8
+        NroPuesto = 8
+    End Enum
+    Public Enum eConfiguracionBalanza
+        Id_Balanza = 0
+        Id_Marca_Balanza = 1
+        Modelo = 2
+        Velocidad = 3
+        Paridad = 4
+        Bits_por_Caracter = 5
+        Bits_paro = 6
+        Handshaking = 7
+        InBufferSize = 8
+        OutBufferSize = 9
+        RThreshold = 10
+        SThreshold = 11
+        InputLen = 12
+        InBufferCount = 13
+        Bit_a_Enviar = 14
+        Caracter_Peso_Estable = 15
+        Caracter_Peso_Inestable = 16
     End Enum
     Public Enum eConfiguracionComprobantes
         Id_Comprobante = 0

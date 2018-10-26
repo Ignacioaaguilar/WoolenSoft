@@ -70,6 +70,7 @@
             If (rbContado.Checked = True) Or (rbcc.Checked = True) Then
                 If (rbContado.Checked = True) Then
                     eFactEncESt(1).Id_Forma_Pago = "1"
+                    eFactEncESt(1).Cancelado = "Si"
                     eFactEncESt(1).Forma_Pago = dfielddefConstantes.Contado.ToString()
                 ElseIf (rbcc.Checked = True) Then
                     eFactEncESt(1).Id_Forma_Pago = "2"

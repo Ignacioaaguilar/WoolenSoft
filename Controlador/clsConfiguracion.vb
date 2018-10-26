@@ -12,7 +12,26 @@ Public Class clsConfiguracion
         Public Lector_Codigo_Barras As String
         Public Lista_Precio As String
         Public Id_Lista_Precio As String
-        Public NroEquipo As String
+        Public NroPuesto As String
+    End Structure
+    Public Structure eConfiguracion_Balanza
+        Public Id_Balanza As Integer
+        Public Id_Marca_Balanza As Integer
+        Public Modelo As String
+        Public Velocidad As String
+        Public Paridad As String
+        Public Bits_por_Caracter As String
+        Public Bits_paro As String
+        Public Handshaking As String
+        Public InBufferSize As String
+        Public OutBufferSize As String
+        Public RThreshold As String
+        Public SThreshold As String
+        Public InputLen As String
+        Public InBufferCount As String
+        Public Bit_a_Enviar As String
+        Public Caracter_Peso_Estable As String
+        Public Caracter_Peso_Inestable As String
     End Structure
     Public Structure eConfiguracionComprobante
         Public Id_Comprobante As String
@@ -28,120 +47,6 @@ Public Class clsConfiguracion
             Me.variable = Value
         End Set
     End Property
-    'Public Property CompSucursal() As String
-    '    Get
-    '        Return Me.Sucursal
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Sucursal = Value
-    '    End Set
-    'End Property
-    'Public Property CompIngresosBrutos() As String
-    '    Get
-    '        Return Me.IngresosBrutos
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.IngresosBrutos = Value
-    '    End Set
-    'End Property
-
-    'Public Property CompRazonSocial() As String
-    '    Get
-    '        Return Me.RazonSocial
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.RazonSocial = Value
-    '    End Set
-    'End Property
-    'Public Property CompCalle() As String
-    '    Get
-    '        Return Me.Calle
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Calle = Value
-    '    End Set
-    'End Property
-    'Public Property CompPiso() As String
-    '    Get
-    '        Return Me.Piso
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Piso = Value
-    '    End Set
-    'End Property
-    'Public Property CompNro() As String
-    '    Get
-    '        Return Me.Nro
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Nro = Value
-    '    End Set
-    'End Property
-
-    'Public Property CompCUIT() As String
-    '    Get
-    '        Return Me.CUIT
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.CUIT = Value
-    '    End Set
-    'End Property
-    'Public Property CompProvincia() As String
-    '    Get
-    '        Return Me.Provincia
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Provincia = Value
-    '    End Set
-    'End Property
-    'Public Property CompTelefono() As String
-    '    Get
-    '        Return Me.Telefono
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Telefono = Value
-    '    End Set
-    'End Property
-    'Public Property CompCelular() As String
-    '    Get
-    '        Return Me.Celular
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Celular = Value
-    '    End Set
-    'End Property
-    'Public Property CompE_Mail() As String
-    '    Get
-    '        Return Me.E_Mail
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.E_Mail = Value
-    '    End Set
-    'End Property
-    'Public Property CompCodigo_Postal() As String
-    '    Get
-    '        Return Me.Codigo_Postal
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Codigo_Postal = Value
-    '    End Set
-    'End Property
-    'Public Property CompResponsabilidad_IVA() As String
-    '    Get
-    '        Return Me.Responsabilidad_IVA
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Responsabilidad_IVA = Value
-    '    End Set
-    'End Property
-    'Public Property CompLocalidad() As String
-    '    Get
-    '        Return Me.Localidad
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Localidad = Value
-    '    End Set
-    'End Property
     Public Sub llenar_tabla_Configuracion_Comprobante(ByRef grilla As DataGridView)
         Dim conectar As New coneccion()
         Dim Consulta As String
@@ -257,7 +162,7 @@ Public Class clsConfiguracion
         datos.Add(Configuracion(i).Lector_Codigo_Barras)
         datos.Add(Configuracion(i).Lista_Precio)
         datos.Add(Configuracion(i).Id_Lista_Precio)
-        datos.Add(Configuracion(i).NroEquipo)
+        datos.Add(Configuracion(i).NroPuesto)
 
     End Sub
     Public Sub Obtener_Clave_Principal_Configuracion(ByRef Clave_Princ As Collection)
@@ -292,7 +197,7 @@ Public Class clsConfiguracion
         Datos_Configuracion.Nombre_Balanza = Datos.Rows(0).Item(dfielddefConfiguracion.Nombre_Balanza.ToString())
         Datos_Configuracion.Puerto_Comm = Datos.Rows(0).Item(dfielddefConfiguracion.Puerto_Comm.ToString())
         Datos_Configuracion.Nro_Puerto = Datos.Rows(0).Item(dfielddefConfiguracion.Nro_Puerto.ToString())
-        Datos_Configuracion.NroEquipo = Datos.Rows(0).Item(dfielddefConfiguracion.NroEquipo.ToString())
+        Datos_Configuracion.NroPuesto = Datos.Rows(0).Item(dfielddefConfiguracion.NroPuesto.ToString())
 
     End Sub
     Public Sub ObtenerUltimoConfiguracion(ByRef Ultimo As Integer)
@@ -340,6 +245,44 @@ Public Class clsConfiguracion
                 i = i + 1
             End If
         End While
+    End Sub
+
+    Public Sub Obtener_Datos_Configuracion_Balanza(ByRef Datos_Configuracion_Balanza As eConfiguracion_Balanza, ByVal Modelo As String)
+        Dim conectar As New coneccion()
+        Dim Datos As New DataTable
+        conectar.srt_conexion = session.Session.CadenaConeccion
+        Dim Consulta = "Select * from Balanza where Modelo='" & (Modelo) & "'"
+        Datos = conectar.consulta_reader(Consulta)
+        If Datos.Rows.Count > 0 Then
+            PasarDatosConfiguracionAEstructura_Balanza(Datos, Datos_Configuracion_Balanza)
+        End If
+    End Sub
+
+    Private Sub PasarDatosConfiguracionAEstructura_Balanza(ByVal Datos As DataTable, ByRef Datos_Configuracion_Balanza As eConfiguracion_Balanza)
+        Dim dfielddefConfiguracionBalanza As Controlador.clsDfieldDef.eConfiguracionBalanza
+        Datos_Configuracion_Balanza.Id_Balanza = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.Id_Balanza.ToString())
+        Datos_Configuracion_Balanza.Id_Marca_Balanza = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.Id_Marca_Balanza.ToString())
+        Datos_Configuracion_Balanza.Modelo = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.Modelo.ToString())
+        Datos_Configuracion_Balanza.Velocidad = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.Velocidad.ToString())
+        Datos_Configuracion_Balanza.Paridad = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.Paridad.ToString())
+        Datos_Configuracion_Balanza.Bits_por_Caracter = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.Bits_por_Caracter.ToString())
+        Datos_Configuracion_Balanza.Bits_paro = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.Bits_paro.ToString())
+        Datos_Configuracion_Balanza.Handshaking = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.Handshaking.ToString())
+        Datos_Configuracion_Balanza.InBufferSize = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.InBufferSize.ToString())
+        Datos_Configuracion_Balanza.OutBufferSize = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.OutBufferSize.ToString())
+        Datos_Configuracion_Balanza.RThreshold = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.RThreshold.ToString())
+        Datos_Configuracion_Balanza.SThreshold = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.SThreshold.ToString())
+        Datos_Configuracion_Balanza.InputLen = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.InputLen.ToString())
+        Datos_Configuracion_Balanza.InBufferCount = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.InBufferCount.ToString())
+        Datos_Configuracion_Balanza.Bit_a_Enviar = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.Bit_a_Enviar.ToString())
+        Datos_Configuracion_Balanza.Caracter_Peso_Estable = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.Caracter_Peso_Estable.ToString())
+        Datos_Configuracion_Balanza.Caracter_Peso_Inestable = Datos.Rows(0).Item(dfielddefConfiguracionBalanza.Caracter_Peso_Inestable.ToString())
+    End Sub
+
+    Public Sub Obtener_Clave_Principal_Configuracion_Balanza(ByRef Clave_Princ As Collection)
+        Clave_Princ.Add("Id_Balanza")
+        Clave_Princ.Add("Id_Marca_Balanza")
+        Clave_Princ.Add("Modelo")
     End Sub
 End Class
 

@@ -3,7 +3,6 @@ Imports System.IO.Ports
 
 Public Class frmFacturacion
 
-
 #Region "Declaration"
     Dim Responsabilidad_IVA_Empresa As String
     Public _Cant As Integer
@@ -18,6 +17,7 @@ Public Class frmFacturacion
     Public Datos_Empresa As Controlador.clsEmpresas.eEmpresa
     Public Datos_Tipo_Comprobante As Controlador.clsFacturacion.eTipoComprobante
     Public Datos_Configuracion As Controlador.clsConfiguracion.eConfiguracion
+    Public Datos_Configuracion_Balanza As Controlador.clsConfiguracion.eConfiguracion_Balanza
     Public Datos_Articulo As Controlador.clsArticulos.eArticulo
     Public DatosArticuloCuerpoDocumento As Controlador.clsArticulos.eArticuloCuerpoDocumento
     Public datos_Lista_Precio As Controlador.clsLista_Precios.eListaPrecio
@@ -54,18 +54,31 @@ Public Class frmFacturacion
         'Dim Empresa As New Controlador.clsEmpresas()
         'Dim clsConfiguracion As New Controlador.clsConfiguracion
         Dim puerto As Integer
+        Dim setting As String
         Try
             clsConfiguracion.Obtener_Datos_Configuracion(Datos_Configuracion)
+            clsConfiguracion.Obtener_Datos_Configuracion_Balanza(Datos_Configuracion_Balanza, Datos_Configuracion.Nombre_Balanza)
             OcultarTasasIVA()
             puerto = Convert.ToInt32(Datos_Configuracion.Nro_Puerto)
-            If BalanzaConectada(puerto) Then
+            If BalanzaConectada(puerto) And Datos_Configuracion_Balanza.Modelo <> String.Empty Then
+                'AxMSComm2.CommPort = puerto 'Convert.ToInt32(Datos_Configuracion.Rows(0).Item(dfielddefConfiguracion.Numero_Puerto)) '.6 'pasar un parametro para el puerto com
+                'AxMSComm2.PortOpen = True         ' abrimos el puerto
+                'AxMSComm2.Settings = "9600,N,8,1"
+                'AxMSComm2.InputLen = 9
+                'AxMSComm2.RThreshold = 8
+                'AxMSComm2.InBufferCount = 0
+                'Enviar(0) = 7                ' Peticion de transmision de Datos debo enviar dos veces 7
+                'AxMSComm2.Output = Enviar       ' para que la balanza repsonda con peso con indicador de estabilidad
+                'AxMSComm2.Output = Enviar
+
                 AxMSComm2.CommPort = puerto 'Convert.ToInt32(Datos_Configuracion.Rows(0).Item(dfielddefConfiguracion.Numero_Puerto)) '.6 'pasar un parametro para el puerto com
-                AxMSComm2.PortOpen = True         ' abrimos el puerto
-                AxMSComm2.Settings = "9600,N,8,1"
-                AxMSComm2.InputLen = 9
-                AxMSComm2.RThreshold = 8
-                AxMSComm2.InBufferCount = 0
-                Enviar(0) = 7                ' Peticion de transmision de Datos debo enviar dos veces 7
+                AxMSComm2.PortOpen = True                ' abrimos el puerto
+                setting = Datos_Configuracion_Balanza.Velocidad + "," + Datos_Configuracion_Balanza.Paridad + "," + Datos_Configuracion_Balanza.Bits_por_Caracter + "," + Datos_Configuracion_Balanza.Bits_paro
+                AxMSComm2.Settings = setting
+                AxMSComm2.InputLen = Convert.ToInt32(Datos_Configuracion_Balanza.InputLen)
+                AxMSComm2.RThreshold = Convert.ToInt32(Datos_Configuracion_Balanza.RThreshold)
+                AxMSComm2.InBufferCount = Convert.ToInt32(Datos_Configuracion_Balanza.InBufferCount)
+                Enviar(0) = Convert.ToInt32(Datos_Configuracion_Balanza.Bit_a_Enviar)                ' Peticion de transmision de Datos debo enviar dos veces 7
                 AxMSComm2.Output = Enviar       ' para que la balanza repsonda con peso con indicador de estabilidad
                 AxMSComm2.Output = Enviar
             End If
@@ -223,7 +236,7 @@ Public Class frmFacturacion
             ProgressBarFacturacion.Value = x
         Next
 
-        clsFacturacion.Compvariable = dfielddefConstantes.FACTURA.ToString()
+        clsfacturacion.Compvariable = dfielddefConstantes.FACTURA.ToString()
         Vista.frmBuscarComprobante.ShowDialog()
         If clsarticulo.busquedaComprobante = dfielddefConstantes.BuscarComprobante.ToString() Then
             If clsfacturacion.ComplistOfCodProd.Count > 0 Then
@@ -427,8 +440,8 @@ Public Class frmFacturacion
     Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
         Try
 
-            If AxMSComm2.PortOpen = True Then
-                Enviar(0) = 7                ' Peticion de transmision de Datos debo enviar dos veces 7
+            If AxMSComm2.PortOpen = True And Datos_Configuracion_Balanza.Modelo <> String.Empty Then
+                Enviar(0) = Datos_Configuracion_Balanza.Bit_a_Enviar                ' Peticion de transmision de Datos debo enviar dos veces 7
                 AxMSComm2.Output = Enviar       ' para que la balanza repsonda con peso con indicador de estabilidad
                 AxMSComm2.Output = Enviar
 
@@ -439,9 +452,11 @@ Public Class frmFacturacion
     End Sub
     Private Sub Timer2_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer2.Tick
         Try
-            If AxMSComm2.PortOpen = True Then
-                AxMSComm2.InputLen = 0
-                AxMSComm2.InBufferCount = 0
+            If AxMSComm2.PortOpen = True And Datos_Configuracion_Balanza.Modelo <> String.Empty Then
+                'AxMSComm2.InputLen = 0
+                'AxMSComm2.InBufferCount = 0
+                AxMSComm2.InputLen = Convert.ToInt32(Datos_Configuracion_Balanza.InputLen)
+                AxMSComm2.InBufferCount = Convert.ToInt32(Datos_Configuracion_Balanza.InBufferCount)
             End If
 
         Catch ex As Exception
@@ -450,6 +465,8 @@ Public Class frmFacturacion
     End Sub
     Private Sub AxMSComm2_OnComm(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AxMSComm2.OnComm
         Dim Temp As String
+        Dim primeraparte As Integer
+        Dim segundaparte As Integer
         Try
             If AxMSComm2.CommEvent = 2 Then ' controla que la interrupcion del puerto sea por recepcion de datos
 
@@ -458,13 +475,18 @@ Public Class frmFacturacion
                 ' y los Carga en una variable llamada temp
                 'Mid(Temp, 1, 3)
                 txtBalanza.Text = Mid(Temp, 1, 3) & "," & Mid(Temp, 4, 3)  ' aqui sumamos los tres primeros bytes a una coma y los tres bytes siguientes
+                'primeraparte = Convert.ToInt32(Datos_Configuracion_Balanza.Bit_a_Enviar) / 2
+                'segundaparte = Convert.ToInt32(Datos_Configuracion_Balanza.Bit_a_Enviar) - primeraparte
+                'txtBalanza.Text = Mid(Temp, 1, primeraparte) & "," & Mid(Temp, segundaparte, 3)  ' aqui sumamos los tres primeros bytes a una coma y los tres bytes siguientes
 
-                If Mid(Temp, 7, 1) = "e" Then           ' analizamos el 7 byte para ver si es estable o inestable
+                'If Mid(Temp, 7, 1) = "e" Then           ' analizamos el 7 byte para ver si es estable o inestable
+                If Mid(Temp, Convert.ToInt32(Datos_Configuracion_Balanza.Bit_a_Enviar), 1) = Datos_Configuracion_Balanza.Caracter_Peso_Estable Then           ' analizamos el 7 byte para ver si es estable o inestable
                     Estable.Text = "Peso Estable"    ' el peso esta inestable
                     Estable.BackColor = Color.GreenYellow
                 End If
 
-                If Mid(Temp, 7, 1) = "i" Then           ' analizamos el 7 byte para ver si es estable o inestable
+                'If Mid(Temp, 7, 1) = "i" Then
+                If Mid(Temp, Convert.ToInt32(Datos_Configuracion_Balanza.Bit_a_Enviar), 1) = Datos_Configuracion_Balanza.Caracter_Peso_Inestable Then ' analizamos el 7 byte para ver si es estable o inestable
                     Estable.Text = "Peso Inestable"  ' el peso esta inestable
                     Estable.BackColor = Color.Red
                 End If
@@ -533,7 +555,7 @@ Public Class frmFacturacion
             End If
         End If
     End Sub
-    Private Sub btnBuscarArticulo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscarArticulo.Click
+    Private Sub pbBuscarArticulo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pbBuscarArticulo.Click
         'Dim articulo As New Controlador.clsArticulos()
         'Dim FacturacionArt As New Controlador.clsFacturacion()
         Try
@@ -552,8 +574,8 @@ Public Class frmFacturacion
                     clsfacturacion.FacturacionCodArticulo = Nothing
                 End If
 
-                AxMSComm2.InputLen = 0
-                AxMSComm2.InBufferCount = 0
+                AxMSComm2.InputLen = Convert.ToInt32(Datos_Configuracion_Balanza.InputLen)
+                AxMSComm2.InBufferCount = Convert.ToInt32(Datos_Configuracion_Balanza.InBufferCount)
             Else
                 MessageBox.Show("El Cliente no ha sido cargado!!!", "Informacion", MessageBoxButtons.OK, _
                                                          MessageBoxIcon.Information)
@@ -638,7 +660,7 @@ Public Class frmFacturacion
         End Try
 
     End Sub
-    Private Sub btnBuscarCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscarCliente.Click
+    Private Sub pbBuscarCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pbBuscarCliente.Click
         'Dim Cli As New Controlador.clsCliente()
         Try
             clscliente.Compvariable = dfielddefConstantes.FACTURA.ToString()
@@ -774,20 +796,14 @@ Public Class frmFacturacion
 #Region "Private Methods"
 
     Private Sub MostrarTasasIVA()
-        lbl21.Visible = True
-        txtIVA21.Visible = True
-        lbl105.Visible = True
-        txtIVA105.Visible = True
-        lbl27.Visible = True
-        txtIVA27.Visible = True
+        gb21.Visible = True
+        gb105.Visible = True
+        gb27.Visible = True
     End Sub
     Private Sub OcultarTasasIVA()
-        lbl21.Visible = False
-        txtIVA21.Visible = False
-        lbl105.Visible = False
-        txtIVA105.Visible = False
-        lbl27.Visible = False
-        txtIVA27.Visible = False
+        gb21.Visible = False
+        gb105.Visible = False
+        gb27.Visible = False
     End Sub
     Private Sub agregarFilaInicial()
         dgvFacturacion.Rows.Add()
@@ -803,33 +819,33 @@ Public Class frmFacturacion
 
 
     End Sub
-    Private Sub btnLimpiarBuff_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLimpiarBuff.Click
-        txtBalanza.Text = String.Empty
-        AxMSComm2.InputLen = 0
-        AxMSComm2.RThreshold = 8
-        AxMSComm2.InBufferCount = 0
-    End Sub
-    Private Sub btnAbrir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAbrir.Click
+    'Private Sub btnLimpiarBuff_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLimpiarBuff.Click
+    '    txtBalanza.Text = String.Empty
+    '    AxMSComm2.InputLen = 0
+    '    AxMSComm2.RThreshold = 8
+    '    AxMSComm2.InBufferCount = 0
+    'End Sub
+    'Private Sub btnAbrir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAbrir.Click
 
-        AxMSComm2.CommPort = 4
-        AxMSComm2.PortOpen = True         ' abrimos el puerto
-        AxMSComm2.Settings = "9600,N,8,1"
-        AxMSComm2.InputLen = 9
-        AxMSComm2.RThreshold = 8
-        AxMSComm2.InBufferCount = 0
+    '    AxMSComm2.CommPort = 4
+    '    AxMSComm2.PortOpen = True         ' abrimos el puerto
+    '    AxMSComm2.Settings = "9600,N,8,1"
+    '    AxMSComm2.InputLen = 9
+    '    AxMSComm2.RThreshold = 8
+    '    AxMSComm2.InBufferCount = 0
 
-        Enviar(0) = 7                ' Peticion de transmision de Datos debo enviar dos veces 7
-        AxMSComm2.Output = Enviar       ' para que la balanza repsonda con peso con indicador de estabilidad
-        AxMSComm2.Output = Enviar
-    End Sub
-    Private Sub btnCerrar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCerrar.Click
-        If AxMSComm2.PortOpen = True Then
-            AxMSComm2.PortOpen = False
-            txtBalanza.Text = ""
-            AxMSComm2.InputLen = 0
-            AxMSComm2.RThreshold = 8
-        End If
-    End Sub
+    '    Enviar(0) = 7                ' Peticion de transmision de Datos debo enviar dos veces 7
+    '    AxMSComm2.Output = Enviar       ' para que la balanza repsonda con peso con indicador de estabilidad
+    '    AxMSComm2.Output = Enviar
+    'End Sub
+    'Private Sub btnCerrar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCerrar.Click
+    '    If AxMSComm2.PortOpen = True Then
+    '        AxMSComm2.PortOpen = False
+    '        txtBalanza.Text = ""
+    '        AxMSComm2.InputLen = 0
+    '        AxMSComm2.RThreshold = 8
+    '    End If
+    'End Sub
     Private Sub cargarArticulos()
         'Dim articulo As New Controlador.clsArticulos()
         'Dim clsFacturacion As New Controlador.clsFacturacion()
@@ -858,7 +874,7 @@ Public Class frmFacturacion
                                         dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value = DatosArticuloCuerpoDocumento.PrecioVenta
                                         dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value = Replace(txtBalanza.Text, ".", ",")
                                         DatosArticuloCuerpoDocumento.cantidad = dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value
-                                        importe = Math.Round((Convert.ToDouble(dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value)) * CDbl(Replace(dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value, ",", ".")), 2)
+                                        importe = Math.Round((Convert.ToDouble(dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value)) * CDbl(Replace(dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value, ".", ",")), 2)
                                         DatosArticuloCuerpoDocumento.Importe = importe
                                         dgvFacturacion.Rows(UltimaFila).Cells("Importe").Value = Format(importe, "##,##0.00")
                                         obtenerImporteComprobante()
@@ -880,7 +896,7 @@ Public Class frmFacturacion
                                         dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value = 1
                                         DatosArticuloCuerpoDocumento.cantidad = dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value
                                         dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value = DatosArticuloCuerpoDocumento.PrecioVenta
-                                        importe = Math.Round((Convert.ToDouble(dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value)) * CDbl(Replace(dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value, ",", ".")), 2)
+                                        importe = Math.Round((Convert.ToDouble(dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value)) * CDbl(Replace(dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value, ".", ",")), 2)
                                         DatosArticuloCuerpoDocumento.Importe = importe
                                         dgvFacturacion.Rows(UltimaFila).Cells("Importe").Value = Format(importe, "##,##0.00")
                                         obtenerImporteComprobante()
@@ -910,7 +926,7 @@ Public Class frmFacturacion
                                             dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value = Replace(txtBalanza.Text, ".", ",")
                                             DatosArticuloCuerpoDocumento.cantidad = dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value
                                             clsfacturacion.obtenerTasa(DatosArticuloCuerpoDocumento.IdTasaIVa, ObtenerTasa)
-                                            dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value = Format((Replace(DatosArticuloCuerpoDocumento.PrecioVenta, ",", ".")) / ObtenerTasa, "##,##0.00")
+                                            dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value = Format((Replace(DatosArticuloCuerpoDocumento.PrecioVenta, ".", ",")) / ObtenerTasa, "##,##0.00")
                                             importe = CDbl(dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value) * CDbl(dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value)
                                             DatosArticuloCuerpoDocumento.Importe = importe
                                             dgvFacturacion.Rows(UltimaFila).Cells("Importe").Value = Format(importe, "##,##0.00")
@@ -932,7 +948,7 @@ Public Class frmFacturacion
                                             dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value = 1
                                             DatosArticuloCuerpoDocumento.cantidad = dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value
                                             clsfacturacion.obtenerTasa(DatosArticuloCuerpoDocumento.TasaIVa, ObtenerTasa)
-                                            dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value = Format(Convert.ToDouble(Replace(DatosArticuloCuerpoDocumento.PrecioVenta, ",", ".")) / ObtenerTasa, "##,##0.00")
+                                            dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value = Format(Convert.ToDouble(Replace(DatosArticuloCuerpoDocumento.PrecioVenta, ".", ",")) / ObtenerTasa, "##,##0.00")
                                             DatosArticuloCuerpoDocumento.PrecioVenta = dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value
                                             importe = (dgvFacturacion.Rows(UltimaFila).Cells("Cantidad").Value) * CDbl(dgvFacturacion.Rows(UltimaFila).Cells("PrecioUnitario").Value)
                                             DatosArticuloCuerpoDocumento.Importe = importe
