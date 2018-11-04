@@ -23,10 +23,10 @@ Partial Class frmArticulos
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmArticulos))
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
         Me.VisualStyler1 = New SkinSoft.VisualStyler.VisualStyler(Me.components)
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip
         Me.ProgressBarArticulo = New System.Windows.Forms.ToolStripProgressBar
@@ -48,10 +48,12 @@ Partial Class frmArticulos
         Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip
         Me.StyleManager1 = New DevComponents.DotNetBar.StyleManager(Me.components)
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
         CType(Me.VisualStyler1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStrip1.SuspendLayout()
         CType(Me.DGVArticulo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelEx1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'VisualStyler1
@@ -167,36 +169,36 @@ Partial Class frmArticulos
         Me.ToolStripEnviarArticulo.Name = "ToolStripEnviarArticulo"
         Me.ToolStripEnviarArticulo.Size = New System.Drawing.Size(36, 36)
         Me.SuperTooltip1.SetSuperTooltip(Me.ToolStripEnviarArticulo, New DevComponents.DotNetBar.SuperTooltipInfo("Enviar Articulo", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Blue, True, True, New System.Drawing.Size(93, 21)))
-        Me.ToolStripEnviarArticulo.Text = "Enviar Articulo"
+        Me.ToolStripEnviarArticulo.Text = "Seleccionar Articulo"
         '
         'DGVArticulo
         '
         Me.DGVArticulo.AllowUserToAddRows = False
-        DataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.DGVArticulo.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.DGVArticulo.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle4
         Me.DGVArticulo.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
         Me.DGVArticulo.BackgroundColor = System.Drawing.SystemColors.InactiveCaption
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.DGVArticulo.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.DGVArticulo.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle5
         Me.DGVArticulo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DGVArticulo.Location = New System.Drawing.Point(6, 5)
+        Me.DGVArticulo.Location = New System.Drawing.Point(5, 5)
         Me.DGVArticulo.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.DGVArticulo.Name = "DGVArticulo"
         Me.DGVArticulo.ReadOnly = True
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.DGVArticulo.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle6.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.DGVArticulo.RowHeadersDefaultCellStyle = DataGridViewCellStyle6
         Me.DGVArticulo.RowHeadersVisible = False
         Me.DGVArticulo.Size = New System.Drawing.Size(727, 360)
         Me.DGVArticulo.TabIndex = 1
@@ -205,7 +207,7 @@ Partial Class frmArticulos
         '
         Me.Label1.AutoSize = True
         Me.Label1.BackColor = System.Drawing.Color.Transparent
-        Me.Label1.Location = New System.Drawing.Point(150, 371)
+        Me.Label1.Location = New System.Drawing.Point(143, 9)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(75, 15)
         Me.Label1.TabIndex = 2
@@ -215,7 +217,7 @@ Partial Class frmArticulos
         '
         Me.Label2.AutoSize = True
         Me.Label2.BackColor = System.Drawing.Color.Transparent
-        Me.Label2.Location = New System.Drawing.Point(220, 371)
+        Me.Label2.Location = New System.Drawing.Point(218, 9)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(0, 15)
         Me.Label2.TabIndex = 3
@@ -223,7 +225,7 @@ Partial Class frmArticulos
         'TBBusquedaArticulo
         '
         Me.TBBusquedaArticulo.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.TBBusquedaArticulo.Location = New System.Drawing.Point(149, 389)
+        Me.TBBusquedaArticulo.Location = New System.Drawing.Point(149, 393)
         Me.TBBusquedaArticulo.Name = "TBBusquedaArticulo"
         Me.TBBusquedaArticulo.Size = New System.Drawing.Size(484, 23)
         Me.TBBusquedaArticulo.TabIndex = 4
@@ -233,17 +235,16 @@ Partial Class frmArticulos
         Me.PanelEx1.CanvasColor = System.Drawing.SystemColors.Control
         Me.PanelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.PanelEx1.Controls.Add(Me.DGVArticulo)
-        Me.PanelEx1.Controls.Add(Me.Label2)
         Me.PanelEx1.Controls.Add(Me.TBBusquedaArticulo)
-        Me.PanelEx1.Controls.Add(Me.Label1)
+        Me.PanelEx1.Controls.Add(Me.GroupBox1)
         Me.PanelEx1.DisabledBackColor = System.Drawing.Color.Empty
-        Me.PanelEx1.Location = New System.Drawing.Point(0, 42)
+        Me.PanelEx1.Location = New System.Drawing.Point(0, 40)
         Me.PanelEx1.Name = "PanelEx1"
-        Me.PanelEx1.Size = New System.Drawing.Size(738, 424)
+        Me.PanelEx1.Size = New System.Drawing.Size(738, 431)
         Me.PanelEx1.Style.Alignment = System.Drawing.StringAlignment.Center
-        Me.PanelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.PanelEx1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(175, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.PanelEx1.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.PanelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.PanelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.DoubleLine
         Me.PanelEx1.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.PanelEx1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.PanelEx1.Style.GradientAngle = 90
@@ -259,21 +260,33 @@ Partial Class frmArticulos
         Me.StyleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Blue
         Me.StyleManager1.MetroColorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(87, Byte), Integer), CType(CType(154, Byte), Integer)))
         '
-        'Articulos
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.Label2)
+        Me.GroupBox1.Controls.Add(Me.Label1)
+        Me.GroupBox1.Location = New System.Drawing.Point(5, 364)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(727, 58)
+        Me.GroupBox1.TabIndex = 5
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Tag = "XC"
+        '
+        'frmArticulos
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(738, 470)
+        Me.ClientSize = New System.Drawing.Size(738, 472)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.PanelEx1)
         Me.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Location = New System.Drawing.Point(310, 140)
         Me.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "Articulos"
+        Me.Name = "frmArticulos"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "Articulos"
@@ -283,6 +296,8 @@ Partial Class frmArticulos
         CType(Me.DGVArticulo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelEx1.ResumeLayout(False)
         Me.PanelEx1.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -308,4 +323,5 @@ Partial Class frmArticulos
     Friend WithEvents PanelEx1 As DevComponents.DotNetBar.PanelEx
     Friend WithEvents SuperTooltip1 As DevComponents.DotNetBar.SuperTooltip
     Friend WithEvents StyleManager1 As DevComponents.DotNetBar.StyleManager
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
 End Class

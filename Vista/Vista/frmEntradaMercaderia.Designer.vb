@@ -313,7 +313,7 @@ Partial Class frmEntradaMercaderia
         '
         Me.SuperTooltip1.DefaultTooltipSettings = New DevComponents.DotNetBar.SuperTooltipInfo("", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Gray)
         '
-        'EntradaMercaderia
+        'frmEntradaMercaderia
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -326,7 +326,7 @@ Partial Class frmEntradaMercaderia
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "EntradaMercaderia"
+        Me.Name = "frmEntradaMercaderia"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Entrada Salida Mercaderia"

@@ -966,7 +966,7 @@ Partial Class frmMenu
         Me.Button16.Text = "Button16"
         Me.Button16.UseVisualStyleBackColor = True
         '
-        'Menu
+        'frmMenu
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -981,7 +981,7 @@ Partial Class frmMenu
         Me.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "Menu"
+        Me.Name = "frmMenu"
         Me.Text = "Menu"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.VisualStyler1, System.ComponentModel.ISupportInitialize).EndInit()

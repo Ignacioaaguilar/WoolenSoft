@@ -68,7 +68,7 @@ Partial Class frmSeleccionEmpresa
         DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
         Me.dgvSeleccionEmpresa.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.dgvSeleccionEmpresa.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvSeleccionEmpresa.Location = New System.Drawing.Point(6, 49)
+        Me.dgvSeleccionEmpresa.Location = New System.Drawing.Point(6, 48)
         Me.dgvSeleccionEmpresa.Name = "dgvSeleccionEmpresa"
         Me.dgvSeleccionEmpresa.ReadOnly = True
         DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
@@ -80,7 +80,7 @@ Partial Class frmSeleccionEmpresa
         DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
         Me.dgvSeleccionEmpresa.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
         Me.dgvSeleccionEmpresa.RowHeadersVisible = False
-        Me.dgvSeleccionEmpresa.Size = New System.Drawing.Size(906, 341)
+        Me.dgvSeleccionEmpresa.Size = New System.Drawing.Size(906, 333)
         Me.dgvSeleccionEmpresa.TabIndex = 0
         '
         'ToolStrip1
@@ -152,13 +152,13 @@ Partial Class frmSeleccionEmpresa
         Me.PanelEx1.CanvasColor = System.Drawing.SystemColors.Control
         Me.PanelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.PanelEx1.DisabledBackColor = System.Drawing.Color.Empty
-        Me.PanelEx1.Location = New System.Drawing.Point(3, 44)
+        Me.PanelEx1.Location = New System.Drawing.Point(1, 43)
         Me.PanelEx1.Name = "PanelEx1"
-        Me.PanelEx1.Size = New System.Drawing.Size(913, 350)
+        Me.PanelEx1.Size = New System.Drawing.Size(917, 344)
         Me.PanelEx1.Style.Alignment = System.Drawing.StringAlignment.Center
-        Me.PanelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.PanelEx1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(175, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.PanelEx1.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.PanelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.PanelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.DoubleLine
         Me.PanelEx1.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.PanelEx1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.PanelEx1.Style.GradientAngle = 90
@@ -174,20 +174,21 @@ Partial Class frmSeleccionEmpresa
         Me.StyleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Blue
         Me.StyleManager1.MetroColorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(87, Byte), Integer), CType(CType(154, Byte), Integer)))
         '
-        'SeleccionEmpresa
+        'frmSeleccionEmpresa
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(918, 395)
+        Me.ClientSize = New System.Drawing.Size(918, 388)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.dgvSeleccionEmpresa)
         Me.Controls.Add(Me.PanelEx1)
         Me.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "SeleccionEmpresa"
+        Me.Name = "frmSeleccionEmpresa"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Seleccion Empresa"
         CType(Me.VisualStyler1, System.ComponentModel.ISupportInitialize).EndInit()

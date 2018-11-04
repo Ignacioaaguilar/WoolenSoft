@@ -33,8 +33,6 @@ Partial Class frmBuscarComprobante
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripEnviar = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
-        Me.ToolStripButtonAnularComprobante = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripSalir = New System.Windows.Forms.ToolStripButton
         Me.Label9 = New System.Windows.Forms.Label
         Me.tbCondicionIVA = New System.Windows.Forms.TextBox
@@ -56,6 +54,7 @@ Partial Class frmBuscarComprobante
         Me.dgvBuscarComprobante = New System.Windows.Forms.DataGridView
         Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx
         Me.PanelEx2 = New DevComponents.DotNetBar.PanelEx
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip
         Me.StyleManager1 = New DevComponents.DotNetBar.StyleManager(Me.components)
         CType(Me.VisualStyler1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -63,6 +62,7 @@ Partial Class frmBuscarComprobante
         CType(Me.dgvBuscarComprobante, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelEx1.SuspendLayout()
         Me.PanelEx2.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'VisualStyler1
@@ -77,10 +77,10 @@ Partial Class frmBuscarComprobante
         '
         Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.ToolStrip1.ImageScalingSize = New System.Drawing.Size(32, 32)
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripProgressBar, Me.ToolStripSeparator1, Me.ToolStripEnviar, Me.ToolStripSeparator2, Me.ToolStripButtonAnularComprobante, Me.ToolStripSeparator3, Me.ToolStripSalir})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripProgressBar, Me.ToolStripSeparator1, Me.ToolStripEnviar, Me.ToolStripSeparator2, Me.ToolStripSalir})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(755, 45)
+        Me.ToolStrip1.Size = New System.Drawing.Size(749, 45)
         Me.ToolStrip1.TabIndex = 0
         Me.ToolStrip1.Text = "ToolStrip1"
         '
@@ -103,29 +103,12 @@ Partial Class frmBuscarComprobante
         Me.ToolStripEnviar.Name = "ToolStripEnviar"
         Me.ToolStripEnviar.Size = New System.Drawing.Size(36, 42)
         Me.SuperTooltip1.SetSuperTooltip(Me.ToolStripEnviar, New DevComponents.DotNetBar.SuperTooltipInfo("Enviar Comprobante", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Blue, True, True, New System.Drawing.Size(121, 21)))
-        Me.ToolStripEnviar.Text = "Enviar Comprobante"
+        Me.ToolStripEnviar.Text = "Seleccionar Comprobante"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
         Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 45)
-        '
-        'ToolStripButtonAnularComprobante
-        '
-        Me.ToolStripButtonAnularComprobante.AutoToolTip = False
-        Me.ToolStripButtonAnularComprobante.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButtonAnularComprobante.Enabled = False
-        Me.ToolStripButtonAnularComprobante.Image = CType(resources.GetObject("ToolStripButtonAnularComprobante.Image"), System.Drawing.Image)
-        Me.ToolStripButtonAnularComprobante.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButtonAnularComprobante.Name = "ToolStripButtonAnularComprobante"
-        Me.ToolStripButtonAnularComprobante.Size = New System.Drawing.Size(36, 42)
-        Me.SuperTooltip1.SetSuperTooltip(Me.ToolStripButtonAnularComprobante, New DevComponents.DotNetBar.SuperTooltipInfo("Anular Comprobante", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Blue, True, True, New System.Drawing.Size(120, 21)))
-        Me.ToolStripButtonAnularComprobante.Text = "Anular Comprobante"
-        '
-        'ToolStripSeparator3
-        '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 45)
         '
         'ToolStripSalir
         '
@@ -141,7 +124,7 @@ Partial Class frmBuscarComprobante
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(306, 417)
+        Me.Label9.Location = New System.Drawing.Point(299, 10)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(0, 15)
         Me.Label9.TabIndex = 4
@@ -275,7 +258,7 @@ Partial Class frmBuscarComprobante
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(231, 417)
+        Me.Label8.Location = New System.Drawing.Point(222, 9)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(75, 15)
         Me.Label8.TabIndex = 2
@@ -325,17 +308,16 @@ Partial Class frmBuscarComprobante
         Me.PanelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.PanelEx1.Controls.Add(Me.PanelEx2)
         Me.PanelEx1.Controls.Add(Me.dgvBuscarComprobante)
-        Me.PanelEx1.Controls.Add(Me.Label9)
         Me.PanelEx1.Controls.Add(Me.tbBusqueda)
-        Me.PanelEx1.Controls.Add(Me.Label8)
+        Me.PanelEx1.Controls.Add(Me.GroupBox1)
         Me.PanelEx1.DisabledBackColor = System.Drawing.Color.Empty
-        Me.PanelEx1.Location = New System.Drawing.Point(3, 48)
+        Me.PanelEx1.Location = New System.Drawing.Point(0, 46)
         Me.PanelEx1.Name = "PanelEx1"
-        Me.PanelEx1.Size = New System.Drawing.Size(748, 467)
+        Me.PanelEx1.Size = New System.Drawing.Size(748, 469)
         Me.PanelEx1.Style.Alignment = System.Drawing.StringAlignment.Center
-        Me.PanelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.PanelEx1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(175, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.PanelEx1.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.PanelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.PanelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.DoubleLine
         Me.PanelEx1.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.PanelEx1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.PanelEx1.Style.GradientAngle = 90
@@ -372,6 +354,17 @@ Partial Class frmBuscarComprobante
         Me.PanelEx2.Style.GradientAngle = 90
         Me.PanelEx2.TabIndex = 5
         '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.Label9)
+        Me.GroupBox1.Controls.Add(Me.Label8)
+        Me.GroupBox1.Location = New System.Drawing.Point(7, 408)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(734, 55)
+        Me.GroupBox1.TabIndex = 9
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Tag = "XC"
+        '
         'SuperTooltip1
         '
         Me.SuperTooltip1.DefaultTooltipSettings = New DevComponents.DotNetBar.SuperTooltipInfo("", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Blue)
@@ -381,19 +374,20 @@ Partial Class frmBuscarComprobante
         Me.StyleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Blue
         Me.StyleManager1.MetroColorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(87, Byte), Integer), CType(CType(154, Byte), Integer)))
         '
-        'BuscarComprobante
+        'frmBuscarComprobante
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(755, 520)
+        Me.ClientSize = New System.Drawing.Size(749, 516)
         Me.Controls.Add(Me.PanelEx1)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "BuscarComprobante"
+        Me.Name = "frmBuscarComprobante"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Buscar Comprobante"
@@ -405,6 +399,8 @@ Partial Class frmBuscarComprobante
         Me.PanelEx1.PerformLayout()
         Me.PanelEx2.ResumeLayout(False)
         Me.PanelEx2.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -434,10 +430,9 @@ Partial Class frmBuscarComprobante
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents tbBusqueda As System.Windows.Forms.TextBox
     Friend WithEvents Label9 As System.Windows.Forms.Label
-    Friend WithEvents ToolStripButtonAnularComprobante As System.Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents PanelEx1 As DevComponents.DotNetBar.PanelEx
     Friend WithEvents PanelEx2 As DevComponents.DotNetBar.PanelEx
     Friend WithEvents SuperTooltip1 As DevComponents.DotNetBar.SuperTooltip
     Friend WithEvents StyleManager1 As DevComponents.DotNetBar.StyleManager
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
 End Class

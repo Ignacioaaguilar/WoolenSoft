@@ -30,13 +30,13 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VSCustomBkgrdPaint = True
-		VSUseSystemFonts = False
-		VSSkinToggleButtons = True
-		VSSkinFlatStyles = True
-		VSTextShadow = True
-		VSToolStripStyle = Professional
+		VSStyle = Office2010 (Blue).vssf
 		VSTargetControls = FormsAndControls
-		VSStyle = Office2007 (Blue).vssf
+		VSToolStripStyle = Professional
+		VSTextShadow = True
+		VSSkinFlatStyles = True
+		VSSkinToggleButtons = True
+		VSUseSystemFonts = False
+		VSCustomBkgrdPaint = True
 	EndGlobalSection
 EndGlobal

@@ -56,9 +56,9 @@ Partial Class frmFormasDePago
         Me.GroupBox1.Controls.Add(Me.btnCancelar)
         Me.GroupBox1.Controls.Add(Me.GroupBox2)
         Me.GroupBox1.Controls.Add(Me.btnGuardar)
-        Me.GroupBox1.Location = New System.Drawing.Point(4, 3)
+        Me.GroupBox1.Location = New System.Drawing.Point(4, 2)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(265, 167)
+        Me.GroupBox1.Size = New System.Drawing.Size(265, 166)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Tag = "XC"
@@ -66,7 +66,10 @@ Partial Class frmFormasDePago
         '
         'btnCancelar
         '
-        Me.btnCancelar.Location = New System.Drawing.Point(140, 126)
+        Me.btnCancelar.FlatAppearance.BorderColor = System.Drawing.Color.Yellow
+        Me.btnCancelar.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.btnCancelar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnCancelar.Location = New System.Drawing.Point(142, 126)
         Me.btnCancelar.Name = "btnCancelar"
         Me.btnCancelar.Size = New System.Drawing.Size(75, 23)
         Me.btnCancelar.TabIndex = 4
@@ -81,9 +84,9 @@ Partial Class frmFormasDePago
         Me.GroupBox2.Controls.Add(Me.Label1)
         Me.GroupBox2.Controls.Add(Me.rbContado)
         Me.GroupBox2.Controls.Add(Me.rbcc)
-        Me.GroupBox2.Location = New System.Drawing.Point(19, 22)
+        Me.GroupBox2.Location = New System.Drawing.Point(8, 22)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(228, 88)
+        Me.GroupBox2.Size = New System.Drawing.Size(250, 88)
         Me.GroupBox2.TabIndex = 3
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Tag = "XC"
@@ -146,7 +149,7 @@ Partial Class frmFormasDePago
         '
         'btnGuardar
         '
-        Me.btnGuardar.Location = New System.Drawing.Point(41, 126)
+        Me.btnGuardar.Location = New System.Drawing.Point(44, 126)
         Me.btnGuardar.Name = "btnGuardar"
         Me.btnGuardar.Size = New System.Drawing.Size(75, 23)
         Me.btnGuardar.TabIndex = 0
@@ -159,13 +162,13 @@ Partial Class frmFormasDePago
         Me.PanelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.PanelEx1.Controls.Add(Me.GroupBox1)
         Me.PanelEx1.DisabledBackColor = System.Drawing.Color.Empty
-        Me.PanelEx1.Location = New System.Drawing.Point(1, 1)
+        Me.PanelEx1.Location = New System.Drawing.Point(0, 1)
         Me.PanelEx1.Name = "PanelEx1"
-        Me.PanelEx1.Size = New System.Drawing.Size(273, 175)
+        Me.PanelEx1.Size = New System.Drawing.Size(275, 171)
         Me.PanelEx1.Style.Alignment = System.Drawing.StringAlignment.Center
-        Me.PanelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.PanelEx1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(175, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.PanelEx1.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.PanelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.PanelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.DoubleLine
         Me.PanelEx1.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.PanelEx1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.PanelEx1.Style.GradientAngle = 90
@@ -180,10 +183,11 @@ Partial Class frmFormasDePago
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(276, 177)
+        Me.ClientSize = New System.Drawing.Size(275, 173)
         Me.Controls.Add(Me.PanelEx1)
         Me.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False

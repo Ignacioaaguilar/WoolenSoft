@@ -429,8 +429,10 @@ Public Class clsCliente
         consulta = "select Id_Condicion_IVA,Descripcion from Condicion_Frente_Al_IVA where Condicion_Frente_Al_IVA.Descripcion= '" & (Responsabilidad_IVA_Desc) & "' "
         conectar.srt_conexion = session.Session.CadenaConeccion
         datos = conectar.consulta_reader(consulta)
-        numero_Condicion.Id_Condicion_IVA = datos.Rows(0).Item(dfieddefCondicionFrenteAlIva.Id_Condicion_IVA)
-        numero_Condicion.Descripcion = datos.Rows(0).Item(dfieddefCondicionFrenteAlIva.Descripcion)
+        If datos.Rows.Count > 0 Then
+            numero_Condicion.Id_Condicion_IVA = datos.Rows(0).Item(dfieddefCondicionFrenteAlIva.Id_Condicion_IVA)
+            numero_Condicion.Descripcion = datos.Rows(0).Item(dfieddefCondicionFrenteAlIva.Descripcion)
+        End If
     End Sub
     Public Sub Validar_Cliente(ByVal Codigo_Cliente As Integer, ByRef existe As Boolean)
         Dim conectar As New coneccion()

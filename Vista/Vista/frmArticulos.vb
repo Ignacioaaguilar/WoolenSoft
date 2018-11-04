@@ -1,4 +1,5 @@
 ﻿Imports Controlador
+Imports DevComponents.DotNetBar
 Public Class frmArticulos
     Public id_Articulo As Integer
     Public Descripcion_Articulo As String
@@ -16,7 +17,6 @@ Public Class frmArticulos
     Dim clsGenerales As New Controlador.clsGenerales
 
     Private Sub SalirArticulo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SalirArticulo.Click
-        'Dim articulo As New Controlador.clsArticulos
         For x As Integer = ProgressBarArticulo.Minimum To ProgressBarArticulo.Maximum
             ProgressBarArticulo.Value = x
         Next
@@ -27,25 +27,17 @@ Public Class frmArticulos
         Me.Close()
     End Sub
     Private Sub Articulos_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'Dim articulo As New Controlador.clsArticulos
         Dim consulta As String
-        'Dim Empresa As New Controlador.clsEmpresas()
         Try
             ToolStripNuevoArticulo.Enabled = True
             ToolStripModificarArticulo.Enabled = False
             ToolStripEliminarArticulo.Enabled = False
-            'consulta = "select * from Empresa where Id_Empresa= '" + (Empresa.Compvariable) + "'"
             clsEmpresa.Obtener_Empresa(clsEmpresa.Compvariable, _datosEmpresa)
             If clsarticulo.Compvariable = dfielddefConstantes.ArticulosVentaRapida.ToString() Or clsarticulo.Compvariable = dfielddefConstantes.ArticulosFacturacion.ToString() Or clsarticulo.Compvariable = dfielddefConstantes.ArticulosNotaCredito.ToString() Or clsarticulo.Compvariable = dfielddefConstantes.ArticulosNotaDebito.ToString() Then
                 ToolStripEnviarArticulo.Visible = True
-                'consulta = " select Id_Producto as [Cod Producto],Id_Rubro as [Cod Rubro],Codigo_Barras as [Cod Barras],Descripcion,Id_Proveedor as [Cod Proveedor],Id_Tasa_IVA as [Tasa IVA],Stock_Minimo as[Stock Minimo] ,Stock,Pesable,Tipo_Unidad as[Tipo Unidad] ,Cantidad_Unid_Caja as [Cantidad Por Caja],Peso_Unidad as [Peso Por Unidad],INHABILITAR,Cod_Prod_Proveedor as[Cod Prod Proveedor] " & vbCrLf
-                'consulta += " from (Producto as P " & vbCrLf
-                'consulta += " inner join EmpresaArticulo as EA on  P.Id_Producto=EA.Id_Articulo)" & vbCrLf
-                'consulta += " where INHABILITAR=false and  EA.Id_Empresa='" + _datosEmpresa(0).Item("Id_Empresa") + "'"
                 clsarticulo.llenar_tabla_Producto_Empresa_Articulo(_datosEmpresa(0).Item("Id_Empresa"), DGVArticulo)
             Else
                 ToolStripEnviarArticulo.Visible = False
-                'consulta = "select Id_Producto as [Cod Producto],Id_Rubro as [Cod Rubro],Codigo_Barras as [Cod Barras],Descripcion,Id_Proveedor as [Cod Proveedor],Id_Tasa_IVA as [Tasa IVA],Stock_Minimo as[Stock Minimo] ,Stock,Pesable,Tipo_Unidad as[Tipo Unidad],Cantidad_Unid_Caja as [Cantidad Por Caja],Peso_Unidad as [Peso Por Unidad],INHABILITAR,Cod_Prod_Proveedor as[Cod Prod Proveedor] from " + dfielddefConstantes.Producto.ToString() + " "
                 clsarticulo.llenar_tabla_Articulo(DGVArticulo)
             End If
         Catch ex As Exception
@@ -53,7 +45,6 @@ Public Class frmArticulos
         End Try
     End Sub
     Public Sub ToolStripNuevoArticulo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripNuevoArticulo.Click
-        'Dim articulo As New Controlador.clsArticulos
         For x As Integer = ProgressBarArticulo.Minimum To ProgressBarArticulo.Maximum
             ProgressBarArticulo.Value = x
         Next
@@ -65,18 +56,14 @@ Public Class frmArticulos
         frmArticulosAltas.Show()
     End Sub
     Private Sub ToolStripEliminarArticulo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripEliminarArticulo.Click
-        'Dim articulo As New Controlador.clsArticulos()
-        'Dim clsFacturacion As New Controlador.clsFacturacion()
         Dim consulta As String
         Dim datos As New Collection
         Dim ClavePrincipal As New Collection
-        'Dim clsQueryBuilder As New Controlador.clsQueryBuilder
         Dim existe As Boolean
 
-        Dim result As Integer = MessageBox.Show("Desea Eliminar al Articulo: " + CStr(id_Articulo) + " " + Descripcion_Articulo, "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
+        Dim result As Integer = MessageBoxEx.Show("Desea Eliminar al Articulo: " + CStr(id_Articulo) + " " + Descripcion_Articulo, "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
         If result = DialogResult.Yes Then
             Try
-                'consulta = "select * from " + dfielddefConstantes.Cuerpo_Factura.ToString() + "  where Numero_Articulo='" + Convert.ToString(id_Articulo) + "'"
                 clsFacturacion.se_Cargo_articulo_En_Factura(id_Articulo, existe)
                 If Not existe Then
                     ReDim articulos_Estructura(1)
@@ -98,12 +85,11 @@ Public Class frmArticulos
                     clsQueryBuilder.ArmaDelete(dfielddefConstantes.Producto.ToString(), datos, ClavePrincipal, consulta)
                     clsarticulo.Operaciones_Tabla(consulta)
 
-                    MessageBox.Show("El Articulo " + CStr(id_Articulo) + " " + Descripcion_Articulo + " se Elimino Correctamente!!!", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    'consulta = "select Id_Producto as [Cod Producto],Id_Rubro as [Cod Rubro],Codigo_Barras as [Cod Barras],Descripcion,Id_Proveedor as [Cod Proveedor],Id_Tasa_IVA as [Tasa IVA],Stock_Minimo as[Stock Minimo] ,Stock,Pesable,Tipo_Unidad as[Tipo Unidad] ,Cantidad_Unid_Caja as [Cantidad Por Caja],Peso_Unidad as [Peso Por Unidad],INHABILITAR,Cod_Prod_Proveedor as[Cod Prod Proveedor]  from " + dfielddefConstantes.Producto.ToString() + ""
+                    MessageBoxEx.Show("El Articulo " + CStr(id_Articulo) + " " + Descripcion_Articulo + " se Elimino Correctamente!!!", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     clsarticulo.llenar_tabla_Articulo(DGVArticulo)
                     LimpiarEstructuras()
                 Else
-                    MessageBox.Show("El Articulo " + CStr(id_Articulo) + " " + Descripcion_Articulo + " No se puede Eliminar, Posee Movimientos!!!", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBoxEx.Show("El Articulo " + CStr(id_Articulo) + " " + Descripcion_Articulo + " No se puede Eliminar, Posee Movimientos!!!", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
             Catch ex As Exception
                 MsgBox("Error:" & vbCrLf & ex.Message)
@@ -111,7 +97,6 @@ Public Class frmArticulos
         End If
     End Sub
     Private Sub ToolStripModificarArticulo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripModificarArticulo.Click
-        'Dim articulo As New Controlador.clsArticulos
         For x As Integer = ProgressBarArticulo.Minimum To ProgressBarArticulo.Maximum
             ProgressBarArticulo.Value = x
         Next
@@ -127,7 +112,7 @@ Public Class frmArticulos
     End Sub
     Private Sub TBBusquedaArticulo_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TBBusquedaArticulo.TextChanged
         Dim consulta As String
-        'Dim articulo As New Controlador.clsArticulos
+
         Try
             If Nombre_Columna_a_Buscar <> String.Empty Then
                 If Nombre_Columna_a_Buscar = "Cod Producto" Then
@@ -145,20 +130,13 @@ Public Class frmArticulos
 
                 If clsarticulo.Compvariable = dfielddefConstantes.ArticulosVentaRapida.ToString() Or clsarticulo.Compvariable = dfielddefConstantes.ArticulosFacturacion.ToString() Or clsarticulo.Compvariable = dfielddefConstantes.ArticulosNotaCredito.ToString() Or clsarticulo.Compvariable = dfielddefConstantes.ArticulosNotaDebito.ToString() Then
                     ToolStripEnviarArticulo.Visible = True
-                    'consulta = " select Id_Producto as [Cod Producto],Id_Rubro as [Cod Rubro],Codigo_Barras as [Cod Barras],Descripcion,Id_Proveedor as [Cod Proveedor],Id_Tasa_IVA as [Tasa IVA],Stock_Minimo as[Stock Minimo] ,Stock,Pesable,Tipo_Unidad as[Tipo Unidad] ,Cantidad_Unid_Caja as [Cantidad Por Caja],Peso_Unidad as [Peso Por Unidad],INHABILITAR,Cod_Prod_Proveedor as[Cod Prod Proveedor] " & vbCrLf
-                    'consulta += " from (Producto as P " & vbCrLf
-                    'consulta += " inner join EmpresaArticulo as EA on  P.Id_Producto=EA.Id_Articulo)" & vbCrLf
-                    'consulta += " where INHABILITAR=false and  EA.Id_Empresa='" + _datosEmpresa(0).Item("Id_Empresa") + "'"
-                    'consulta += " and  " + Nombre_Columna_a_Buscar + " like '" & Me.TBBusquedaArticulo.Text & "%'"
                     clsarticulo.llenar_tabla_Producto_Empresa_Articulo(_datosEmpresa(0).Item("Id_Empresa"), DGVArticulo, Nombre_Columna_a_Buscar, TBBusquedaArticulo.Text)
                 Else
                     ToolStripEnviarArticulo.Visible = False
-                    'consulta = "select Id_Producto as [Cod Producto],Id_Rubro as [Cod Rubro],Codigo_Barras as [Cod Barras],Descripcion,Id_Proveedor as [Cod Proveedor],Id_Tasa_IVA as [Tasa IVA],Stock_Minimo as[Stock Minimo] ,Stock,Pesable,Tipo_Unidad as[Tipo Unidad],Cantidad_Unid_Caja as [Cantidad Por Caja],Peso_Unidad as [Peso Por Unidad],INHABILITAR,Cod_Prod_Proveedor as[Cod Prod Proveedor] from " + dfielddefConstantes.Producto.ToString() + " " & vbCrLf
-                    'consulta += " where " + Nombre_Columna_a_Buscar + " like '" & Me.TBBusquedaArticulo.Text & "%' "
                     clsarticulo.llenar_tabla_Articulo(DGVArticulo, Nombre_Columna_a_Buscar, Me.TBBusquedaArticulo.Text)
                 End If
             Else
-                MessageBox.Show("Error: No selecciono ningun criterio de busqueda!!!", "Informacion", MessageBoxButtons.OK, _
+                MessageBoxEx.Show("Error: No selecciono ningun criterio de busqueda!!!", "Informacion", MessageBoxButtons.OK, _
                                                      MessageBoxIcon.Error)
             End If
         Catch ex As Exception
@@ -166,7 +144,6 @@ Public Class frmArticulos
         End Try
     End Sub
     Private Sub DGVArticulo_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DGVArticulo.Click
-        'Dim articulo As New Controlador.clsArticulos()
         Try
             ToolStripNuevoArticulo.Enabled = False
             ToolStripModificarArticulo.Enabled = True
@@ -222,9 +199,6 @@ Public Class frmArticulos
         ReDim articulos_Estructura(0)
     End Sub
     Private Sub ToolStripEnviarArticulo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripEnviarArticulo.Click
-        'Dim articulo As New Controlador.clsArticulos
-        'Dim facturacionArticulo As New Controlador.clsFacturacion
-
         For x As Integer = ProgressBarArticulo.Minimum To ProgressBarArticulo.Maximum
             ProgressBarArticulo.Value = x
         Next
@@ -233,13 +207,9 @@ Public Class frmArticulos
         Next
         If clsarticulo.Compvariable = dfielddefConstantes.ArticulosFacturacion.ToString() Then
             If (clsarticulo.Compvariable_Articulo <> Nothing) Then
-                'Facturacion.CompCodigo = articulo.Compvariable_Articulo.ToString()
-                'VFacturacion.txtBusquedaArticulo.Text = articulo.Compvariable_Articulo.ToString()
                 clsfacturacionArticulo.FacturacionCodArticulo = clsarticulo.Compvariable_Articulo.ToString()
-                'articulo.Compvariable = ""
             Else
                 If (clsarticulo.Compvariable_Articulo = Nothing) Then
-                    'VFacturacion.txtBusquedaArticulo.Text = Nothing
                     clsarticulo.Compvariable = ""
                 End If
             End If
@@ -279,7 +249,6 @@ Public Class frmArticulos
         Me.Close()
     End Sub
     Private Sub ToolStripButtonCargarExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButtonCargarExcel.Click
-        'Dim clsGenerales As New Controlador.clsGenerales
         frmImportarExcel.Show()
         clsGenerales.Compvariable = dfielddefConstantes.Producto.ToString()
     End Sub

@@ -7,9 +7,9 @@ Public Class clsFacturacion
     Private Shared codigo As String
     Private Shared PorcDescuentos As String
     Private Shared listOfCodProd As New List(Of String)
-    Private Punto_Venta As String
-    Private Tipo_Comprobante As String
-    Private Numero_Comprobante As String
+    Private Shared Punto_Venta As String
+    Private Shared Tipo_Comprobante As String
+    Private Shared Numero_Comprobante As String
     Private Numero_Cliente As Integer
     Private Nombre As String
     Private Apellido As String
@@ -127,126 +127,42 @@ Public Class clsFacturacion
             Me.FacturacionCodigoArticulo = Value
         End Set
     End Property
-    'Public Property CompFacturacionEncabezado() As eEncabezadoFactura
-    '    Get
-    '        Return Me.FacturacionEncabezado
-    '    End Get
-    '    Set(ByVal Value As eEncabezadoFactura)
-    '        Me.FacturacionEncabezado = Value
-    '    End Set
-    'End Property
-    'Public Property CompIngresosBrutos() As String
-    '    Get
-    '        Return Me.IngresosBrutos
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.IngresosBrutos = Value
-    '    End Set
-    'End Property
-
-    'Public Property CompRazonSocial() As String
-    '    Get
-    '        Return Me.RazonSocial
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.RazonSocial = Value
-    '    End Set
-    'End Property
-    'Public Property CompCalle() As String
-    '    Get
-    '        Return Me.Calle
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Calle = Value
-    '    End Set
-    'End Property
-    'Public Property CompPiso() As String
-    '    Get
-    '        Return Me.Piso
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Piso = Value
-    '    End Set
-    'End Property
-    'Public Property CompNro() As String
-    '    Get
-    '        Return Me.Nro
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Nro = Value
-    '    End Set
-    'End Property
-
-    'Public Property CompCUIT() As String
-    '    Get
-    '        Return Me.CUIT
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.CUIT = Value
-    '    End Set
-    'End Property
-    'Public Property CompProvincia() As String
-    '    Get
-    '        Return Me.Provincia
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Provincia = Value
-    '    End Set
-    'End Property
-    'Public Property CompTelefono() As String
-    '    Get
-    '        Return Me.Telefono
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Telefono = Value
-    '    End Set
-    'End Property
-    'Public Property CompCelular() As String
-    '    Get
-    '        Return Me.Celular
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Celular = Value
-    '    End Set
-    'End Property
-    'Public Property CompE_Mail() As String
-    '    Get
-    '        Return Me.E_Mail
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.E_Mail = Value
-    '    End Set
-    'End Property
-    'Public Property CompCodigo_Postal() As String
-    '    Get
-    '        Return Me.Codigo_Postal
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Codigo_Postal = Value
-    '    End Set
-    'End Property
-    'Public Property CompResponsabilidad_IVA() As String
-    '    Get
-    '        Return Me.Responsabilidad_IVA
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Responsabilidad_IVA = Value
-    '    End Set
-    'End Property
-    'Public Property CompLocalidad() As String
-    '    Get
-    '        Return Me.Localidad
-    '    End Get
-    '    Set(ByVal Value As String)
-    '        Me.Localidad = Value
-    '    End Set
-    'End Property
+    Public Property CompPunto_Venta() As String
+        Get
+            Return Me.Punto_Venta
+        End Get
+        Set(ByVal Value As String)
+            Me.Punto_Venta = Value
+        End Set
+    End Property
+    Public Property CompTipo_Comprobante() As String
+        Get
+            Return Me.Tipo_Comprobante
+        End Get
+        Set(ByVal Value As String)
+            Me.Tipo_Comprobante = Value
+        End Set
+    End Property
+    Public Property CompNumero_Comprobante() As String
+        Get
+            Return Me.Numero_Comprobante
+        End Get
+        Set(ByVal Value As String)
+            Me.Numero_Comprobante = Value
+        End Set
+    End Property
 
     Public Sub llenar_tabla_Comprobante_Encabezado_Factura(ByVal tipoComprobante As String, ByVal Sucursal As String, ByVal Cancelado As String, ByRef grilla As DataGridView)
         Dim conectar As New coneccion()
         Dim consulta As String
         conectar.srt_conexion = session.Session.CadenaConeccion
-        consulta = "select Punto_Venta as [Punto Venta],Tipo_Comprobante as [Tip Comprobante] ,Numero_Comprobante as [Num Comprobante] ,Comprobante,Numero_Cliente as [Num Cliente] , Nombre,Apellido,Situacion_Frente_A_IVA as [SFI]  ,Forma_Pago as [Forma Pago] ,Fecha_Comprobante as [Fech Comprobante],Cancelado,PorcDescuentos  from Encabezado_Factura where Tipo_Comprobante in(" + tipoComprobante + ") and Punto_Venta='" + Sucursal + "'  and Cancelado='" + Cancelado + "'order by Punto_Venta,Tipo_Comprobante,Numero_Comprobante,Comprobante"
+
+        consulta = "select ef.Punto_Venta as [Punto Venta],ef.Tipo_Comprobante as [Tip Comprobante] ,ef.Numero_Comprobante as [Num Comprobante] ,ef.Comprobante,ef.Numero_Cliente as [Num Cliente] , ef.Nombre,ef.Apellido,ef.Situacion_Frente_A_IVA as [SFI]  ,ef.Forma_Pago as [Forma Pago] ,ef.Fecha_Comprobante as [Fech Comprobante],ef.Cancelado,ef.PorcDescuentos  " & vbCrLf
+        consulta += " from Encabezado_Factura ef " & vbCrLf
+        consulta += " left outer join imputaciones i on ef.Punto_Venta=i.PuntoVenta and ef.Tipo_Comprobante=i.TipoComprobante and ef.Numero_Comprobante=i.NumeroComprobante " & vbCrLf
+        consulta += " where Tipo_Comprobante in(" + tipoComprobante + ") and Punto_Venta='" + Sucursal + "'  and Cancelado='" + Cancelado + "' and i.PuntoVenta is null and i.TipoComprobante is null and i.NumeroComprobante is null " & vbCrLf
+        consulta += "order by ef.Punto_Venta,ef.Tipo_Comprobante,ef.Numero_Comprobante,ef.Comprobante"
+
         conectar.cargar_tabla(grilla, consulta)
     End Sub
 
@@ -303,7 +219,12 @@ Public Class clsFacturacion
         Dim conectar As New coneccion()
         Dim consulta As String
         conectar.srt_conexion = session.Session.CadenaConeccion
-        consulta = "select Punto_Venta as [Punto Venta],Tipo_Comprobante as [Tip Comprobante] ,Numero_Comprobante as [Num Comprobante] ,Comprobante,Numero_Cliente as [Num Cliente] , Nombre,Apellido,Situacion_Frente_A_IVA as [SFI]  ,Forma_Pago as [Forma Pago] ,Fecha_Comprobante as [Fech Comprobante],Cancelado from Encabezado_Factura where " + nombreColumnaBuscar + " like '" & campoBusqueda & "%' and Punto_Venta='" + sucursal + "' and Tipo_Comprobante inin(" + tipoComprobante + ")and Cancelado='" + cancelado + "' order by Punto_Venta,Tipo_Comprobante,Numero_Comprobante,Comprobante"
+        consulta = " select ef.Punto_Venta as [Punto Venta],ef.Tipo_Comprobante as [Tip Comprobante] ,ef.Numero_Comprobante as [Num Comprobante] ,ef.Comprobante,ef.Numero_Cliente as [Num Cliente] , ef.Nombre,ef.Apellido,ef.Situacion_Frente_A_IVA as [SFI]  ,ef.Forma_Pago as [Forma Pago] ,ef.Fecha_Comprobante as [Fech Comprobante],ef.Cancelado,ef.PorcDescuentos  " & vbCrLf
+        consulta += " from Encabezado_Factura ef " & vbCrLf
+        consulta += " left outer join imputaciones i on ef.Punto_Venta=i.PuntoVenta and ef.Tipo_Comprobante=i.TipoComprobante and ef.Numero_Comprobante=i.NumeroComprobante " & vbCrLf
+        consulta += " where " + nombreColumnaBuscar + " like '" & campoBusqueda & "%' and Punto_Venta='" + sucursal + "' and Tipo_Comprobante in(" + tipoComprobante + ")and Cancelado='" + cancelado + "' and i.PuntoVenta is null and i.TipoComprobante is null and i.NumeroComprobante is null " & vbCrLf
+        consulta += " order by ef.Punto_Venta,ef.Tipo_Comprobante,ef.Numero_Comprobante,ef.Comprobante "
+
         conectar.cargar_tabla(tabla, consulta)
     End Sub
     Public Sub se_Cargo_articulo_En_Factura(ByVal idArticulo As Integer, ByRef existe As Boolean)
@@ -453,50 +374,59 @@ Public Class clsFacturacion
         Dim consulta As String
         Dim datos As DataTable
         Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
-        conectar.srt_conexion = session.Session.CadenaConeccion
-        If TipoComprobante = dfielddefConstantes.FACTURA.ToString() Then
-            consulta = " Select TC.IdTipoComprobante,TC.Descripcion" & vbCrLf
-            consulta += " from (Tipos_Comprobantes as TC" & vbCrLf
-            consulta += " inner join Comprobantes as C on TC.IdTipoComprobante=C.IdComprobantes)" & vbCrLf
-            consulta += " where C.IdCondFrenteIvaEmpresa='" & (Numero_Condicion_IVA_Empresa) & "' " & vbCrLf
-            consulta += " and C.IdCondFrenteIvaCliente='" & (Numero_Condicion_IVA_Cliente) & "' " & vbCrLf
-            consulta += " and (C.IdComprobantes)=TC.IdTipoComprobante" & vbCrLf
-            consulta += " and TC.IdTipoComprobante in ('1','11','6')"
-            'datos = conectar.consulta_reader(consulta)
+        Try
 
-        End If
-        If TipoComprobante = dfielddefConstantes.Nota_De_Credito.ToString() Then
-            consulta = " Select TC.IdTipoComprobante,TC.Descripcion" & vbCrLf
-            consulta += " from (Tipos_Comprobantes as TC" & vbCrLf
-            consulta += " inner join Comprobantes as C on TC.IdTipoComprobante=C.IdComprobantes)" & vbCrLf
-            consulta += " where C.IdCondFrenteIvaEmpresa='" & (Numero_Condicion_IVA_Empresa) & "' " & vbCrLf
-            consulta += " and C.IdCondFrenteIvaCliente='" & (Numero_Condicion_IVA_Cliente) & "' " & vbCrLf
-            consulta += " and (C.IdComprobantes)=TC.IdTipoComprobante" & vbCrLf
-            consulta += " and TC.IdTipoComprobante in ('3','8','13')"
-            'datos = conectar.consulta_reader(consulta)
-        End If
-        If TipoComprobante = dfielddefConstantes.Nota_De_Credito_Int.ToString() Then
-            consulta = " Select TC.IdTipoComprobante,TC.Descripcion" & vbCrLf
-            consulta += " from (Tipos_Comprobantes as TC" & vbCrLf
-            consulta += " inner join Comprobantes as C on TC.IdTipoComprobante=C.IdComprobantes)" & vbCrLf
-            consulta += " where C.IdCondFrenteIvaEmpresa='" & (Numero_Condicion_IVA_Empresa) & "' " & vbCrLf
-            consulta += " and C.IdCondFrenteIvaCliente='" & (Numero_Condicion_IVA_Cliente) & "' " & vbCrLf
-            consulta += " and (C.IdComprobantes)=TC.IdTipoComprobante" & vbCrLf
-            consulta += " and TC.IdTipoComprobante in ('19','20','21')"
-            'datos = conectar.consulta_reader(consulta)
-        End If
-        If TipoComprobante = dfielddefConstantes.Recibo.ToString() Then
-            consulta = " Select TC.IdTipoComprobante,TC.Descripcion" & vbCrLf
-            consulta += " from (Tipos_Comprobantes as TC" & vbCrLf
-            consulta += " inner join Comprobantes as C on TC.IdTipoComprobante=C.IdComprobantes)" & vbCrLf
-            consulta += " where C.IdCondFrenteIvaEmpresa='" & (Numero_Condicion_IVA_Empresa) & "' " & vbCrLf
-            consulta += " and C.IdCondFrenteIvaCliente='" & (Numero_Condicion_IVA_Cliente) & "' " & vbCrLf
-            consulta += " and (C.IdComprobantes)=TC.IdTipoComprobante" & vbCrLf
-            consulta += " and TC.IdTipoComprobante in ('4','9','15')"
-        End If
-        datos = conectar.consulta_reader(consulta)
-        DatoTipoComprobante.IdTipoComprobante = datos.Rows(0).Item("IdTipoComprobante")
-        DatoTipoComprobante.Descripcion = datos.Rows(0).Item("Descripcion")
+        
+            conectar.srt_conexion = session.Session.CadenaConeccion
+            If TipoComprobante = dfielddefConstantes.FACTURA.ToString() Then
+                consulta = " Select TC.IdTipoComprobante,TC.Descripcion" & vbCrLf
+                consulta += " from (Tipos_Comprobantes as TC" & vbCrLf
+                consulta += " inner join Comprobantes as C on TC.IdTipoComprobante=C.IdComprobantes)" & vbCrLf
+                consulta += " where C.IdCondFrenteIvaEmpresa='" & (Numero_Condicion_IVA_Empresa) & "' " & vbCrLf
+                consulta += " and C.IdCondFrenteIvaCliente='" & (Numero_Condicion_IVA_Cliente) & "' " & vbCrLf
+                consulta += " and (C.IdComprobantes)=TC.IdTipoComprobante" & vbCrLf
+                consulta += " and TC.IdTipoComprobante in ('1','11','6')"
+                'datos = conectar.consulta_reader(consulta)
+
+            End If
+            If TipoComprobante = dfielddefConstantes.Nota_De_Credito.ToString() Then
+                consulta = " Select TC.IdTipoComprobante,TC.Descripcion" & vbCrLf
+                consulta += " from (Tipos_Comprobantes as TC" & vbCrLf
+                consulta += " inner join Comprobantes as C on TC.IdTipoComprobante=C.IdComprobantes)" & vbCrLf
+                consulta += " where C.IdCondFrenteIvaEmpresa='" & (Numero_Condicion_IVA_Empresa) & "' " & vbCrLf
+                consulta += " and C.IdCondFrenteIvaCliente='" & (Numero_Condicion_IVA_Cliente) & "' " & vbCrLf
+                consulta += " and (C.IdComprobantes)=TC.IdTipoComprobante" & vbCrLf
+                consulta += " and TC.IdTipoComprobante in ('3','8','13')"
+                'datos = conectar.consulta_reader(consulta)
+            End If
+            If TipoComprobante = dfielddefConstantes.Nota_De_Credito_Int.ToString() Then
+                consulta = " Select TC.IdTipoComprobante,TC.Descripcion" & vbCrLf
+                consulta += " from (Tipos_Comprobantes as TC" & vbCrLf
+                consulta += " inner join Comprobantes as C on TC.IdTipoComprobante=C.IdComprobantes)" & vbCrLf
+                consulta += " where C.IdCondFrenteIvaEmpresa='" & (Numero_Condicion_IVA_Empresa) & "' " & vbCrLf
+                consulta += " and C.IdCondFrenteIvaCliente='" & (Numero_Condicion_IVA_Cliente) & "' " & vbCrLf
+                consulta += " and (C.IdComprobantes)=TC.IdTipoComprobante" & vbCrLf
+                consulta += " and TC.IdTipoComprobante in ('19','20','21')"
+                'datos = conectar.consulta_reader(consulta)
+            End If
+            If TipoComprobante = dfielddefConstantes.Recibo.ToString() Then
+                consulta = " Select TC.IdTipoComprobante,TC.Descripcion" & vbCrLf
+                consulta += " from (Tipos_Comprobantes as TC" & vbCrLf
+                consulta += " inner join Comprobantes as C on TC.IdTipoComprobante=C.IdComprobantes)" & vbCrLf
+                consulta += " where C.IdCondFrenteIvaEmpresa='" & (Numero_Condicion_IVA_Empresa) & "' " & vbCrLf
+                consulta += " and C.IdCondFrenteIvaCliente='" & (Numero_Condicion_IVA_Cliente) & "' " & vbCrLf
+                consulta += " and (C.IdComprobantes)=TC.IdTipoComprobante" & vbCrLf
+                consulta += " and TC.IdTipoComprobante in ('4','9','15')"
+            End If
+            datos = conectar.consulta_reader(consulta)
+            If datos.Rows.Count > 0 Then
+                DatoTipoComprobante.IdTipoComprobante = datos.Rows(0).Item("IdTipoComprobante")
+                DatoTipoComprobante.Descripcion = datos.Rows(0).Item("Descripcion")
+            End If
+        Catch ex As Exception
+            MsgBox("Error:" & vbCrLf & ex.Message)
+
+        End Try
 
     End Sub
     Public Sub Obtener_Tipo_Comprobante(ByVal idTipoComprobante As String, ByRef datosTipoComprobante As eTipoComprobante)
@@ -547,5 +477,236 @@ Public Class clsFacturacion
         consulta = "Select * from Encabezado_Factura  where Numero_Cliente='" + numero_Cliente + "' "
         conectar.srt_conexion = session.Session.CadenaConeccion
         existe = conectar.verificar_existencia(consulta)
+    End Sub
+    Public Sub registrar(ByVal eFactEncESt() As Controlador.clsFacturacion.eEncabezadoFactura, ByVal eNumero_ComprobanteEStFact() As Controlador.clsNumeroComprobante.eNumeracionComprobante, ByVal eFactCuerpoESt() As Controlador.clsFacturacion.eCuerpoFactura, ByVal eArticulosEStFact() As Controlador.clsArticulos.eArticulo)
+        Dim clsQueryBuilder As New Controlador.clsQueryBuilder
+        Dim esquema As New Collection
+        Dim consulta As String
+        Dim datos As New Collection
+        Dim ClavePrincipal As New Collection
+        Dim clsFacturacion As New Controlador.clsFacturacion
+        Dim clsNumeroComprobante As New Controlador.clsNumeroComprobante
+        Dim dtdatosDataTable As New DataTable
+        Dim tipocomprobante As String
+        Dim Numero_Condicion_IVA_Empresa As Integer
+        Dim clsCliente As New Controlador.clsCliente
+        Dim clsImputaciones As New Controlador.clsImputaciones
+        Dim i As Integer
+        Dim ultimo As Integer
+        Dim UltimoImputaciones As Integer
+        Dim UltimoCuentaCorriente As Integer
+        Dim idx As Integer
+        Dim dtdatosFacturacion As New DataTable
+        Dim dtdatosEmpresa As New DataTable
+        Dim Responsabilidad_IVA_Empresa As String
+        Dim Numero_Sucursal As String
+        Dim IDComprobante As Integer
+        Dim numeroComp As String = String.Empty
+        Dim nuComprobante As Integer
+        Dim existe As Boolean
+        Dim tran As New Collection
+        Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
+        Dim clsEmpresa As New Controlador.clsEmpresas
+        Dim dfielddefEmpresa As Controlador.clsDfieldDef.eEmpresa
+        Dim eFomasdePagoEfectivo(0) As Controlador.clsImputaciones.eImputaciones
+        Dim eNumero_Condicion_IVA_Cliente As Controlador.clsCliente.eCondicion_Frente_Al_Iva
+        Dim eDatoTipoComprobante As Controlador.clsFacturacion.eTipoComprobante
+        Dim clsformaPago As New Controlador.clsFormasDePago
+        Dim clssession As New Controlador.clsSession()
+        Dim clsCuentaCorriente As New Controlador.clsCuentaCorriente
+        Dim eFomasdePagoCuentaCorriente(0) As Controlador.clsCuentaCorriente.eCuentaCorriente
+        Dim clsTransaccion As New Controlador.clsTransacciones
+        Try
+            clsQueryBuilder.obtener_estructura(dfielddefConstantes.Encabezado_Factura.ToString(), esquema)
+            clsFacturacion.Obtener_Clave_Principal_Encabezado_Factura(ClavePrincipal)
+            clsFacturacion.Pasar_A_Coleccion_Encabezado_Factura(eFactEncESt, datos, 1)
+            clsQueryBuilder.ArmaInsert(dfielddefConstantes.Encabezado_Factura.ToString(), esquema, datos, ClavePrincipal, consulta)
+            tran.Add(consulta)
+            esquema.Clear()
+            datos.Clear()
+            ClavePrincipal.Clear()
+            clsQueryBuilder.obtener_estructura(dfielddefConstantes.Numeracion_Comprobante.ToString(), esquema)
+            clsNumeroComprobante.Obtener_Clave_Principal(ClavePrincipal)
+            clsNumeroComprobante.Pasar_A_Coleccion(eNumero_ComprobanteEStFact, datos, 1)
+            clsQueryBuilder.ArmaUpdate(dfielddefConstantes.Numeracion_Comprobante.ToString(), esquema, datos, ClavePrincipal, consulta)
+            tran.Add(consulta)
+            esquema.Clear()
+            datos.Clear()
+            ClavePrincipal.Clear()
+            clsQueryBuilder.obtener_estructura(dfielddefConstantes.Cuerpo_Factura.ToString(), esquema)
+            clsFacturacion.Obtener_Clave_Principal_Cuerpo_Factura(ClavePrincipal)
+            clsFacturacion.ObtenerUltimoNumeroCuerpoFactura(ultimo)
+            For i = 1 To eFactCuerpoESt.Count - 1
+                eFactCuerpoESt(i).IdCuerpoFactura = ultimo
+                clsFacturacion.Pasar_A_Coleccion_Cuerpo_Factura(eFactCuerpoESt, datos, i)
+                clsQueryBuilder.ArmaInsert(dfielddefConstantes.Cuerpo_Factura.ToString(), esquema, datos, ClavePrincipal, consulta)
+                tran.Add(consulta)
+                consulta = String.Empty
+                datos.Clear()
+                If (eFactCuerpoESt(i).Numero_Articulo = eArticulosEStFact(i).Id_Producto) Then
+                    eArticulosEStFact(i).Stock = Convert.ToString(Convert.ToDouble(eArticulosEStFact(i).Stock) - (Convert.ToDouble(eFactCuerpoESt(i).Cantidad) * Convert.ToInt32(eFactCuerpoESt(i).Signo)))
+                    consulta = "update " + dfielddefConstantes.Producto.ToString() + " set Stock='" + (eArticulosEStFact(i).Stock) + "' where ID_Producto= '" + (eFactCuerpoESt(i).Numero_Articulo) + "'"
+                    tran.Add(consulta)
+                End If
+                consulta = ""
+                ultimo = ultimo + 1
+            Next
+            consulta = ""
+            esquema.Clear()
+            datos.Clear()
+            ClavePrincipal.Clear()
+            If (eFactEncESt(1).Forma_Pago = dfielddefConstantes.Contado.ToString()) Then
+                clsImputaciones.ObtenerUltimoNumeroImputaciones(UltimoImputaciones)
+                ReDim eFomasdePagoEfectivo(1)
+                clsEmpresa.Obtener_Empresa(clsEmpresa.Compvariable, dtdatosEmpresa)
+                Responsabilidad_IVA_Empresa = dtdatosEmpresa.Rows(0).Item(dfielddefEmpresa.Responsabilidad_IVA).ToString()
+                clsCliente.Obtener_CondicionFrenteAIVa(eFactEncESt(1).Situacion_Frente_A_IVA, eNumero_Condicion_IVA_Cliente)
+                clsEmpresa.Obtener_Responsabilidad_IVA_Empresa(Responsabilidad_IVA_Empresa, Numero_Condicion_IVA_Empresa)
+
+                clsFacturacion.Obtener_Datos_Comprobante(eNumero_Condicion_IVA_Cliente.Id_Condicion_IVA, Numero_Condicion_IVA_Empresa, dfielddefConstantes.Recibo.ToString(), eDatoTipoComprobante)
+                tipocomprobante = eDatoTipoComprobante.Descripcion
+                IDComprobante = Convert.ToInt32(eDatoTipoComprobante.IdTipoComprobante)
+
+                clsNumeroComprobante.obtener_Numero_Comprobante(clsEmpresa.Compvariable, Convert.ToString(IDComprobante), numeroComp)
+                nuComprobante = Convert.ToInt32(numeroComp) + 1
+                clsNumeroComprobante.Aumentar_Numeracion_Comprobante(nuComprobante, numeroComp)
+                consulta = ""
+                consulta = "Update Numeracion_Comprobante set Numeracion='" + (numeroComp) + "' where Id_Tipo_Comprobante='" + (Convert.ToString(IDComprobante)) + "' and Id_Empresa='" + (clsEmpresa.Compvariable) + "'"
+                tran.Add(consulta)
+
+                eFomasdePagoEfectivo(1).IdImputaciones = UltimoImputaciones
+                eFomasdePagoEfectivo(1).PuntoVentaRecibo = eFactEncESt(1).Punto_Venta
+                eFomasdePagoEfectivo(1).TipoComprobanteRecibo = Convert.ToString(IDComprobante).PadLeft(2, "0")
+                eFomasdePagoEfectivo(1).NumeroComprobanteRecibo = Convert.ToString(numeroComp).PadLeft(8, "0")
+
+                eFomasdePagoEfectivo(1).Comprobante = eFactEncESt(1).Comprobante
+                eFomasdePagoEfectivo(1).NumeroCliente = eFactEncESt(1).Numero_Cliente
+                eFomasdePagoEfectivo(1).Fecha = Date.Now()
+                eFomasdePagoEfectivo(1).PuntoVenta = eFactEncESt(1).Punto_Venta
+                eFomasdePagoEfectivo(1).TipoComprobante = eFactEncESt(1).Tipo_Comprobante
+                eFomasdePagoEfectivo(1).NumeroComprobante = eFactEncESt(1).Numero_Comprobante
+
+                eFomasdePagoEfectivo(1).Importe = eFactEncESt(1).Total
+                eFomasdePagoEfectivo(1).ID_FormaPago = eFactEncESt(1).Id_Forma_Pago
+
+                If clsformaPago.Compvariable = dfielddefConstantes.FACTURA.ToString() Then
+                    eFomasdePagoEfectivo(1).Descripcion = dfielddefConstantes.IngresoEfectivo.ToString()
+                    eFomasdePagoEfectivo(1).Signo = "1"
+                ElseIf clsformaPago.Compvariable = dfielddefConstantes.NotaDebito.ToString() Then
+                    eFomasdePagoEfectivo(1).Descripcion = dfielddefConstantes.IngresoNotaDebito.ToString()
+                    eFomasdePagoEfectivo(1).Signo = "1"
+                ElseIf clsformaPago.Compvariable = dfielddefConstantes.NotaCredito.ToString() Then
+                    eFomasdePagoEfectivo(1).Descripcion = dfielddefConstantes.EgresoNotaCredito.ToString()
+                    eFomasdePagoEfectivo(1).Signo = "-1"
+                End If
+                eFomasdePagoEfectivo(1).NroPuesto = clssession.Session.NroPuesto
+                clsQueryBuilder.obtener_estructura(dfielddefConstantes.Imputaciones.ToString(), esquema)
+                clsImputaciones.Obtener_Clave_Principal(ClavePrincipal)
+                clsImputaciones.Pasar_A_Coleccion(eFomasdePagoEfectivo, datos, 1)
+                clsQueryBuilder.ArmaInsert(dfielddefConstantes.Imputaciones.ToString(), esquema, datos, ClavePrincipal, consulta)
+                tran.Add(consulta)
+            ElseIf (eFactEncESt(1).Forma_Pago = dfielddefConstantes.CuentaCorriente.ToString()) Then
+                clsCuentaCorriente.ObtenerUltimoNumeroCuentaCorriente(UltimoCuentaCorriente)
+                ReDim eFomasdePagoCuentaCorriente(1)
+                eFomasdePagoCuentaCorriente(1).Id_CuentaCorriente = UltimoCuentaCorriente
+                eFomasdePagoCuentaCorriente(1).PuntoVenta = eFactEncESt(1).Punto_Venta
+                eFomasdePagoCuentaCorriente(1).TipoComprobante = eFactEncESt(1).Tipo_Comprobante
+                eFomasdePagoCuentaCorriente(1).NumeroComprobante = eFactEncESt(1).Numero_Comprobante
+                eFomasdePagoCuentaCorriente(1).Comprobante = eFactEncESt(1).Comprobante
+                eFomasdePagoCuentaCorriente(1).NumeroCliente = eFactEncESt(1).Numero_Cliente
+                eFomasdePagoCuentaCorriente(1).Fecha = Date.Now()
+                eFomasdePagoCuentaCorriente(1).Importe = eFactEncESt(1).Total
+                eFomasdePagoCuentaCorriente(1).Signo = "1"
+                If clsformaPago.Compvariable = dfielddefConstantes.FACTURA.ToString() Then
+                    eFomasdePagoCuentaCorriente(1).Descripcion = dfielddefConstantes.IngresoCuentaCorriente.ToString()
+                ElseIf clsformaPago.Compvariable = dfielddefConstantes.NotaDebito.ToString() Then
+                    eFomasdePagoCuentaCorriente(1).Descripcion = dfielddefConstantes.IngresoNotaDebitoCuentaCorriente.ToString()
+                ElseIf clsformaPago.Compvariable = dfielddefConstantes.NotaCredito.ToString() Then
+                    eFomasdePagoCuentaCorriente(1).Descripcion = dfielddefConstantes.EgresoNotaCreditoCuentaCorriente.ToString()
+                End If
+                eFomasdePagoCuentaCorriente(1).NroPuesto = clssession.Session.NroPuesto
+                clsQueryBuilder.obtener_estructura(dfielddefConstantes.CuentaCorriente.ToString(), esquema)
+                clsCuentaCorriente.Obtener_Clave_Principal(ClavePrincipal)
+                clsCuentaCorriente.Pasar_A_Coleccion(eFomasdePagoCuentaCorriente, datos, 1)
+                clsQueryBuilder.ArmaInsert(dfielddefConstantes.CuentaCorriente.ToString(), esquema, datos, ClavePrincipal, consulta)
+                tran.Add(consulta)
+            End If
+            clsTransaccion.Operaciones_Tabla_Transaccion(tran)
+            tran.Clear()
+        Catch ex As Exception
+            MsgBox("Error:" & vbCrLf & ex.Message)
+        End Try
+    End Sub
+
+    Public Sub anularComprobante(ByVal eNotaCredito_Enc_estructura() As Controlador.clsFacturacion.eEncabezadoFactura, ByVal Numero_Comprobante() As Controlador.clsNumeroComprobante.eNumeracionComprobante, ByVal eNotaCredito_Cuerpo_estructura() As Controlador.clsFacturacion.eCuerpoFactura, ByVal Articulos_Estructura() As Controlador.clsArticulos.eArticulo, ByVal Facturacion_Enc_estructura() As Controlador.clsFacturacion.eEncabezadoFactura, ByRef valido As Boolean)
+        Dim dfielddefConstantes As Controlador.clsDfieldDef.eConstantes
+        Dim esquema As New Collection
+        Dim ClavePrincipal As New Collection
+        Dim clsQueryBuilder As New Controlador.clsQueryBuilder
+        Dim clsTransaccion As New Controlador.clsTransacciones
+        Dim tran As New Collection
+        Dim clsfacturacion As New Controlador.clsFacturacion()
+        Dim consulta As String
+        Dim datosCol As New Collection
+        Dim clsNumeroComprobante As New Controlador.clsNumeroComprobante
+        Dim Facturacion_Cuerpo_estructura(0) As Controlador.clsFacturacion.eCuerpoFactura
+        Dim ultimo As Integer
+        Try
+
+            clsQueryBuilder.obtener_estructura(dfielddefConstantes.Encabezado_Factura.ToString(), esquema)
+            clsfacturacion.Obtener_Clave_Principal_Encabezado_Factura(ClavePrincipal)
+            clsfacturacion.Pasar_A_Coleccion_Encabezado_Factura(eNotaCredito_Enc_estructura, datosCol, 1)
+            clsQueryBuilder.ArmaInsert(dfielddefConstantes.Encabezado_Factura.ToString(), esquema, datosCol, ClavePrincipal, consulta)
+            tran.Add(consulta)
+            esquema.Clear()
+            datosCol.Clear()
+            ClavePrincipal.Clear()
+            clsQueryBuilder.obtener_estructura(dfielddefConstantes.Numeracion_Comprobante.ToString(), esquema)
+            clsNumeroComprobante.Obtener_Clave_Principal(ClavePrincipal)
+            clsNumeroComprobante.Pasar_A_Coleccion(Numero_Comprobante, datosCol, 1)
+            clsQueryBuilder.ArmaUpdate(dfielddefConstantes.Numeracion_Comprobante.ToString(), esquema, datosCol, ClavePrincipal, consulta)
+            tran.Add(consulta)
+            esquema.Clear()
+            datosCol.Clear()
+            ClavePrincipal.Clear()
+            clsQueryBuilder.obtener_estructura(dfielddefConstantes.Cuerpo_Factura.ToString(), esquema)
+            clsfacturacion.Obtener_Clave_Principal_Cuerpo_Factura(ClavePrincipal)
+
+            For i = 1 To eNotaCredito_Cuerpo_estructura.Count - 1
+                clsfacturacion.ObtenerUltimoNumeroCuerpoFactura(ultimo)
+                eNotaCredito_Cuerpo_estructura(i).IdCuerpoFactura = ultimo
+                clsfacturacion.Pasar_A_Coleccion_Cuerpo_Factura(eNotaCredito_Cuerpo_estructura, datosCol, i)
+                clsQueryBuilder.ArmaInsert(dfielddefConstantes.Cuerpo_Factura.ToString(), esquema, datosCol, ClavePrincipal, consulta)
+                tran.Add(consulta)
+                consulta = ""
+                datosCol.Clear()
+                If (eNotaCredito_Cuerpo_estructura(i).Numero_Articulo = Articulos_Estructura(i).Id_Producto) Then
+                    Articulos_Estructura(i).Stock = Articulos_Estructura(i).Stock - eNotaCredito_Cuerpo_estructura(i).Cantidad
+                    consulta = "update " + dfielddefConstantes.Producto.ToString() + " set Stock='" + (Articulos_Estructura(i).Stock) + "' where ID_Producto= '" + (eNotaCredito_Cuerpo_estructura(i).Numero_Articulo) + "'"
+                    tran.Add(consulta)
+                End If
+                consulta = ""
+            Next
+
+            consulta = ""
+            esquema.Clear()
+            datosCol.Clear()
+            ClavePrincipal.Clear()
+            clsQueryBuilder.obtener_estructura(dfielddefConstantes.Encabezado_Factura.ToString(), esquema)
+            clsfacturacion.Obtener_Clave_Principal_Encabezado_Factura(ClavePrincipal)
+            clsfacturacion.Pasar_A_Coleccion_Encabezado_Factura(Facturacion_Enc_estructura, datosCol, 1)
+            clsQueryBuilder.ArmaUpdate(dfielddefConstantes.Encabezado_Factura.ToString(), esquema, datosCol, ClavePrincipal, consulta)
+            tran.Add(consulta)
+            For idx = 1 To tran.Count
+                clsTransaccion.Operaciones_Tabla(tran(idx))
+            Next
+            tran.Clear()
+            valido = True
+        Catch ex As Exception
+            MsgBox("Error:" & vbCrLf & ex.Message)
+            valido = False
+        End Try
+
+
     End Sub
 End Class

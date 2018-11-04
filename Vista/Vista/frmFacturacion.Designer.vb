@@ -24,16 +24,19 @@ Partial Class frmFacturacion
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmFacturacion))
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-        Me.VisualStyler1 = New SkinSoft.VisualStyler.VisualStyler(Me.components)
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip
         Me.ProgressBarFacturacion = New System.Windows.Forms.ToolStripProgressBar
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
+        Me.ToolStripNuevo = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripRegistrarFactura = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripBuscar = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
+        Me.ToolStripAnularComprobante = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripSalir = New System.Windows.Forms.ToolStripButton
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.dgvFacturacion = New System.Windows.Forms.DataGridView
@@ -112,7 +115,7 @@ Partial Class frmFacturacion
         Me.txtNeto = New System.Windows.Forms.Label
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip
         Me.StyleManager1 = New DevComponents.DotNetBar.StyleManager(Me.components)
-        CType(Me.VisualStyler1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.VisualStyler1 = New SkinSoft.VisualStyler.VisualStyler(Me.components)
         Me.ToolStrip1.SuspendLayout()
         CType(Me.dgvFacturacion, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
@@ -130,22 +133,16 @@ Partial Class frmFacturacion
         Me.GroupBox7.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
+        CType(Me.VisualStyler1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'VisualStyler1
-        '
-        Me.VisualStyler1.HostForm = Me
-        Me.VisualStyler1.License = CType(resources.GetObject("VisualStyler1.License"), SkinSoft.VisualStyler.Licensing.VisualStylerLicense)
-        Me.VisualStyler1.ShadowStyle = SkinSoft.VisualStyler.ShadowStyle.Bold
-        Me.VisualStyler1.ToolStripStyle = SkinSoft.VisualStyler.ToolStripRenderStyle.Professional
-        Me.VisualStyler1.LoadVisualStyle(Nothing, "Office2007 (Blue).vssf")
         '
         'ToolStrip1
         '
+        Me.ToolStrip1.AutoSize = False
         Me.ToolStrip1.Font = New System.Drawing.Font("Comic Sans MS", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.ToolStrip1.ImageScalingSize = New System.Drawing.Size(32, 32)
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBarFacturacion, Me.ToolStripSeparator1, Me.ToolStripRegistrarFactura, Me.ToolStripSeparator2, Me.ToolStripBuscar, Me.ToolStripSeparator3, Me.ToolStripSalir})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBarFacturacion, Me.ToolStripSeparator4, Me.ToolStripNuevo, Me.ToolStripSeparator1, Me.ToolStripRegistrarFactura, Me.ToolStripSeparator2, Me.ToolStripBuscar, Me.ToolStripSeparator3, Me.ToolStripAnularComprobante, Me.ToolStripSeparator5, Me.ToolStripSalir})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(904, 45)
@@ -156,6 +153,22 @@ Partial Class frmFacturacion
         '
         Me.ProgressBarFacturacion.Name = "ProgressBarFacturacion"
         Me.ProgressBarFacturacion.Size = New System.Drawing.Size(117, 42)
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 45)
+        '
+        'ToolStripNuevo
+        '
+        Me.ToolStripNuevo.AutoToolTip = False
+        Me.ToolStripNuevo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripNuevo.Image = CType(resources.GetObject("ToolStripNuevo.Image"), System.Drawing.Image)
+        Me.ToolStripNuevo.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripNuevo.Name = "ToolStripNuevo"
+        Me.ToolStripNuevo.Size = New System.Drawing.Size(36, 42)
+        Me.SuperTooltip1.SetSuperTooltip(Me.ToolStripNuevo, New DevComponents.DotNetBar.SuperTooltipInfo("Nuevo", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Blue, True, True, New System.Drawing.Size(50, 21)))
+        Me.ToolStripNuevo.Text = "Nuevo"
         '
         'ToolStripSeparator1
         '
@@ -194,6 +207,22 @@ Partial Class frmFacturacion
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
         Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 45)
         '
+        'ToolStripAnularComprobante
+        '
+        Me.ToolStripAnularComprobante.AutoToolTip = False
+        Me.ToolStripAnularComprobante.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripAnularComprobante.Image = CType(resources.GetObject("ToolStripAnularComprobante.Image"), System.Drawing.Image)
+        Me.ToolStripAnularComprobante.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripAnularComprobante.Name = "ToolStripAnularComprobante"
+        Me.ToolStripAnularComprobante.Size = New System.Drawing.Size(36, 42)
+        Me.SuperTooltip1.SetSuperTooltip(Me.ToolStripAnularComprobante, New DevComponents.DotNetBar.SuperTooltipInfo("Anular Comprobante", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Blue, True, True, New System.Drawing.Size(122, 21)))
+        Me.ToolStripAnularComprobante.Text = "Anular Comprobante"
+        '
+        'ToolStripSeparator5
+        '
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 45)
+        '
         'ToolStripSalir
         '
         Me.ToolStripSalir.AutoToolTip = False
@@ -208,19 +237,19 @@ Partial Class frmFacturacion
         'dgvFacturacion
         '
         Me.dgvFacturacion.AllowUserToAddRows = False
-        DataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        DataGridViewCellStyle3.NullValue = Nothing
-        Me.dgvFacturacion.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        DataGridViewCellStyle1.NullValue = Nothing
+        Me.dgvFacturacion.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         Me.dgvFacturacion.BackgroundColor = System.Drawing.SystemColors.InactiveCaption
         Me.dgvFacturacion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.dgvFacturacion.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Eliminar, Me.Tipo_Unidad, Me.IdArticulo, Me.Descripcion, Me.Cantidad, Me.PrecioUnitario, Me.Importe})
         Me.dgvFacturacion.Cursor = System.Windows.Forms.Cursors.Hand
         Me.dgvFacturacion.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
-        Me.dgvFacturacion.Location = New System.Drawing.Point(7, 312)
+        Me.dgvFacturacion.Location = New System.Drawing.Point(10, 304)
         Me.dgvFacturacion.Name = "dgvFacturacion"
         Me.dgvFacturacion.ReadOnly = True
         Me.dgvFacturacion.RowHeadersVisible = False
-        Me.dgvFacturacion.Size = New System.Drawing.Size(884, 238)
+        Me.dgvFacturacion.Size = New System.Drawing.Size(881, 237)
         Me.dgvFacturacion.TabIndex = 6
         Me.ToolTip1.SetToolTip(Me.dgvFacturacion, "Eliminar")
         '
@@ -240,8 +269,8 @@ Partial Class frmFacturacion
         '
         'Tipo_Unidad
         '
-        DataGridViewCellStyle4.ForeColor = System.Drawing.Color.Gray
-        Me.Tipo_Unidad.DefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle2.ForeColor = System.Drawing.Color.Gray
+        Me.Tipo_Unidad.DefaultCellStyle = DataGridViewCellStyle2
         Me.Tipo_Unidad.FillWeight = 40.0!
         Me.Tipo_Unidad.HeaderText = "T.U"
         Me.Tipo_Unidad.MaxInputLength = 5
@@ -513,7 +542,7 @@ Partial Class frmFacturacion
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.txtCodigoCliente)
         Me.GroupBox1.Controls.Add(Me.Label1)
-        Me.GroupBox1.Location = New System.Drawing.Point(10, 83)
+        Me.GroupBox1.Location = New System.Drawing.Point(10, 78)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(881, 124)
         Me.GroupBox1.TabIndex = 1
@@ -564,7 +593,7 @@ Partial Class frmFacturacion
         Me.GroupBox2.Controls.Add(Me.txtNroSucursal)
         Me.GroupBox2.Controls.Add(Me.Label12)
         Me.GroupBox2.Controls.Add(Me.lblTipoComprobante)
-        Me.GroupBox2.Location = New System.Drawing.Point(9, 7)
+        Me.GroupBox2.Location = New System.Drawing.Point(9, 4)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(881, 72)
         Me.GroupBox2.TabIndex = 2
@@ -676,7 +705,7 @@ Partial Class frmFacturacion
         Me.GroupBox3.Controls.Add(Me.AxMSComm2)
         Me.GroupBox3.Controls.Add(Me.txtBusquedaArticulo)
         Me.GroupBox3.Controls.Add(Me.Label13)
-        Me.GroupBox3.Location = New System.Drawing.Point(10, 213)
+        Me.GroupBox3.Location = New System.Drawing.Point(10, 204)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Size = New System.Drawing.Size(881, 87)
         Me.GroupBox3.TabIndex = 0
@@ -785,7 +814,7 @@ Partial Class frmFacturacion
         '
         Me.Label13.AutoSize = True
         Me.Label13.Font = New System.Drawing.Font("Comic Sans MS", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(356, 10)
+        Me.Label13.Location = New System.Drawing.Point(356, 16)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(156, 19)
         Me.Label13.TabIndex = 0
@@ -828,13 +857,13 @@ Partial Class frmFacturacion
         Me.PanelEx4.Controls.Add(Me.GroupBox2)
         Me.PanelEx4.Controls.Add(Me.dgvFacturacion)
         Me.PanelEx4.DisabledBackColor = System.Drawing.Color.Empty
-        Me.PanelEx4.Location = New System.Drawing.Point(2, 47)
+        Me.PanelEx4.Location = New System.Drawing.Point(0, 46)
         Me.PanelEx4.Name = "PanelEx4"
-        Me.PanelEx4.Size = New System.Drawing.Size(902, 612)
+        Me.PanelEx4.Size = New System.Drawing.Size(904, 615)
         Me.PanelEx4.Style.Alignment = System.Drawing.StringAlignment.Center
-        Me.PanelEx4.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.PanelEx4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(175, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.PanelEx4.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.PanelEx4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.PanelEx4.Style.Border = DevComponents.DotNetBar.eBorderType.DoubleLine
         Me.PanelEx4.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.PanelEx4.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.PanelEx4.Style.GradientAngle = 90
@@ -844,9 +873,9 @@ Partial Class frmFacturacion
         '
         Me.GroupBox11.Controls.Add(Me.txtTotal)
         Me.GroupBox11.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox11.Location = New System.Drawing.Point(775, 550)
+        Me.GroupBox11.Location = New System.Drawing.Point(775, 548)
         Me.GroupBox11.Name = "GroupBox11"
-        Me.GroupBox11.Size = New System.Drawing.Size(115, 54)
+        Me.GroupBox11.Size = New System.Drawing.Size(115, 53)
         Me.GroupBox11.TabIndex = 34
         Me.GroupBox11.TabStop = False
         Me.GroupBox11.Tag = "XC"
@@ -865,9 +894,9 @@ Partial Class frmFacturacion
         '
         Me.gb27.Controls.Add(Me.txtIVA27)
         Me.gb27.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gb27.Location = New System.Drawing.Point(587, 550)
+        Me.gb27.Location = New System.Drawing.Point(587, 548)
         Me.gb27.Name = "gb27"
-        Me.gb27.Size = New System.Drawing.Size(91, 53)
+        Me.gb27.Size = New System.Drawing.Size(91, 52)
         Me.gb27.TabIndex = 33
         Me.gb27.TabStop = False
         Me.gb27.Tag = "XC"
@@ -885,9 +914,9 @@ Partial Class frmFacturacion
         '
         Me.gb105.Controls.Add(Me.txtIVA105)
         Me.gb105.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gb105.Location = New System.Drawing.Point(500, 550)
+        Me.gb105.Location = New System.Drawing.Point(500, 548)
         Me.gb105.Name = "gb105"
-        Me.gb105.Size = New System.Drawing.Size(83, 54)
+        Me.gb105.Size = New System.Drawing.Size(83, 53)
         Me.gb105.TabIndex = 32
         Me.gb105.TabStop = False
         Me.gb105.Tag = "XC"
@@ -905,9 +934,9 @@ Partial Class frmFacturacion
         '
         Me.gb21.Controls.Add(Me.txtIVA21)
         Me.gb21.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gb21.Location = New System.Drawing.Point(414, 550)
+        Me.gb21.Location = New System.Drawing.Point(414, 548)
         Me.gb21.Name = "gb21"
-        Me.gb21.Size = New System.Drawing.Size(82, 55)
+        Me.gb21.Size = New System.Drawing.Size(82, 54)
         Me.gb21.TabIndex = 31
         Me.gb21.TabStop = False
         Me.gb21.Tag = "XC"
@@ -925,9 +954,9 @@ Partial Class frmFacturacion
         '
         Me.GroupBox7.Controls.Add(Me.TxtSubTotal)
         Me.GroupBox7.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox7.Location = New System.Drawing.Point(208, 550)
+        Me.GroupBox7.Location = New System.Drawing.Point(208, 548)
         Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(101, 54)
+        Me.GroupBox7.Size = New System.Drawing.Size(101, 53)
         Me.GroupBox7.TabIndex = 30
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Tag = "XC"
@@ -945,9 +974,9 @@ Partial Class frmFacturacion
         '
         Me.GroupBox6.Controls.Add(Me.txtDescuento)
         Me.GroupBox6.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox6.Location = New System.Drawing.Point(115, 550)
+        Me.GroupBox6.Location = New System.Drawing.Point(115, 548)
         Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(89, 55)
+        Me.GroupBox6.Size = New System.Drawing.Size(89, 54)
         Me.GroupBox6.TabIndex = 29
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Tag = "XC"
@@ -965,9 +994,9 @@ Partial Class frmFacturacion
         '
         Me.GroupBox5.Controls.Add(Me.txtNeto)
         Me.GroupBox5.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox5.Location = New System.Drawing.Point(12, 550)
+        Me.GroupBox5.Location = New System.Drawing.Point(12, 548)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(99, 56)
+        Me.GroupBox5.Size = New System.Drawing.Size(99, 55)
         Me.GroupBox5.TabIndex = 28
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Tag = "XC"
@@ -990,15 +1019,23 @@ Partial Class frmFacturacion
         Me.StyleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Blue
         Me.StyleManager1.MetroColorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(87, Byte), Integer), CType(CType(154, Byte), Integer)))
         '
+        'VisualStyler1
+        '
+        Me.VisualStyler1.HostForm = Me
+        Me.VisualStyler1.License = CType(resources.GetObject("VisualStyler1.License"), SkinSoft.VisualStyler.Licensing.VisualStylerLicense)
+        Me.VisualStyler1.LoadVisualStyle(Nothing, "Cel Shaded (cell2).vssf")
+        '
         'frmFacturacion
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(904, 659)
+        Me.ClientSize = New System.Drawing.Size(904, 661)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.PanelEx4)
         Me.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.DoubleBuffered = True
         Me.Font = New System.Drawing.Font("Comic Sans MS", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -1007,7 +1044,6 @@ Partial Class frmFacturacion
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Facturacion"
-        CType(Me.VisualStyler1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
         CType(Me.dgvFacturacion, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1037,11 +1073,10 @@ Partial Class frmFacturacion
         Me.GroupBox6.PerformLayout()
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
+        CType(Me.VisualStyler1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
-    Friend WithEvents VisualStyler1 As SkinSoft.VisualStyler.VisualStyler
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents ProgressBarFacturacion As System.Windows.Forms.ToolStripProgressBar
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
@@ -1127,4 +1162,9 @@ Partial Class frmFacturacion
     Friend WithEvents gb27 As System.Windows.Forms.GroupBox
     Friend WithEvents pbBuscarCliente As System.Windows.Forms.PictureBox
     Friend WithEvents pbBuscarArticulo As System.Windows.Forms.PictureBox
+    Friend WithEvents VisualStyler1 As SkinSoft.VisualStyler.VisualStyler
+    Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripNuevo As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripAnularComprobante As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
 End Class
